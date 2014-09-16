@@ -32,7 +32,7 @@ public class Solvable {
 
             Solvable solve = new Solvable(args[0]);
 
-            System.out.println(solve.isValid(rubikCube));
+            System.out.println(solve.isValid());
 
         }catch(Exception e){
             e.printStackTrace();
@@ -40,23 +40,12 @@ public class Solvable {
 
     }
 
-
     /**
      * Method to test the validitiy of a cube
-     * @param cube reference to the cube
      * @return true if valid
      */
-    public boolean isValid(RubikCube cube){
-        return cube.validate();
-    }
-
-    /**
-     * Method to deserialize the cube as it is stored
-     * @param cube copy of the cube to be deserialized
-     * @return a copy of the cube which is deserialized
-     */
-    public String deserialize(RubikCube cube){
-        return "";
+    public boolean isValid(){
+        return rubikCube.validate();
     }
 
     /**
