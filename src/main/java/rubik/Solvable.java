@@ -13,22 +13,14 @@ import java.io.IOException;
  */
 public class Solvable {
 
-    //reference to the cube array
-    private static byte[] rubikCube;
-
-    //static ints for colors
-    private static final int RED = 0;
-    private static final int GREEN = 1;
-    private static final int YELLOW = 2;
-    private static final int BLUE= 3;
-    private static final int ORANGE = 4;
-    private static final int WHITE = 5;
+    //Global for the cube
+    protected static RubikCube rubikCube;
 
     /**
      * constructor to create a solvable class
      */
-    public Solvable(){
-        rubikCube = new byte[54];
+    public Solvable(String file) throws FileNotFoundException {
+        rubikCube = new RubikCube(file);
     }
 
     /**
@@ -38,11 +30,9 @@ public class Solvable {
     public static void main(String args[]){
         try{
 
-            Solvable solv = new Solvable();
+            Solvable solve = new Solvable(args[0]);
 
-            solv.serialize(args[0]);
-
-            System.out.println(solv.isValid(rubikCube));
+            System.out.println(solve.isValid(rubikCube));
 
         }catch(Exception e){
             e.printStackTrace();
@@ -51,50 +41,11 @@ public class Solvable {
     }
 
     /**
-     * method to serialize the cube
-     * @param file of the cube to serialize
-     * @throws FileNotFoundException if the file is not found
-     */
-    public void serialize(String file) throws FileNotFoundException {
-        String line;
-        int pos = 0;
-
-        try {
-
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-
-            while((line = reader.readLine()) != null){
-                line = line.trim();
-                for(int i=0; i < line.length(); i++){
-                    String cube = line.substring(i, i+1);
-
-                    if (cube.equals("R")) {
-                        rubikCube[pos++] = RED;
-                    } else if (cube.equals("G")) {
-                        rubikCube[pos++] = GREEN;
-                    } else if (cube.equals("Y")) {
-                        rubikCube[pos++] = YELLOW;
-                    } else if (cube.equals("B")) {
-                        rubikCube[pos++] = BLUE;
-                    } else if (cube.equals("O")) {
-                        rubikCube[pos++] = ORANGE;
-                    } else if (cube.equals("W")) {
-                        rubikCube[pos++] = WHITE;
-                    }
-                }
-
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Method to test the validitiy of a cube
      * @param cube reference to the cube
      * @return true if valid
      */
-    public boolean isValid(byte[] cube){
+    public boolean isValid(RubikCube cube){
         return (count(cube) && middles(cube) && korf(cube));
     }
 
@@ -103,16 +54,16 @@ public class Solvable {
      * @param cube reference to the cube
      * @return true if valid
      */
-    public boolean count(byte[] cube){
+    public boolean count(RubikCube cube){
 
         int rCount=0, gCount=0, yCount=0, bCount=0, oCount=0, wCount=0;
 
-        if(cube.length < 54){
+        if(cube.getSize() < 54){
             return false;
         }
 
-        for (byte aCube : cube) {
-            switch (aCube) {
+        for(int i=0; i < cube.getSize(); i++){
+            switch (cube.getCube(i)) {
                 case 0:
                     rCount++;
                     break;
@@ -142,8 +93,8 @@ public class Solvable {
      * @param cube reference to the cube
      * @return true if valid
      */
-    public boolean middles(byte[] cube){
-        return ((cube[4] == 0) && (cube[19] == 1) && (cube[22] == 2) && (cube[25] == 3) && (cube[40] == 4) && (cube[49] == 5));
+    public boolean middles(RubikCube cube){
+        return ((cube.getCube(4) == 0) && (cube.getCube(19) == 1) && (cube.getCube(22) == 2) && (cube.getCube(25) == 3) && (cube.getCube(40) == 4) && (cube.getCube(49) == 5));
     }
 
     /**
@@ -151,7 +102,7 @@ public class Solvable {
      * @param cube reference to the cube
      * @return true if valid
      */
-    public boolean korf(byte[] cube){
+    public boolean korf(RubikCube cube){
         return cornerTest(cube) && edgeTest(cube) && permutationTest(cube);
     }
 
@@ -160,7 +111,7 @@ public class Solvable {
      * @param cube reference to the cube
      * @return true if valid
      */
-    public boolean cornerTest(byte[] cube){
+    public boolean cornerTest(RubikCube cube){
         return true;
     }
 
@@ -169,7 +120,7 @@ public class Solvable {
      * @param cube reference to the cube
      * @return true if valid
      */
-    public boolean edgeTest(byte[] cube){
+    public boolean edgeTest(RubikCube cube){
         return true;
     }
 
@@ -178,7 +129,7 @@ public class Solvable {
      * @param cube reference to the cube
      * @return true if valid
      */
-    public boolean permutationTest(byte[] cube){
+    public boolean permutationTest(RubikCube cube){
         return true;
     }
 
@@ -187,7 +138,7 @@ public class Solvable {
      * @param cube copy of the cube to be deserialized
      * @return a copy of the cube which is deserialized
      */
-    public String deserialize(byte[] cube){
+    public String deserialize(RubikCube cube){
         return "";
     }
 
@@ -200,7 +151,7 @@ public class Solvable {
         String rubikString = "   ";
 
         for(int i=0; i < 9; i++){
-            rubikString += rubikCube[i];
+            rubikString += rubikCube.getCube(i);
             if(i % 3 == 2 && i < 8){
                 rubikString += "\n   ";
             }else if(i % 3 == 2){
@@ -208,7 +159,7 @@ public class Solvable {
             }
         }
         for(int i = 9; i < 36; i++){
-            rubikString += rubikCube[i];
+            rubikString += rubikCube.getCube(i);
             if(i % 9 == 8){
                 rubikString += "\n";
             }
@@ -217,7 +168,7 @@ public class Solvable {
         rubikString += "   ";
 
         for(int i = 36; i < 54; i++){
-            rubikString += rubikCube[i];
+            rubikString += rubikCube.getCube(i);
             if(i % 3 == 2){
                 rubikString += "\n   ";
             }

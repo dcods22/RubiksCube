@@ -5,9 +5,10 @@
     <ignored path="RubiksCube.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/rubiksCube.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1410396008967" ignored="false" />
-    <file path="/Solvable.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1410789749865" ignored="false" />
+    <file path="/Solvable.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1410891435313" ignored="false" />
     <file path="/fragment.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1410748361248" ignored="false" />
     <file path="/InvalidCube.txt" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1410734463575" ignored="false" />
+    <file path="/RubikCube.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1410891176179" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,7 +23,6 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -57,6 +57,7 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -69,7 +70,18 @@
       <file leaf-file-name="Solvable.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/rubik/Solvable.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="158" column="123" selection-start="4278" selection-end="4278" vertical-scroll-proportion="2.4662068">
+            <state line="100" column="112" selection-start="2543" selection-end="2543" vertical-scroll-proportion="1.1123595">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RubikCube.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/rubik/RubikCube.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="81" column="32" selection-start="2290" selection-end="2290" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -90,6 +102,7 @@
         <option value="$PROJECT_DIR$/src/main/java/rubiksCube.java" />
         <option value="$PROJECT_DIR$/src/main/java/rubiks/rubiksCube.java" />
         <option value="$PROJECT_DIR$/src/main/java/rubik/InvalidCube.txt" />
+        <option value="$PROJECT_DIR$/src/main/java/rubik/RubikCube.java" />
         <option value="$PROJECT_DIR$/src/main/java/rubik/Solvable.java" />
       </list>
     </option>
@@ -152,7 +165,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -231,6 +243,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -249,9 +262,9 @@
     <property name="restartRequiresConfirmation" value="true" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="dynamic.classpath" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="dynamic.classpath" value="false" />
   </component>
   <component name="RunManager" selected="Application.Solvable">
     <configuration default="false" name="Solvable" type="Application" factoryName="Application" temporary="true">
@@ -312,19 +325,6 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method />
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
@@ -351,6 +351,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -444,6 +457,7 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.0" sideWeight="0.7729084" order="3" side_tool="false" content_ui="tabs" />
@@ -454,7 +468,6 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -521,6 +534,51 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/main/java/rubik/Solvable.java">
       <provider selected="true" editor-type-id="text-editor">
+        <state line="180" column="107" selection-start="4831" selection-end="4831" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/rubik/Solvable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="169" column="138" selection-start="4560" selection-end="4560" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/rubik/Solvable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="166" column="19" selection-start="4436" selection-end="4439" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/rubik/Solvable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="166" column="19" selection-start="4436" selection-end="4439" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/rubik/Solvable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="166" column="19" selection-start="4436" selection-end="4439" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/rubik/Solvable.java">
+      <provider selected="true" editor-type-id="text-editor">
         <state line="146" column="77" selection-start="3896" selection-end="3896" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
@@ -540,9 +598,18 @@
         <state line="10" column="5" selection-start="84" selection-end="84" vertical-scroll-proportion="0.16551724" />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/rubik/RubikCube.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="81" column="32" selection-start="2290" selection-end="2290" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/rubik/Solvable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="158" column="123" selection-start="4278" selection-end="4278" vertical-scroll-proportion="2.4662068">
+        <state line="100" column="112" selection-start="2543" selection-end="2543" vertical-scroll-proportion="1.1123595">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
