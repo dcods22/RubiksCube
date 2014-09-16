@@ -127,7 +127,7 @@ public class RubikCube {
      */
     public boolean validate(){
         System.out.println(this.toString());
-        this.rotateTopLeft(this);
+        this.rotateFrontLeft(this);
         System.out.println(this.toString());
         return (this.count() && this.middles() && this.korf());
     }
@@ -186,7 +186,8 @@ public class RubikCube {
      * @return true if valid
      */
     public boolean middles(){
-        return ((this.getCube(4) == 0) && (this.getCube(19) == 1) && (this.getCube(22) == 2) && (this.getCube(25) == 3) && (this.getCube(40) == 4) && (this.getCube(49) == 5));
+        return ((this.getCube(4) == 0) && (this.getCube(19) == 1) && (this.getCube(22) == 2) &&
+                (this.getCube(25) == 3) && (this.getCube(40) == 4) && (this.getCube(49) == 5));
     }
 
     /**
@@ -327,15 +328,67 @@ public class RubikCube {
      * @param cube the cube in which to rotate
      */
     private void rotateDownLeft(RubikCube cube){
+        //values of the current cubes
+        byte spot1 = cube.getCube(30);
+        byte spot2 = cube.getCube(31);
+        byte spot3 = cube.getCube(32);
+        byte spot4 = cube.getCube(27);
+        byte spot5 = cube.getCube(28);
+        byte spot6 = cube.getCube(29);
+        byte spot7 = cube.getCube(33);
+        byte spot8 = cube.getCube(34);
+        byte spot9 = cube.getCube(35);
+        byte spot10 = cube.getCube(51);
+        byte spot11 = cube.getCube(52);
+        byte spot12 = cube.getCube(53);
 
+        //values to place those cubes
+        cube.setCube(27, spot1);
+        cube.setCube(28, spot2);
+        cube.setCube(29, spot3);
+        cube.setCube(51, spot4);
+        cube.setCube(52, spot5);
+        cube.setCube(53, spot6);
+        cube.setCube(30, spot7);
+        cube.setCube(31, spot8);
+        cube.setCube(32, spot9);
+        cube.setCube(33, spot10);
+        cube.setCube(34, spot11);
+        cube.setCube(35, spot12);
     }
 
     /**
      * Method to rotate a cube front
      * @param cube the cube in which to rotate
      */
-    private void rotateFontLeft(RubikCube cube){
+    private void rotateFrontLeft(RubikCube cube){
+        //values of the current cubes
+        byte spot1 = cube.getCube(8);
+        byte spot2 = cube.getCube(7);
+        byte spot3 = cube.getCube(6);
+        byte spot4 = cube.getCube(11);
+        byte spot5 = cube.getCube(20);
+        byte spot6 = cube.getCube(29);
+        byte spot7 = cube.getCube(15);
+        byte spot8 = cube.getCube(24);
+        byte spot9 = cube.getCube(33);
+        byte spot10 = cube.getCube(36);
+        byte spot11 = cube.getCube(37);
+        byte spot12 = cube.getCube(38);
 
+        //values to place those cubes
+        cube.setCube(11, spot1);
+        cube.setCube(20, spot2);
+        cube.setCube(29, spot3);
+        cube.setCube(36, spot4);
+        cube.setCube(37, spot5);
+        cube.setCube(38, spot6);
+        cube.setCube(6, spot7);
+        cube.setCube(7, spot8);
+        cube.setCube(8, spot9);
+        cube.setCube(33, spot10);
+        cube.setCube(24, spot11);
+        cube.setCube(15, spot12);
     }
 
     /**
