@@ -5,10 +5,10 @@
     <ignored path="RubiksCube.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/rubiksCube.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1410396008967" ignored="false" />
-    <file path="/Solvable.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1410891435313" ignored="false" />
+    <file path="/Solvable.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1410893217301" ignored="false" />
     <file path="/fragment.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1410748361248" ignored="false" />
     <file path="/InvalidCube.txt" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1410734463575" ignored="false" />
-    <file path="/RubikCube.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1410891176179" ignored="false" />
+    <file path="/RubikCube.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1410894209522" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,10 +67,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Solvable.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Solvable.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/rubik/Solvable.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="100" column="112" selection-start="2543" selection-end="2543" vertical-scroll-proportion="1.1123595">
+            <state line="16" column="42" selection-start="319" selection-end="319" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -78,10 +78,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RubikCube.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="RubikCube.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/rubik/RubikCube.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="81" column="32" selection-start="2290" selection-end="2290" vertical-scroll-proportion="0.0">
+            <state line="146" column="95" selection-start="4346" selection-end="4346" vertical-scroll-proportion="0.35674676">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -102,8 +102,8 @@
         <option value="$PROJECT_DIR$/src/main/java/rubiksCube.java" />
         <option value="$PROJECT_DIR$/src/main/java/rubiks/rubiksCube.java" />
         <option value="$PROJECT_DIR$/src/main/java/rubik/InvalidCube.txt" />
-        <option value="$PROJECT_DIR$/src/main/java/rubik/RubikCube.java" />
         <option value="$PROJECT_DIR$/src/main/java/rubik/Solvable.java" />
+        <option value="$PROJECT_DIR$/src/main/java/rubik/RubikCube.java" />
       </list>
     </option>
   </component>
@@ -464,7 +464,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16212338" sideWeight="0.7729084" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22709164" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22709164" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -598,18 +598,18 @@
         <state line="10" column="5" selection-start="84" selection-end="84" vertical-scroll-proportion="0.16551724" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/rubik/RubikCube.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/rubik/Solvable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="81" column="32" selection-start="2290" selection-end="2290" vertical-scroll-proportion="0.0">
+        <state line="16" column="42" selection-start="319" selection-end="319" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/rubik/Solvable.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/rubik/RubikCube.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="100" column="112" selection-start="2543" selection-end="2543" vertical-scroll-proportion="1.1123595">
+        <state line="146" column="95" selection-start="4346" selection-end="4346" vertical-scroll-proportion="0.35674676">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
