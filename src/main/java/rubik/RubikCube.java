@@ -42,7 +42,7 @@ public class RubikCube {
 
     /**
      * constructor to create a copy of a cube
-     * @param cube
+     * @param cube a copy of the cube to create off of
      */
     public RubikCube(byte [] cube){
         rubikCube = cube;
@@ -95,7 +95,7 @@ public class RubikCube {
         String rubikString = "   ";
 
         for(int i=0; i < 9; i++){
-            rubikString += this.returnToChar(this.getCube(i));
+            rubikString += this.returnToChar(this.getCubies(i));
             if(i % 3 == 2 && i < 8){
                 rubikString += "\n   ";
             }else if(i % 3 == 2){
@@ -103,7 +103,7 @@ public class RubikCube {
             }
         }
         for(int i = 9; i < 36; i++){
-            rubikString += this.returnToChar(this.getCube(i));
+            rubikString += this.returnToChar(this.getCubies(i));
             if(i % 9 == 8){
                 rubikString += "\n";
             }
@@ -112,7 +112,7 @@ public class RubikCube {
         rubikString += "   ";
 
         for(int i = 36; i < 54; i++){
-            rubikString += this.returnToChar(this.getCube(i));
+            rubikString += this.returnToChar(this.getCubies(i));
             if(i % 3 == 2){
                 rubikString += "\n   ";
             }
@@ -126,10 +126,11 @@ public class RubikCube {
      * @return true if valid
      */
     public boolean validate(){
+        System.out.println(this);
         return (this.count() && this.middles() && this.korf());
     }
 
-    public byte getCube(int pos){
+    public byte getCubies(int pos){
         return rubikCube[pos];
     }
 
@@ -153,7 +154,7 @@ public class RubikCube {
         }
 
         for(int i=0; i < this.getSize(); i++){
-            switch (this.getCube(i)) {
+            switch (this.getCubies(i)) {
                 case 0:
                     rCount++;
                     break;
@@ -174,7 +175,6 @@ public class RubikCube {
                     break;
             }
         }
-
         return !(rCount != 9 && gCount != 9 && yCount != 9 && bCount != 9 && oCount != 9 && wCount != 9);
     }
 
@@ -183,8 +183,8 @@ public class RubikCube {
      * @return true if valid
      */
     public boolean middles(){
-        return ((this.getCube(4) == 0) && (this.getCube(19) == 1) && (this.getCube(22) == 2) &&
-                (this.getCube(25) == 3) && (this.getCube(40) == 4) && (this.getCube(49) == 5));
+        return ((this.getCubies(4) == 0) && (this.getCubies(19) == 1) && (this.getCubies(22) == 2) &&
+                (this.getCubies(25) == 3) && (this.getCubies(40) == 4) && (this.getCubies(49) == 5));
     }
 
     /**
@@ -200,13 +200,7 @@ public class RubikCube {
      * @return true if valid
      */
     private boolean cornerTest(){
-        int sum = this.getCube(0) + this.getCube(2) + this.getCube(6) + this.getCube(8) + + this.getCube(9) +
-                  this.getCube(11) + this.getCube(12) + this.getCube(14) + this.getCube(15) + this.getCube(17) +
-                  this.getCube(27) + this.getCube(29) + this.getCube(30) + this.getCube(32) + this.getCube(33) +
-                  this.getCube(35) + this.getCube(36) + this.getCube(38) + this.getCube(42) + this.getCube(44) +
-                  this.getCube(45) + this.getCube(47) + this.getCube(51) + this.getCube(53);
-
-        return ((sum % 3) == 0);
+        return true;
     }
 
     /**
@@ -232,7 +226,7 @@ public class RubikCube {
     /**
      * function to return the interger to string
      * @param value of the byte to turn into a string again
-     * @return
+     * @return string of the char based on the int
      */
     private String returnToChar(int value){
         switch(value){
@@ -266,18 +260,18 @@ public class RubikCube {
      */
     public void rotateLeftUp(RubikCube cube){
         //values of current cubes
-        byte spot1 = cube.getCube(12);
-        byte spot2 = cube.getCube(21);
-        byte spot3 = cube.getCube(30);
-        byte spot4 = cube.getCube(0);
-        byte spot5 = cube.getCube(3);
-        byte spot6 = cube.getCube(6);
-        byte spot7 = cube.getCube(45);
-        byte spot8 = cube.getCube(48);
-        byte spot9 = cube.getCube(51);
-        byte spot10 = cube.getCube(36);
-        byte spot11 = cube.getCube(39);
-        byte spot12 = cube.getCube(42);
+        byte spot1 = cube.getCubies(12);
+        byte spot2 = cube.getCubies(21);
+        byte spot3 = cube.getCubies(30);
+        byte spot4 = cube.getCubies(0);
+        byte spot5 = cube.getCubies(3);
+        byte spot6 = cube.getCubies(6);
+        byte spot7 = cube.getCubies(45);
+        byte spot8 = cube.getCubies(48);
+        byte spot9 = cube.getCubies(51);
+        byte spot10 = cube.getCubies(36);
+        byte spot11 = cube.getCubies(39);
+        byte spot12 = cube.getCubies(42);
 
         //places to put those values
         cube.setCube(0, spot1);
@@ -300,18 +294,18 @@ public class RubikCube {
      */
     public void rotateRightUp(RubikCube cube){
         //values of the current cubes
-        byte spot1 = cube.getCube(2);
-        byte spot2 = cube.getCube(5);
-        byte spot3 = cube.getCube(8);
-        byte spot4 = cube.getCube(47);
-        byte spot5 = cube.getCube(50);
-        byte spot6 = cube.getCube(53);
-        byte spot7 = cube.getCube(14);
-        byte spot8 = cube.getCube(23);
-        byte spot9 = cube.getCube(32);
-        byte spot10 = cube.getCube(38);
-        byte spot11 = cube.getCube(41);
-        byte spot12 = cube.getCube(44);
+        byte spot1 = cube.getCubies(2);
+        byte spot2 = cube.getCubies(5);
+        byte spot3 = cube.getCubies(8);
+        byte spot4 = cube.getCubies(47);
+        byte spot5 = cube.getCubies(50);
+        byte spot6 = cube.getCubies(53);
+        byte spot7 = cube.getCubies(14);
+        byte spot8 = cube.getCubies(23);
+        byte spot9 = cube.getCubies(32);
+        byte spot10 = cube.getCubies(38);
+        byte spot11 = cube.getCubies(41);
+        byte spot12 = cube.getCubies(44);
 
         //places to put those values
         cube.setCube(47, spot1);
@@ -334,18 +328,18 @@ public class RubikCube {
      */
     public void rotateTopLeft(RubikCube cube){
         //values of the current cubes
-        byte spot1 = cube.getCube(12);
-        byte spot2 = cube.getCube(13);
-        byte spot3 = cube.getCube(14);
-        byte spot4 = cube.getCube(9);
-        byte spot5 = cube.getCube(10);
-        byte spot6 = cube.getCube(11);
-        byte spot7 = cube.getCube(15);
-        byte spot8 = cube.getCube(16);
-        byte spot9 = cube.getCube(17);
-        byte spot10 = cube.getCube(45);
-        byte spot11 = cube.getCube(46);
-        byte spot12 = cube.getCube(47);
+        byte spot1 = cube.getCubies(12);
+        byte spot2 = cube.getCubies(13);
+        byte spot3 = cube.getCubies(14);
+        byte spot4 = cube.getCubies(9);
+        byte spot5 = cube.getCubies(10);
+        byte spot6 = cube.getCubies(11);
+        byte spot7 = cube.getCubies(15);
+        byte spot8 = cube.getCubies(16);
+        byte spot9 = cube.getCubies(17);
+        byte spot10 = cube.getCubies(45);
+        byte spot11 = cube.getCubies(46);
+        byte spot12 = cube.getCubies(47);
 
         //values to place those cubes
         cube.setCube(9, spot1);
@@ -368,18 +362,18 @@ public class RubikCube {
      */
     public void rotateDownLeft(RubikCube cube){
         //values of the current cubes
-        byte spot1 = cube.getCube(30);
-        byte spot2 = cube.getCube(31);
-        byte spot3 = cube.getCube(32);
-        byte spot4 = cube.getCube(27);
-        byte spot5 = cube.getCube(28);
-        byte spot6 = cube.getCube(29);
-        byte spot7 = cube.getCube(33);
-        byte spot8 = cube.getCube(34);
-        byte spot9 = cube.getCube(35);
-        byte spot10 = cube.getCube(51);
-        byte spot11 = cube.getCube(52);
-        byte spot12 = cube.getCube(53);
+        byte spot1 = cube.getCubies(30);
+        byte spot2 = cube.getCubies(31);
+        byte spot3 = cube.getCubies(32);
+        byte spot4 = cube.getCubies(27);
+        byte spot5 = cube.getCubies(28);
+        byte spot6 = cube.getCubies(29);
+        byte spot7 = cube.getCubies(33);
+        byte spot8 = cube.getCubies(34);
+        byte spot9 = cube.getCubies(35);
+        byte spot10 = cube.getCubies(51);
+        byte spot11 = cube.getCubies(52);
+        byte spot12 = cube.getCubies(53);
 
         //values to place those cubes
         cube.setCube(27, spot1);
@@ -402,18 +396,18 @@ public class RubikCube {
      */
     public void rotateFrontLeft(RubikCube cube){
         //values of the current cubes
-        byte spot1 = cube.getCube(8);
-        byte spot2 = cube.getCube(7);
-        byte spot3 = cube.getCube(6);
-        byte spot4 = cube.getCube(11);
-        byte spot5 = cube.getCube(20);
-        byte spot6 = cube.getCube(29);
-        byte spot7 = cube.getCube(15);
-        byte spot8 = cube.getCube(24);
-        byte spot9 = cube.getCube(33);
-        byte spot10 = cube.getCube(36);
-        byte spot11 = cube.getCube(37);
-        byte spot12 = cube.getCube(38);
+        byte spot1 = cube.getCubies(8);
+        byte spot2 = cube.getCubies(7);
+        byte spot3 = cube.getCubies(6);
+        byte spot4 = cube.getCubies(11);
+        byte spot5 = cube.getCubies(20);
+        byte spot6 = cube.getCubies(29);
+        byte spot7 = cube.getCubies(15);
+        byte spot8 = cube.getCubies(24);
+        byte spot9 = cube.getCubies(33);
+        byte spot10 = cube.getCubies(36);
+        byte spot11 = cube.getCubies(37);
+        byte spot12 = cube.getCubies(38);
 
         //values to place those cubes
         cube.setCube(11, spot1);
@@ -436,18 +430,18 @@ public class RubikCube {
      */
     public void rotateBackLeft(RubikCube cube){
         //values of the current cubes
-        byte spot1 = cube.getCube(0);
-        byte spot2 = cube.getCube(1);
-        byte spot3 = cube.getCube(2);
-        byte spot4 = cube.getCube(9);
-        byte spot5 = cube.getCube(18);
-        byte spot6 = cube.getCube(27);
-        byte spot7 = cube.getCube(42);
-        byte spot8 = cube.getCube(43);
-        byte spot9 = cube.getCube(44);
-        byte spot10 = cube.getCube(17);
-        byte spot11 = cube.getCube(26);
-        byte spot12 = cube.getCube(35);
+        byte spot1 = cube.getCubies(0);
+        byte spot2 = cube.getCubies(1);
+        byte spot3 = cube.getCubies(2);
+        byte spot4 = cube.getCubies(9);
+        byte spot5 = cube.getCubies(18);
+        byte spot6 = cube.getCubies(27);
+        byte spot7 = cube.getCubies(42);
+        byte spot8 = cube.getCubies(43);
+        byte spot9 = cube.getCubies(44);
+        byte spot10 = cube.getCubies(17);
+        byte spot11 = cube.getCubies(26);
+        byte spot12 = cube.getCubies(35);
 
         //values to place those cubes
         cube.setCube(27, spot1);
@@ -470,18 +464,18 @@ public class RubikCube {
      */
     public void rotateLeftDown(RubikCube cube){
         //values of the current cubes
-        byte spot1 = cube.getCube(0);
-        byte spot2 = cube.getCube(3);
-        byte spot3 = cube.getCube(6);
-        byte spot4 = cube.getCube(12);
-        byte spot5 = cube.getCube(21);
-        byte spot6 = cube.getCube(30);
-        byte spot7 = cube.getCube(36);
-        byte spot8 = cube.getCube(39);
-        byte spot9 = cube.getCube(42);
-        byte spot10 = cube.getCube(45);
-        byte spot11 = cube.getCube(48);
-        byte spot12 = cube.getCube(51);
+        byte spot1 = cube.getCubies(0);
+        byte spot2 = cube.getCubies(3);
+        byte spot3 = cube.getCubies(6);
+        byte spot4 = cube.getCubies(12);
+        byte spot5 = cube.getCubies(21);
+        byte spot6 = cube.getCubies(30);
+        byte spot7 = cube.getCubies(36);
+        byte spot8 = cube.getCubies(39);
+        byte spot9 = cube.getCubies(42);
+        byte spot10 = cube.getCubies(45);
+        byte spot11 = cube.getCubies(48);
+        byte spot12 = cube.getCubies(51);
 
         //values to place those cubes
         cube.setCube(12, spot1);
@@ -503,18 +497,18 @@ public class RubikCube {
      * @param cube the cube in which to rotate
      */
     public void rotateRightDown(RubikCube cube){
-        byte spot1 = cube.getCube(47);
-        byte spot2 = cube.getCube(50);
-        byte spot3 = cube.getCube(53);
-        byte spot4 = cube.getCube(38);
-        byte spot5 = cube.getCube(41);
-        byte spot6 = cube.getCube(44);
-        byte spot7 = cube.getCube(2);
-        byte spot8 = cube.getCube(5);
-        byte spot9 = cube.getCube(8);
-        byte spot10 = cube.getCube(14);
-        byte spot11 = cube.getCube(23);
-        byte spot12 = cube.getCube(31);
+        byte spot1 = cube.getCubies(47);
+        byte spot2 = cube.getCubies(50);
+        byte spot3 = cube.getCubies(53);
+        byte spot4 = cube.getCubies(38);
+        byte spot5 = cube.getCubies(41);
+        byte spot6 = cube.getCubies(44);
+        byte spot7 = cube.getCubies(2);
+        byte spot8 = cube.getCubies(5);
+        byte spot9 = cube.getCubies(8);
+        byte spot10 = cube.getCubies(14);
+        byte spot11 = cube.getCubies(23);
+        byte spot12 = cube.getCubies(31);
 
         cube.setCube(2, spot1);
         cube.setCube(5, spot2);
@@ -536,18 +530,18 @@ public class RubikCube {
      */
     public void rotateTopRight(RubikCube cube){
         //values of the current cubes
-        byte spot1 = cube.getCube(9);
-        byte spot2 = cube.getCube(10);
-        byte spot3 = cube.getCube(11);
-        byte spot4 = cube.getCube(12);
-        byte spot5 = cube.getCube(13);
-        byte spot6 = cube.getCube(14);
-        byte spot7 = cube.getCube(15);
-        byte spot8 = cube.getCube(16);
-        byte spot9 = cube.getCube(17);
-        byte spot10 = cube.getCube(45);
-        byte spot11 = cube.getCube(46);
-        byte spot12 = cube.getCube(47);
+        byte spot1 = cube.getCubies(9);
+        byte spot2 = cube.getCubies(10);
+        byte spot3 = cube.getCubies(11);
+        byte spot4 = cube.getCubies(12);
+        byte spot5 = cube.getCubies(13);
+        byte spot6 = cube.getCubies(14);
+        byte spot7 = cube.getCubies(15);
+        byte spot8 = cube.getCubies(16);
+        byte spot9 = cube.getCubies(17);
+        byte spot10 = cube.getCubies(45);
+        byte spot11 = cube.getCubies(46);
+        byte spot12 = cube.getCubies(47);
 
         //places to put those values
         cube.setCube(12, spot1);
@@ -570,18 +564,18 @@ public class RubikCube {
      */
     public void rotateDownRight(RubikCube cube){
         //values of the current cubes
-        byte spot1 = cube.getCube(27);
-        byte spot2 = cube.getCube(28);
-        byte spot3 = cube.getCube(29);
-        byte spot4 = cube.getCube(30);
-        byte spot5 = cube.getCube(31);
-        byte spot6 = cube.getCube(32);
-        byte spot7 = cube.getCube(33);
-        byte spot8 = cube.getCube(34);
-        byte spot9 = cube.getCube(35);
-        byte spot10 = cube.getCube(51);
-        byte spot11 = cube.getCube(52);
-        byte spot12 = cube.getCube(53);
+        byte spot1 = cube.getCubies(27);
+        byte spot2 = cube.getCubies(28);
+        byte spot3 = cube.getCubies(29);
+        byte spot4 = cube.getCubies(30);
+        byte spot5 = cube.getCubies(31);
+        byte spot6 = cube.getCubies(32);
+        byte spot7 = cube.getCubies(33);
+        byte spot8 = cube.getCubies(34);
+        byte spot9 = cube.getCubies(35);
+        byte spot10 = cube.getCubies(51);
+        byte spot11 = cube.getCubies(52);
+        byte spot12 = cube.getCubies(53);
 
         //places to put those values
         cube.setCube(30, spot1);
@@ -604,18 +598,18 @@ public class RubikCube {
      */
     public void rotateFrontRight(RubikCube cube){
         //values of the current cubes
-        byte spot1 = cube.getCube(6);
-        byte spot2 = cube.getCube(7);
-        byte spot3 = cube.getCube(8);
-        byte spot4 = cube.getCube(11);
-        byte spot5 = cube.getCube(20);
-        byte spot6 = cube.getCube(29);
-        byte spot7 = cube.getCube(36);
-        byte spot8 = cube.getCube(37);
-        byte spot9 = cube.getCube(38);
-        byte spot10 = cube.getCube(15);
-        byte spot11 = cube.getCube(24);
-        byte spot12 = cube.getCube(33);
+        byte spot1 = cube.getCubies(6);
+        byte spot2 = cube.getCubies(7);
+        byte spot3 = cube.getCubies(8);
+        byte spot4 = cube.getCubies(11);
+        byte spot5 = cube.getCubies(20);
+        byte spot6 = cube.getCubies(29);
+        byte spot7 = cube.getCubies(36);
+        byte spot8 = cube.getCubies(37);
+        byte spot9 = cube.getCubies(38);
+        byte spot10 = cube.getCubies(15);
+        byte spot11 = cube.getCubies(24);
+        byte spot12 = cube.getCubies(33);
 
         //places to put those values
         cube.setCube(15, spot1);
@@ -638,18 +632,18 @@ public class RubikCube {
      */
     public void rotateBackRight(RubikCube cube){
         //values of the current cubes
-        byte spot1 = cube.getCube(0);
-        byte spot2 = cube.getCube(1);
-        byte spot3 = cube.getCube(2);
-        byte spot4 = cube.getCube(9);
-        byte spot5 = cube.getCube(18);
-        byte spot6 = cube.getCube(27);
-        byte spot7 = cube.getCube(17);
-        byte spot8 = cube.getCube(26);
-        byte spot9 = cube.getCube(35);
-        byte spot10 = cube.getCube(42);
-        byte spot11 = cube.getCube(43);
-        byte spot12 = cube.getCube(44);
+        byte spot1 = cube.getCubies(0);
+        byte spot2 = cube.getCubies(1);
+        byte spot3 = cube.getCubies(2);
+        byte spot4 = cube.getCubies(9);
+        byte spot5 = cube.getCubies(18);
+        byte spot6 = cube.getCubies(27);
+        byte spot7 = cube.getCubies(17);
+        byte spot8 = cube.getCubies(26);
+        byte spot9 = cube.getCubies(35);
+        byte spot10 = cube.getCubies(42);
+        byte spot11 = cube.getCubies(43);
+        byte spot12 = cube.getCubies(44);
 
         //places to put those values
         cube.setCube(17, spot1);

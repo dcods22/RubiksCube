@@ -8,7 +8,7 @@
     <file path="/Solvable.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1410896382746" ignored="false" />
     <file path="/fragment.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1410748361248" ignored="false" />
     <file path="/InvalidCube.txt" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1410734463575" ignored="false" />
-    <file path="/RubikCube.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1410916521087" ignored="false" />
+    <file path="/RubikCube.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1410983135413" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +23,7 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -57,7 +58,6 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -71,9 +71,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/rubik/Solvable.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="43" column="45" selection-start="895" selection-end="895" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -81,7 +79,7 @@
       <file leaf-file-name="RubikCube.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/rubik/RubikCube.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="206" column="18" selection-start="5940" selection-end="5940" vertical-scroll-proportion="3.47191">
+            <state line="202" column="20" selection-start="5584" selection-end="5584" vertical-scroll-proportion="0.78068966">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -183,68 +181,10 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RubiksCube" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RubiksCube" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RubiksCube" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RubiksCube" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RubiksCube" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RubiksCube" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="rubik" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -534,55 +474,75 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/main/java/rubik/Solvable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="180" column="107" selection-start="4831" selection-end="4831" vertical-scroll-proportion="0.0">
+        <state line="43" column="45" selection-start="895" selection-end="895" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/rubik/RubikCube.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="228" column="42" selection-start="6537" selection-end="6537" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/rubik/Solvable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="45" selection-start="895" selection-end="895" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/rubik/RubikCube.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="191" column="0" selection-start="5264" selection-end="5264" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/rubik/Solvable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="180" column="107" selection-start="4831" selection-end="4831" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/rubik/Solvable.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="169" column="138" selection-start="4560" selection-end="4560" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/rubik/Solvable.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="166" column="19" selection-start="4436" selection-end="4439" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/rubik/Solvable.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="166" column="19" selection-start="4436" selection-end="4439" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/rubik/Solvable.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="166" column="19" selection-start="4436" selection-end="4439" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/rubik/Solvable.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="146" column="77" selection-start="3896" selection-end="3896" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -601,15 +561,13 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/rubik/Solvable.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="43" column="45" selection-start="895" selection-end="895" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/rubik/RubikCube.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="206" column="18" selection-start="5940" selection-end="5940" vertical-scroll-proportion="3.47191">
+        <state line="202" column="20" selection-start="5584" selection-end="5584" vertical-scroll-proportion="0.78068966">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
