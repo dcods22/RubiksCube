@@ -127,7 +127,7 @@ public class RubikCube {
      */
     public boolean validate(){
         System.out.println(this.toString());
-        this.rotateFrontLeft(this);
+        this.rotateBackLeft(this);
         System.out.println(this.toString());
         return (this.count() && this.middles() && this.korf());
     }
@@ -396,7 +396,33 @@ public class RubikCube {
      * @param cube the cube in which to rotate
      */
     private void rotateBackLeft(RubikCube cube){
+        //values of the current cubes
+        byte spot1 = cube.getCube(0);
+        byte spot2 = cube.getCube(1);
+        byte spot3 = cube.getCube(2);
+        byte spot4 = cube.getCube(9);
+        byte spot5 = cube.getCube(18);
+        byte spot6 = cube.getCube(27);
+        byte spot7 = cube.getCube(42);
+        byte spot8 = cube.getCube(43);
+        byte spot9 = cube.getCube(44);
+        byte spot10 = cube.getCube(17);
+        byte spot11 = cube.getCube(26);
+        byte spot12 = cube.getCube(35);
 
+        //values to place those cubes
+        cube.setCube(27, spot1);
+        cube.setCube(18, spot2);
+        cube.setCube(9, spot3);
+        cube.setCube(42, spot4);
+        cube.setCube(43, spot5);
+        cube.setCube(44, spot6);
+        cube.setCube(35, spot7);
+        cube.setCube(26, spot8);
+        cube.setCube(17, spot9);
+        cube.setCube(0, spot10);
+        cube.setCube(1, spot11);
+        cube.setCube(2, spot12);
     }
 
     /**
