@@ -200,10 +200,11 @@ public class RubikCube {
      * @return true if valid
      */
     private boolean cornerTest(){
-        int sum = this.getCube(0) + this.getCube(2) + this.getCube(6) + this.getCube(8) + + this.getCube(9) + this.getCube(11) +
-                  this.getCube(12) + this.getCube(14) + this.getCube(15) + this.getCube(17) + this.getCube(27) + this.getCube(29) +
-                  this.getCube(30) + this.getCube(32) + this.getCube(33) + this.getCube(35) + this.getCube(36) + this.getCube(38) +
-                  this.getCube(42) + this.getCube(44) + this.getCube(45) + this.getCube(47) + this.getCube(51) + this.getCube(53);
+        int sum = this.getCube(0) + this.getCube(2) + this.getCube(6) + this.getCube(8) + + this.getCube(9) +
+                  this.getCube(11) + this.getCube(12) + this.getCube(14) + this.getCube(15) + this.getCube(17) +
+                  this.getCube(27) + this.getCube(29) + this.getCube(30) + this.getCube(32) + this.getCube(33) +
+                  this.getCube(35) + this.getCube(36) + this.getCube(38) + this.getCube(42) + this.getCube(44) +
+                  this.getCube(45) + this.getCube(47) + this.getCube(51) + this.getCube(53);
 
         return ((sum % 3) == 0);
     }
@@ -219,10 +220,51 @@ public class RubikCube {
     }
 
     /**
+     * Method to test the permutation validitiy of a rubikCube
+     * @return true if valid
+     */
+    private boolean permutationTest(){
+        RubikCube testCube = new RubikCube(rubikCube);
+
+        return true;
+    }
+
+    /**
+     * function to return the interger to string
+     * @param value of the byte to turn into a string again
+     * @return
+     */
+    private String returnToChar(int value){
+        switch(value){
+            case RED:
+                return "R";
+            case BLUE:
+                return "B";
+            case YELLOW:
+                return "Y";
+            case ORANGE:
+                return "O";
+            case WHITE:
+                return "W";
+            case GREEN:
+                return "G";
+        }
+        return " ";
+    }
+
+    /**
+     * Overwrite of the toString method
+     * @return string printout of the current rubikCube
+     */
+    public String toString(){
+        return this.deserialize();
+    }
+
+    /**
      * Method to rotate the left side of a cube left
      * @param cube the cube in which to rotate
      */
-    private void rotateLeftUp(RubikCube cube){
+    public void rotateLeftUp(RubikCube cube){
         //values of current cubes
         byte spot1 = cube.getCube(12);
         byte spot2 = cube.getCube(21);
@@ -256,7 +298,7 @@ public class RubikCube {
      * Method to rotate the right side of a cube left
      * @param cube the cube in which to rotate
      */
-    private void rotateRightUp(RubikCube cube){
+    public void rotateRightUp(RubikCube cube){
         //values of the current cubes
         byte spot1 = cube.getCube(2);
         byte spot2 = cube.getCube(5);
@@ -290,7 +332,7 @@ public class RubikCube {
      * Method to rotate a cube Top
      * @param cube the cube in which to rotate
      */
-    private void rotateTopLeft(RubikCube cube){
+    public void rotateTopLeft(RubikCube cube){
         //values of the current cubes
         byte spot1 = cube.getCube(12);
         byte spot2 = cube.getCube(13);
@@ -324,7 +366,7 @@ public class RubikCube {
      * Method to rotate a cube Down
      * @param cube the cube in which to rotate
      */
-    private void rotateDownLeft(RubikCube cube){
+    public void rotateDownLeft(RubikCube cube){
         //values of the current cubes
         byte spot1 = cube.getCube(30);
         byte spot2 = cube.getCube(31);
@@ -358,7 +400,7 @@ public class RubikCube {
      * Method to rotate the front of a cube left
      * @param cube the cube in which to rotate
      */
-    private void rotateFrontLeft(RubikCube cube){
+    public void rotateFrontLeft(RubikCube cube){
         //values of the current cubes
         byte spot1 = cube.getCube(8);
         byte spot2 = cube.getCube(7);
@@ -392,7 +434,7 @@ public class RubikCube {
      * Method to rotate the back of a cube left
      * @param cube the cube in which to rotate
      */
-    private void rotateBackLeft(RubikCube cube){
+    public void rotateBackLeft(RubikCube cube){
         //values of the current cubes
         byte spot1 = cube.getCube(0);
         byte spot2 = cube.getCube(1);
@@ -426,7 +468,7 @@ public class RubikCube {
      * Method to rotate the left side of a cube left
      * @param cube the cube in which to rotate
      */
-    private void rotateLeftDown(RubikCube cube){
+    public void rotateLeftDown(RubikCube cube){
         //values of the current cubes
         byte spot1 = cube.getCube(0);
         byte spot2 = cube.getCube(3);
@@ -460,7 +502,7 @@ public class RubikCube {
      * Method to rotate the right side of a cube Right
      * @param cube the cube in which to rotate
      */
-    private void rotateRightDown(RubikCube cube){
+    public void rotateRightDown(RubikCube cube){
         byte spot1 = cube.getCube(47);
         byte spot2 = cube.getCube(50);
         byte spot3 = cube.getCube(53);
@@ -492,7 +534,7 @@ public class RubikCube {
      * Method to rotate the top of a cube right
      * @param cube the cube in which to rotate
      */
-    private void rotateTopRight(RubikCube cube){
+    public void rotateTopRight(RubikCube cube){
         //values of the current cubes
         byte spot1 = cube.getCube(9);
         byte spot2 = cube.getCube(10);
@@ -526,7 +568,7 @@ public class RubikCube {
      * Method to rotate the down of a cube right
      * @param cube the cube in which to rotate
      */
-    private void rotateDownRight(RubikCube cube){
+    public void rotateDownRight(RubikCube cube){
         //values of the current cubes
         byte spot1 = cube.getCube(27);
         byte spot2 = cube.getCube(28);
@@ -560,7 +602,7 @@ public class RubikCube {
      * Method to rotate a cube front
      * @param cube the cube in which to rotate
      */
-    private void rotateFrontRight(RubikCube cube){
+    public void rotateFrontRight(RubikCube cube){
         //values of the current cubes
         byte spot1 = cube.getCube(6);
         byte spot2 = cube.getCube(7);
@@ -594,7 +636,7 @@ public class RubikCube {
      * Method to rotate a cube back
      * @param cube the cube in which to rotate
      */
-    private void rotateBackRight(RubikCube cube){
+    public void rotateBackRight(RubikCube cube){
         //values of the current cubes
         byte spot1 = cube.getCube(0);
         byte spot2 = cube.getCube(1);
@@ -622,47 +664,5 @@ public class RubikCube {
         cube.setCube(9, spot10);
         cube.setCube(18, spot11);
         cube.setCube(27, spot12);
-    }
-
-
-    /**
-     * Method to test the permutation validitiy of a rubikCube
-     * @return true if valid
-     */
-    private boolean permutationTest(){
-        RubikCube testCube = new RubikCube(rubikCube);
-
-        return true;
-    }
-
-    /**
-     * function to return the interger to string
-     * @param value
-     * @return
-     */
-    private String returnToChar(int value){
-        switch(value){
-            case RED:
-                return "R";
-            case BLUE:
-                return "B";
-            case YELLOW:
-                return "Y";
-            case ORANGE:
-                return "O";
-            case WHITE:
-                return "W";
-            case GREEN:
-                return "G";
-        }
-        return " ";
-    }
-
-    /**
-     * Overwrite of the toString method
-     * @return string printout of the current rubikCube
-     */
-    public String toString(){
-        return this.deserialize();
     }
 }
