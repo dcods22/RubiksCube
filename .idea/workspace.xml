@@ -8,7 +8,7 @@
     <file path="/Solvable.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1410896382746" ignored="false" />
     <file path="/fragment.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1410748361248" ignored="false" />
     <file path="/InvalidCube.txt" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1410734463575" ignored="false" />
-    <file path="/RubikCube.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1411060300726" ignored="false" />
+    <file path="/RubikCube.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1411062472879" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +70,7 @@
       <file leaf-file-name="Solvable.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/rubik/Solvable.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="47" column="34" selection-start="997" selection-end="997" vertical-scroll-proportion="0.0">
+            <state line="38" column="0" selection-start="824" selection-end="824" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -79,7 +79,7 @@
       <file leaf-file-name="RubikCube.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/rubik/RubikCube.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="226" column="8" selection-start="6711" selection-end="6711" vertical-scroll-proportion="0.52965516">
+            <state line="285" column="25" selection-start="9435" selection-end="9435" vertical-scroll-proportion="-0.11724138">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -618,14 +618,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/rubik/Solvable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="34" selection-start="997" selection-end="997" vertical-scroll-proportion="0.0">
+        <state line="38" column="0" selection-start="824" selection-end="824" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/rubik/RubikCube.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="226" column="8" selection-start="6711" selection-end="6711" vertical-scroll-proportion="0.52965516">
+        <state line="285" column="25" selection-start="9435" selection-end="9435" vertical-scroll-proportion="-0.11724138">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

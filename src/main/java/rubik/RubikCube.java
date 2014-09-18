@@ -225,9 +225,28 @@ public class RubikCube {
 
         //corner paradity
 
-        return true;
+        sum=0;
+
+        sum += cornerSingleParity(this.getCubies(6), this.getCubies(11), this.getCubies(12));
+        sum += cornerSingleParity(this.getCubies(0), this.getCubies(9), this.getCubies(51));
+        sum += cornerSingleParity(this.getCubies(2), this.getCubies(17), this.getCubies(53));
+        sum += cornerSingleParity(this.getCubies(8), this.getCubies(14), this.getCubies(15));
+        sum += cornerSingleParity(this.getCubies(36), this.getCubies(29), this.getCubies(30));
+        sum += cornerSingleParity(this.getCubies(38), this.getCubies(33), this.getCubies(32));
+        sum += cornerSingleParity(this.getCubies(44), this.getCubies(47), this.getCubies(35));
+        sum += cornerSingleParity(this.getCubies(42), this.getCubies(45), this.getCubies(47));
+
+        //if its greather than 100 there was an error
+        return sum <= 100 && (sum % 3) == 0;
     }
 
+    /**
+     * method that checks if a corner cubie is one of the 8 valid ones
+     * @param side1 first side of the corner cubie
+     * @param side2 second side of the corner cubie
+     * @param side3 this side of the corner cubie
+     * @return the corner number
+     */
     public int validateSingleCorner(int side1, int side2, int side3){
         if(side1 == RED || side2 == RED || side3 == RED ){
             if(side1 == YELLOW || side2 == YELLOW || side3 == YELLOW){
@@ -258,7 +277,30 @@ public class RubikCube {
                 }
             }
         }
+
         return 0;
+    }
+
+    /**
+     * method that checks which direction a cube is facing for its paradity number
+     * @param sideTop top side of the corner cubie
+     * @param side1 first side of the corner cubie
+     * @param side2 second side of the corner cubie
+     * @return the paradity integer
+     */
+    public int cornerSingleParity(int sideTop, int side1, int side2){
+
+        //check to see the direction of the cubie, which figures out what value to assign to the parity
+        if(sideTop == RED || sideTop == ORANGE){
+            return 0;
+        }else if(side1 == RED || side1 == ORANGE){
+            return 1;
+        }else if(side2 == RED || side2 == ORANGE){
+            return 2;
+        }
+
+        //no cases where hit so there was an error return 100
+        return 100;
     }
 
     /**
