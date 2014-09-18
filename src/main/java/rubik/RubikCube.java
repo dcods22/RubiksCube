@@ -247,7 +247,7 @@ public class RubikCube {
      * @param side3 this side of the corner cubie
      * @return the corner number
      */
-    public int validateSingleCorner(int side1, int side2, int side3){
+    private int validateSingleCorner(int side1, int side2, int side3){
         if(side1 == RED || side2 == RED || side3 == RED ){
             if(side1 == YELLOW || side2 == YELLOW || side3 == YELLOW){
                 if(side1 == GREEN || side2 == GREEN || side3 == GREEN){
@@ -288,7 +288,7 @@ public class RubikCube {
      * @param side2 second side of the corner cubie
      * @return the paradity integer
      */
-    public int cornerSingleParity(int sideTop, int side1, int side2){
+    private int cornerSingleParity(int sideTop, int side1, int side2){
 
         //check to see the direction of the cubie, which figures out what value to assign to the parity
         if(sideTop == RED || sideTop == ORANGE){
@@ -311,7 +311,81 @@ public class RubikCube {
         //place a 0 or 1 on an edge, if they opposite edge sums for total are % 2 then true
         RubikCube testCube = new RubikCube(rubikCube);
 
-        return true;
+        int win1=0, win2=0, win3=0, win4=0, win5=0, win6=0;
+
+        //blue window 1
+        win1 += singleEdgeParity(this.getCubies(1),this.getCubies(52));
+        win1 += singleEdgeParity(this.getCubies(7),this.getCubies(13));
+
+        //blue window 2
+        win2 += singleEdgeParity(this.getCubies(23),this.getCubies(24));
+        win2 += singleEdgeParity(this.getCubies(21),this.getCubies(20));
+
+        //blue window 3
+        win3 += singleEdgeParity(this.getCubies(37),this.getCubies(31));
+        win3 += singleEdgeParity(this.getCubies(43),this.getCubies(46));
+
+        //blue window 4
+        win4 += singleEdgeParity(this.getCubies(50),this.getCubies(26));
+        win4 += singleEdgeParity(this.getCubies(48),this.getCubies(18));
+
+        //blue window 5
+        win5 += singleEdgeParity(this.getCubies(16),this.getCubies(5));
+        win5 += singleEdgeParity(this.getCubies(34),this.getCubies(41));
+
+        //blue window 6
+        win6 += singleEdgeParity(this.getCubies(10),this.getCubies(3));
+        win6 += singleEdgeParity(this.getCubies(28),this.getCubies(39));
+
+        return (((win1 % 2) == 0) && ((win2 % 2) == 0) && ((win3 % 2) == 0) && ((win4 % 2) == 0) && ((win5 % 2) == 0) && ((win6 % 2) == 0));
+    }
+
+    private int singleEdgeParity(int side1, int side2){
+        //RED TOP
+        if(side1==RED && side2==YELLOW)
+            return 1;
+        else if(side1==RED && side2==WHITE)
+            return 1;
+        else if(side1==RED && side2==BLUE)
+            return 0;
+        else if(side1==RED && side2==GREEN)
+            return 0;
+
+        //ORANGE BOTTOM
+        else if(side1==ORANGE && side2==YELLOW)
+            return 1;
+        else if(side1==ORANGE && side2==WHITE)
+            return 1;
+        else if(side1==ORANGE && side2==BLUE)
+            return 0;
+        else if(side1==ORANGE && side2==GREEN)
+            return 0;
+
+        //WHITE SIDES
+        else if(side1==WHITE && side2==BLUE)
+            return 1;
+        else if(side1==WHITE && side2==GREEN)
+            return 1;
+
+        //YELLOW SIDES
+        else if(side1==YELLOW && side2==BLUE)
+            return 1;
+        else if(side1==YELLOW && side2==GREEN)
+            return 1;
+
+        //BLUE SIDES
+        else if(side1==BLUE && side2==RED)
+            return 1;
+        else if(side1==BLUE && side2==ORANGE)
+            return 1;
+
+        //GREEN SIDES
+        else if(side1==GREEN && side2==RED)
+            return 1;
+        else if(side1==GREEN && side2==ORANGE)
+            return 1;
+
+        return 0;
     }
 
     /**
