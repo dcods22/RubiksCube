@@ -126,7 +126,6 @@ public class RubikCube {
      * @return true if valid
      */
     public boolean validate(){
-        System.out.println(this);
         return (this.count() && this.middles() && this.korf());
     }
 
@@ -200,7 +199,66 @@ public class RubikCube {
      * @return true if valid
      */
     private boolean cornerTest(){
+        //check how far corner is from goal state, if total % 3 then true
+        validateCorners();
+
         return true;
+    }
+
+    public boolean validateCorners(){
+        int sum = 0;
+
+        //for each corner check if it is add value to sum so the total should be 36 bc 8 + 7 ... 1 for each corner
+
+        //check each corner
+        sum += validateSingleCorner(this.getCubies(6), this.getCubies(11), this.getCubies(12));
+        sum += validateSingleCorner(this.getCubies(0), this.getCubies(9), this.getCubies(51));
+        sum += validateSingleCorner(this.getCubies(2), this.getCubies(17), this.getCubies(53));
+        sum += validateSingleCorner(this.getCubies(8), this.getCubies(14), this.getCubies(15));
+        sum += validateSingleCorner(this.getCubies(29), this.getCubies(30), this.getCubies(36));
+        sum += validateSingleCorner(this.getCubies(32), this.getCubies(33), this.getCubies(38));
+        sum += validateSingleCorner(this.getCubies(44), this.getCubies(47), this.getCubies(35));
+        sum += validateSingleCorner(this.getCubies(27), this.getCubies(42), this.getCubies(45));
+
+        if(sum != 36)
+            return false;
+
+        //corner paradity
+
+        return true;
+    }
+
+    public int validateSingleCorner(int side1, int side2, int side3){
+        if(side1 == RED || side2 == RED || side3 == RED ){
+            if(side1 == YELLOW || side2 == YELLOW || side3 == YELLOW){
+                if(side1 == GREEN || side2 == GREEN || side3 == GREEN){
+                    return 1;
+                }else if(side1 == BLUE || side2 == BLUE || side3 == BLUE){
+                    return 2;
+                }
+            }else if(side1 == WHITE || side2 == WHITE || side3 == WHITE){
+                if(side1 == GREEN || side2 == GREEN || side3 == GREEN){
+                    return 3;
+                }else if(side1 == BLUE || side2 == BLUE || side3 == BLUE){
+                    return 4;
+                }
+            }
+        }else if(side1 == ORANGE || side2 == ORANGE || side3 == ORANGE){
+            if(side1 == YELLOW || side2 == YELLOW || side3 == YELLOW){
+                if(side1 == GREEN || side2 == GREEN || side3 == GREEN){
+                    return 5;
+                }else if(side1 == BLUE || side2 == BLUE || side3 == BLUE){
+                    return 6;
+                }
+            }else if(side1 == WHITE || side2 == WHITE || side3 == WHITE){
+                if(side1 == GREEN || side2 == GREEN || side3 == GREEN){
+                    return 7;
+                }else if(side1 == BLUE || side2 == BLUE || side3 == BLUE){
+                    return 8;
+                }
+            }
+        }
+        return 0;
     }
 
     /**
@@ -208,6 +266,7 @@ public class RubikCube {
      * @return true if valid
      */
     private boolean edgeTest(){
+        //place a 0 or 1 on an edge, if they opposite edge sums for total are % 2 then true
         RubikCube testCube = new RubikCube(rubikCube);
 
         return true;
