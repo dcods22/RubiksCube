@@ -8,7 +8,7 @@
     <file path="/Solvable.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1410896382746" ignored="false" />
     <file path="/fragment.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1411356015229" ignored="false" />
     <file path="/InvalidCube.txt" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1410734463575" ignored="false" />
-    <file path="/RubikCube.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1411356846371" ignored="false" />
+    <file path="/RubikCube.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1411396574836" ignored="false" />
     <file path="/ValidTest.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1411355510056" ignored="false" />
     <file path="/Dummy.txt" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1411356009002" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -86,7 +86,7 @@
       <file leaf-file-name="RubikCube.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/rubik/RubikCube.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="335" column="91" selection-start="11028" selection-end="11028" vertical-scroll-proportion="-13.220264">
+            <state line="599" column="16" selection-start="19749" selection-end="19749" vertical-scroll-proportion="5.4779873">
               <folding />
             </state>
           </provider>
@@ -510,14 +510,14 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32934928" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32934928" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.0" sideWeight="0.7729084" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16212338" sideWeight="0.64010626" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35989377" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16212338" sideWeight="0.6706507" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35989377" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -676,6 +676,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/rubik/Solvable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="0" selection-start="832" selection-end="832" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/ValidTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="74" column="53" selection-start="2349" selection-end="2349" vertical-scroll-proportion="0.0">
@@ -685,16 +692,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/rubik/Solvable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="0" selection-start="832" selection-end="832" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/rubik/RubikCube.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="335" column="91" selection-start="11028" selection-end="11028" vertical-scroll-proportion="-13.220264">
+        <state line="599" column="16" selection-start="19749" selection-end="19749" vertical-scroll-proportion="5.4779873">
           <folding />
         </state>
       </provider>

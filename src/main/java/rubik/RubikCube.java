@@ -25,6 +25,8 @@ public class RubikCube {
     private static final int ORANGE = 4;
     private static final int WHITE = 5;
 
+    private int[] goalStates = new int[28];
+
     /**
      * constructor to create a cube from a file
      * @param file the file to create a cube off of
@@ -32,6 +34,7 @@ public class RubikCube {
      */
     public RubikCube(String file) throws FileNotFoundException {
         rubikCube = new byte[54];
+        initalizeGoalStates();
 
         try{
             serialize(file);
@@ -48,6 +51,49 @@ public class RubikCube {
         rubikCube = cube;
     }
 
+    private void initalizeGoalStates(){
+         //order goes front, top, left, right, bottom, back
+        //always starting in top left corner
+
+        //yellow sides
+        goalStates[0] = 1;      //yellow red green corner cube
+        goalStates[1] = 0;      //yellow red edge cube
+        goalStates[2] = 2;      //yellow red blue corner cube
+        goalStates[3] = 0;      //yellow green edge cube
+        goalStates[4] = 0;      //yellow middle cube
+        goalStates[5] = 0;      //yellow blue edge cube
+        goalStates[6] = 5;      //yellow green orange corner cube
+        goalStates[7] = 0;      //yellow orange edge cube
+        goalStates[8] = 6;      //yellow blue orange corner cube
+
+        //red sides
+        goalStates[9] = 3;      //red green white corner cube
+        goalStates[10] = 0;     //red white edge cube
+        goalStates[11] = 4;     //red white blue corner cube
+        goalStates[12] = 0;     //red green edge cube
+        goalStates[13] = 0;     //red middle cube
+        goalStates[14] = 0;     //red blue edge cube
+
+        //green side
+        goalStates[15] = 0;     //green white edge cube
+        goalStates[16] = 0;     //green middle cube
+        goalStates[17] = 7;     //green white orange corner cube
+        goalStates[18] = 0;     //green orange edge cube
+
+        //blue side
+        goalStates[19] = 0;     //blue middle cube
+        goalStates[20] = 0;     //blue white edge cube
+        goalStates[21] = 0;     //blue orange edge cube
+        goalStates[22] = 8;     //blue orange white corner cube
+
+        //orange side
+        goalStates[23] = 0;     //orange middle cube
+        goalStates[24] = 0;     //orange white edge cube
+
+        //white side
+        goalStates[25] = 0;    //white middle cube
+    }
+
     /**
      * method to serialize the cube
      * @param file of the cube to serialize
@@ -58,7 +104,6 @@ public class RubikCube {
         int pos = 0;
 
         try {
-
             BufferedReader reader = new BufferedReader(new FileReader(file));
 
             while((line = reader.readLine()) != null){
@@ -129,14 +174,28 @@ public class RubikCube {
         return (this.count() && this.middles() && this.korf());
     }
 
+    /**
+     * method to get a specific position color based on index in byte array
+     * @param pos position of specific face color in question
+     * @return the int of the color of the position by index
+     */
     public byte getCubies(int pos){
         return rubikCube[pos];
     }
 
+    /**
+     * Method to return the size of the rubiks cube
+     * @return the length of the array that stores the cube
+     */
     public int getSize(){
         return rubikCube.length;
     }
 
+    /**
+     * method to set a position in a cube with a byte value
+     * @param pos position to change
+     * @param value byte value to add
+     */
     private void setCube(int pos, byte value){
         rubikCube[pos] = value;
     }
@@ -424,8 +483,83 @@ public class RubikCube {
      */
     private boolean permutationTest(){
         RubikCube testCube = new RubikCube(rubikCube);
+        int sum = 0;
 
-        return true;
+        sum += cornerDistanceToGoal(this.getCubies(6), this.getCubies(11), this.getCubies(12));
+        sum += cornerDistanceToGoal(this.getCubies(0), this.getCubies(9), this.getCubies(51));
+        sum += cornerDistanceToGoal(this.getCubies(2), this.getCubies(17), this.getCubies(53));
+        sum += cornerDistanceToGoal(this.getCubies(8), this.getCubies(14), this.getCubies(15));
+        sum += cornerDistanceToGoal(this.getCubies(36), this.getCubies(29), this.getCubies(30));
+        sum += cornerDistanceToGoal(this.getCubies(38), this.getCubies(33), this.getCubies(32));
+        sum += cornerDistanceToGoal(this.getCubies(44), this.getCubies(47), this.getCubies(35));
+        sum += cornerDistanceToGoal(this.getCubies(42), this.getCubies(45), this.getCubies(47));
+
+
+
+        return (sum % 2) == 0;
+    }
+
+    /**
+     * Method to count the edge distance from goal state
+     * @return int of how far it is from goal state
+     */
+    private int edgeDistanceToGoal(int side1, int side2){
+        int edgeLocation = 0;
+
+        int goalLocation = edgeGoalFinder(side1, side2);
+
+        return (edgeLocation - goalLocation);
+    }
+
+    /**
+     * method to find the goal of the specific edge
+     * @param side1 side 1 of the cubie
+     * @param side2 side 2 of the cubie
+     * @return the location of its end goal
+     */
+    private int edgeGoalFinder(int side1, int side2){
+        return 0;
+    }
+
+    /**
+     * Method to count the edge distance from goal state
+     * @return int of how far it is from goal state
+     */
+    private int cornerDistanceToGoal(int topSide, int side1, int side2){
+        int cornerLocation = validateSingleCorner(topSide, side1, side2);
+
+        int goalLocation = cornerGoalFinder(topSide);
+
+        return (cornerLocation - goalLocation);
+    }
+
+    /**
+     * method to find the goal of the specific corer
+     * @param topSide top side of the corner cubie
+     * @return the location of its end goal
+     */
+    private int cornerGoalFinder(int topSide){
+
+        switch(topSide){
+            case 0:
+                return goalStates[9];
+            case 6:
+                return goalStates[0];
+            case 2:
+                return goalStates[11];
+            case 8:
+                return goalStates[2];
+            case 36:
+                return goalStates[6];
+            case 38:
+                return goalStates[8];
+            case 44:
+                return goalStates[22];
+            case 42:
+                return goalStates[17];
+        }
+
+        return 0;
     }
 
     /**
