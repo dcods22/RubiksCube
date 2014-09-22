@@ -191,7 +191,19 @@ public class RubikCube {
      * @return true if valid
      */
     private boolean korf(){
-        return cornerTest() && edgeTest() && permutationTest();
+        //return cornerTest() && edgeTest() && permutationTest();
+        if(!cornerTest()){
+            System.out.println("Failed Corner Test");
+            return false;
+        }else if(!middles()){
+            System.out.println("Failed Middles Test");
+            return false;
+        }else if(!edgeTest()){
+            System.out.println("Failed Edge Test");
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -248,31 +260,44 @@ public class RubikCube {
      * @return the corner number
      */
     private int validateSingleCorner(int side1, int side2, int side3){
+
         if(side1 == RED || side2 == RED || side3 == RED ){
             if(side1 == YELLOW || side2 == YELLOW || side3 == YELLOW){
+                //Test for cube 1
                 if(side1 == GREEN || side2 == GREEN || side3 == GREEN){
                     return 1;
-                }else if(side1 == BLUE || side2 == BLUE || side3 == BLUE){
+                }
+                //test for cube 2
+                else if(side1 == BLUE || side2 == BLUE || side3 == BLUE){
                     return 2;
                 }
             }else if(side1 == WHITE || side2 == WHITE || side3 == WHITE){
+                //test for cube 3
                 if(side1 == GREEN || side2 == GREEN || side3 == GREEN){
                     return 3;
-                }else if(side1 == BLUE || side2 == BLUE || side3 == BLUE){
+                }
+                //test for cube 4
+                else if(side1 == BLUE || side2 == BLUE || side3 == BLUE){
                     return 4;
                 }
             }
         }else if(side1 == ORANGE || side2 == ORANGE || side3 == ORANGE){
             if(side1 == YELLOW || side2 == YELLOW || side3 == YELLOW){
+                //test for cube 5
                 if(side1 == GREEN || side2 == GREEN || side3 == GREEN){
                     return 5;
-                }else if(side1 == BLUE || side2 == BLUE || side3 == BLUE){
+                }
+                //test for cube 6
+                else if(side1 == BLUE || side2 == BLUE || side3 == BLUE){
                     return 6;
                 }
             }else if(side1 == WHITE || side2 == WHITE || side3 == WHITE){
+                //test for cube 7
                 if(side1 == GREEN || side2 == GREEN || side3 == GREEN){
                     return 7;
-                }else if(side1 == BLUE || side2 == BLUE || side3 == BLUE){
+                }
+                //test for cube 8
+                else if(side1 == BLUE || side2 == BLUE || side3 == BLUE){
                     return 8;
                 }
             }
@@ -309,80 +334,85 @@ public class RubikCube {
      */
     private boolean edgeTest(){
         //place a 0 or 1 on an edge, if they opposite edge sums for total are % 2 then true
-        RubikCube testCube = new RubikCube(rubikCube);
-
-        int win1=0, win2=0, win3=0, win4=0, win5=0, win6=0;
+        int sum=0;
 
         //blue window 1
-        win1 += singleEdgeParity(this.getCubies(1),this.getCubies(52));
-        win1 += singleEdgeParity(this.getCubies(7),this.getCubies(13));
+        sum += singleEdgeParity(this.getCubies(1),this.getCubies(52));
+        sum += singleEdgeParity(this.getCubies(7),this.getCubies(13));
 
         //blue window 2
-        win2 += singleEdgeParity(this.getCubies(23),this.getCubies(24));
-        win2 += singleEdgeParity(this.getCubies(21),this.getCubies(20));
+        sum += singleEdgeParity(this.getCubies(23),this.getCubies(24));
+        sum += singleEdgeParity(this.getCubies(21),this.getCubies(20));
 
         //blue window 3
-        win3 += singleEdgeParity(this.getCubies(37),this.getCubies(31));
-        win3 += singleEdgeParity(this.getCubies(43),this.getCubies(46));
+        sum += singleEdgeParity(this.getCubies(37),this.getCubies(31));
+        sum += singleEdgeParity(this.getCubies(43),this.getCubies(46));
 
         //blue window 4
-        win4 += singleEdgeParity(this.getCubies(50),this.getCubies(26));
-        win4 += singleEdgeParity(this.getCubies(48),this.getCubies(18));
+        sum += singleEdgeParity(this.getCubies(50),this.getCubies(26));
+        sum += singleEdgeParity(this.getCubies(48),this.getCubies(18));
 
         //blue window 5
-        win5 += singleEdgeParity(this.getCubies(16),this.getCubies(5));
-        win5 += singleEdgeParity(this.getCubies(34),this.getCubies(41));
+        sum += singleEdgeParity(this.getCubies(16),this.getCubies(5));
+        sum += singleEdgeParity(this.getCubies(34),this.getCubies(41));
 
         //blue window 6
-        win6 += singleEdgeParity(this.getCubies(10),this.getCubies(3));
-        win6 += singleEdgeParity(this.getCubies(28),this.getCubies(39));
+        sum += singleEdgeParity(this.getCubies(10),this.getCubies(3));
+        sum += singleEdgeParity(this.getCubies(28),this.getCubies(39));
 
-        return (((win1 % 2) == 0) && ((win2 % 2) == 0) && ((win3 % 2) == 0) && ((win4 % 2) == 0) && ((win5 % 2) == 0) && ((win6 % 2) == 0));
+        //check to make sure each windows sum is a factor of two
+        return (sum % 2) == 0;
     }
 
-    private int singleEdgeParity(int side1, int side2){
+    /**
+     * Method to get the edge parity value of the blue window position
+     * @param topCubie top cubie
+     * @param sideCubie side cubie
+     * @return
+     */
+    private int singleEdgeParity(int topCubie, int sideCubie){
         //RED TOP
-        if(side1==RED && side2==YELLOW)
+        if(topCubie==RED && sideCubie==YELLOW)
             return 1;
-        else if(side1==RED && side2==WHITE)
+        else if(topCubie==RED && sideCubie==WHITE)
             return 1;
-        else if(side1==RED && side2==BLUE)
+        else if(topCubie==RED && sideCubie==BLUE)
             return 0;
-        else if(side1==RED && side2==GREEN)
+        else if(topCubie==RED && sideCubie==GREEN)
             return 0;
 
         //ORANGE BOTTOM
-        else if(side1==ORANGE && side2==YELLOW)
+        else if(topCubie==ORANGE && sideCubie==YELLOW)
             return 1;
-        else if(side1==ORANGE && side2==WHITE)
+        else if(topCubie==ORANGE && sideCubie==WHITE)
             return 1;
-        else if(side1==ORANGE && side2==BLUE)
+        else if(topCubie==ORANGE && sideCubie==BLUE)
             return 0;
-        else if(side1==ORANGE && side2==GREEN)
+        else if(topCubie==ORANGE && sideCubie==GREEN)
             return 0;
 
         //WHITE SIDES
-        else if(side1==WHITE && side2==BLUE)
+        else if(topCubie==WHITE && sideCubie==BLUE)
             return 1;
-        else if(side1==WHITE && side2==GREEN)
+        else if(topCubie==WHITE && sideCubie==GREEN)
             return 1;
 
         //YELLOW SIDES
-        else if(side1==YELLOW && side2==BLUE)
+        else if(topCubie==YELLOW && sideCubie==BLUE)
             return 1;
-        else if(side1==YELLOW && side2==GREEN)
+        else if(topCubie==YELLOW && sideCubie==GREEN)
             return 1;
 
         //BLUE SIDES
-        else if(side1==BLUE && side2==RED)
+        else if(topCubie==BLUE && sideCubie==RED)
             return 1;
-        else if(side1==BLUE && side2==ORANGE)
+        else if(topCubie==BLUE && sideCubie==ORANGE)
             return 1;
 
         //GREEN SIDES
-        else if(side1==GREEN && side2==RED)
+        else if(topCubie==GREEN && sideCubie==RED)
             return 1;
-        else if(side1==GREEN && side2==ORANGE)
+        else if(topCubie==GREEN && sideCubie==ORANGE)
             return 1;
 
         return 0;

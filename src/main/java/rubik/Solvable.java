@@ -29,15 +29,12 @@ public class Solvable {
      */
     public static void main(String args[]){
         try{
-
             Solvable solve = new Solvable(args[0]);
 
             System.out.println(solve.isValid());
-
         }catch(Exception e){
             e.printStackTrace();
         }
-
     }
 
     /**
