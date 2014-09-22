@@ -27,6 +27,7 @@ public class RubikCube {
 
     private int[] goalStates = new int[28];
 
+
     /**
      * constructor to create a cube from a file
      * @param file the file to create a cube off of
@@ -34,7 +35,7 @@ public class RubikCube {
      */
     public RubikCube(String file) throws FileNotFoundException {
         rubikCube = new byte[54];
-        initalizeGoalStates();
+        initializeGoalStates();
 
         try{
             serialize(file);
@@ -42,6 +43,7 @@ public class RubikCube {
             e.printStackTrace();
         }
     }
+
 
     /**
      * constructor to create a copy of a cube
@@ -51,48 +53,56 @@ public class RubikCube {
         rubikCube = cube;
     }
 
-    private void initalizeGoalStates(){
-         //order goes front, top, left, right, bottom, back
+
+    /**
+     * method to initialize the goal states
+     */
+    private void initializeGoalStates(){
+        //order goes front, top, left, right, bottom, back
         //always starting in top left corner
+        //each corner has its own unique value 1-8
+        //each middle has its own value 1-6
+        //each edge has its own value 1-12
 
         //yellow sides
         goalStates[0] = 1;      //yellow red green corner cube
-        goalStates[1] = 0;      //yellow red edge cube
+        goalStates[1] = 1;      //yellow red edge cube
         goalStates[2] = 2;      //yellow red blue corner cube
-        goalStates[3] = 0;      //yellow green edge cube
-        goalStates[4] = 0;      //yellow middle cube
-        goalStates[5] = 0;      //yellow blue edge cube
+        goalStates[3] = 2;      //yellow green edge cube
+        goalStates[4] = 1;      //yellow middle cube
+        goalStates[5] = 3;      //yellow blue edge cube
         goalStates[6] = 5;      //yellow green orange corner cube
-        goalStates[7] = 0;      //yellow orange edge cube
+        goalStates[7] = 4;      //yellow orange edge cube
         goalStates[8] = 6;      //yellow blue orange corner cube
 
         //red sides
         goalStates[9] = 3;      //red green white corner cube
-        goalStates[10] = 0;     //red white edge cube
+        goalStates[10] = 5;     //red white edge cube
         goalStates[11] = 4;     //red white blue corner cube
-        goalStates[12] = 0;     //red green edge cube
-        goalStates[13] = 0;     //red middle cube
-        goalStates[14] = 0;     //red blue edge cube
+        goalStates[12] = 6;     //red green edge cube
+        goalStates[13] = 2;     //red middle cube
+        goalStates[14] = 7;     //red blue edge cube
 
         //green side
-        goalStates[15] = 0;     //green white edge cube
-        goalStates[16] = 0;     //green middle cube
+        goalStates[15] = 8;     //green white edge cube
+        goalStates[16] = 3;     //green middle cube
         goalStates[17] = 7;     //green white orange corner cube
-        goalStates[18] = 0;     //green orange edge cube
+        goalStates[18] = 9;     //green orange edge cube
 
         //blue side
-        goalStates[19] = 0;     //blue middle cube
-        goalStates[20] = 0;     //blue white edge cube
-        goalStates[21] = 0;     //blue orange edge cube
+        goalStates[19] = 4;     //blue middle cube
+        goalStates[20] = 10;     //blue white edge cube
+        goalStates[21] = 11;     //blue orange edge cube
         goalStates[22] = 8;     //blue orange white corner cube
 
         //orange side
-        goalStates[23] = 0;     //orange middle cube
-        goalStates[24] = 0;     //orange white edge cube
+        goalStates[23] = 5;     //orange middle cube
+        goalStates[24] = 12;    //orange white edge cube
 
         //white side
-        goalStates[25] = 0;    //white middle cube
+        goalStates[25] = 6;    //white middle cube
     }
+
 
     /**
      * method to serialize the cube
@@ -106,6 +116,7 @@ public class RubikCube {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));
 
+            //turn file into a serialized version in a byte array
             while((line = reader.readLine()) != null){
                 line = line.trim();
                 for(int i=0; i < line.length(); i++){
@@ -132,6 +143,7 @@ public class RubikCube {
         }
     }
 
+
     /**
      * Method to deserialize the cube as it is stored
      * @return a copy of the cube which is deserialized
@@ -147,6 +159,7 @@ public class RubikCube {
                 rubikString += "\n";
             }
         }
+
         for(int i = 9; i < 36; i++){
             rubikString += this.returnToChar(this.getCubies(i));
             if(i % 9 == 8){
@@ -166,13 +179,27 @@ public class RubikCube {
         return rubikString;
     }
 
+
     /**
      * Method to test the validitiy of a cube
      * @return true if valid
      */
     public boolean validate(){
-        return (this.count() && this.middles() && this.korf());
+        //return to make sure the  cube is valid based on counting, middles, and korfs algorithm
+        if(!count()){
+            System.out.println("Failed Count Test");
+            return false;
+        }else if(!middles()){
+            System.out.println("Failed Middles Test");
+            return false;
+        }else if(!korf()){
+            System.out.println("Failed Korf Test");
+            return false;
+        }
+
+        return true;
     }
+
 
     /**
      * method to get a specific position color based on index in byte array
@@ -180,8 +207,12 @@ public class RubikCube {
      * @return the int of the color of the position by index
      */
     public byte getCubies(int pos){
-        return rubikCube[pos];
+        if(pos < this.getSize())
+            return rubikCube[pos];
+
+        return -1;
     }
+
 
     /**
      * Method to return the size of the rubiks cube
@@ -190,6 +221,7 @@ public class RubikCube {
     public int getSize(){
         return rubikCube.length;
     }
+
 
     /**
      * method to set a position in a cube with a byte value
@@ -200,17 +232,21 @@ public class RubikCube {
         rubikCube[pos] = value;
     }
 
+
     /**
      * Method to test the count of colors of a cube
      * @return true if valid
      */
     private boolean count(){
+        //initalize the variables
         int rCount=0, gCount=0, yCount=0, bCount=0, oCount=0, wCount=0;
 
-        if(this.getSize() < 54){
+        //if the cube size is not 54 then return false
+        if(this.getSize() != 54){
             return false;
         }
 
+        //loop through to count based on each color
         for(int i=0; i < this.getSize(); i++){
             switch (this.getCubies(i)) {
                 case 0:
@@ -233,17 +269,22 @@ public class RubikCube {
                     break;
             }
         }
+
+        //return bool of if each color is there 9 times
         return !(rCount != 9 && gCount != 9 && yCount != 9 && bCount != 9 && oCount != 9 && wCount != 9);
     }
+
 
     /**
      * Method to test the middle validitiy of a rubikCube
      * @return true if valid
      */
     public boolean middles(){
+        //return to make sure the middles are of correct color
         return ((this.getCubies(4) == 0) && (this.getCubies(19) == 1) && (this.getCubies(22) == 2) &&
                 (this.getCubies(25) == 3) && (this.getCubies(40) == 4) && (this.getCubies(49) == 5));
     }
+
 
     /**
      * Method to test the korf algorithm
@@ -254,48 +295,42 @@ public class RubikCube {
         if(!cornerTest()){
             System.out.println("Failed Corner Test");
             return false;
-        }else if(!middles()){
-            System.out.println("Failed Middles Test");
-            return false;
         }else if(!edgeTest()){
             System.out.println("Failed Edge Test");
+            return false;
+        }
+        else if(!permutationTest()){
+            System.out.println("Failed Permutation Test");
             return false;
         }
 
         return true;
     }
 
+
     /**
-     * Method to test the corner validitiy of a rubikCube
-     * @return true if valid
+     * method to test the validity of the corners
+     * @return the bool if the corners are valid
      */
     private boolean cornerTest(){
-        //check how far corner is from goal state, if total % 3 then true
-        validateCorners();
-
-        return true;
-    }
-
-    public boolean validateCorners(){
         int sum = 0;
 
         //for each corner check if it is add value to sum so the total should be 36 bc 8 + 7 ... 1 for each corner
 
         //check each corner
-        sum += validateSingleCorner(this.getCubies(6), this.getCubies(11), this.getCubies(12));
-        sum += validateSingleCorner(this.getCubies(0), this.getCubies(9), this.getCubies(51));
-        sum += validateSingleCorner(this.getCubies(2), this.getCubies(17), this.getCubies(53));
-        sum += validateSingleCorner(this.getCubies(8), this.getCubies(14), this.getCubies(15));
-        sum += validateSingleCorner(this.getCubies(29), this.getCubies(30), this.getCubies(36));
-        sum += validateSingleCorner(this.getCubies(32), this.getCubies(33), this.getCubies(38));
-        sum += validateSingleCorner(this.getCubies(44), this.getCubies(47), this.getCubies(35));
-        sum += validateSingleCorner(this.getCubies(27), this.getCubies(42), this.getCubies(45));
+        sum += cornerValue(this.getCubies(6), this.getCubies(11), this.getCubies(12));
+        sum += cornerValue(this.getCubies(0), this.getCubies(9), this.getCubies(51));
+        sum += cornerValue(this.getCubies(2), this.getCubies(17), this.getCubies(53));
+        sum += cornerValue(this.getCubies(8), this.getCubies(14), this.getCubies(15));
+        sum += cornerValue(this.getCubies(29), this.getCubies(30), this.getCubies(36));
+        sum += cornerValue(this.getCubies(32), this.getCubies(33), this.getCubies(38));
+        sum += cornerValue(this.getCubies(44), this.getCubies(47), this.getCubies(35));
+        sum += cornerValue(this.getCubies(27), this.getCubies(42), this.getCubies(45));
 
         if(sum != 36)
             return false;
 
-        //corner paradity
-
+        //corner paradity to check if corners are % 3 away
         sum=0;
 
         sum += cornerSingleParity(this.getCubies(6), this.getCubies(11), this.getCubies(12));
@@ -311,6 +346,7 @@ public class RubikCube {
         return sum <= 100 && (sum % 3) == 0;
     }
 
+
     /**
      * method that checks if a corner cubie is one of the 8 valid ones
      * @param side1 first side of the corner cubie
@@ -318,7 +354,7 @@ public class RubikCube {
      * @param side3 this side of the corner cubie
      * @return the corner number
      */
-    private int validateSingleCorner(int side1, int side2, int side3){
+    private int cornerValue(int side1, int side2, int side3){
 
         if(side1 == RED || side2 == RED || side3 == RED ){
             if(side1 == YELLOW || side2 == YELLOW || side3 == YELLOW){
@@ -365,6 +401,7 @@ public class RubikCube {
         return 0;
     }
 
+
     /**
      * method that checks which direction a cube is facing for its paradity number
      * @param sideTop top side of the corner cubie
@@ -386,6 +423,7 @@ public class RubikCube {
         //no cases where hit so there was an error return 100
         return 100;
     }
+
 
     /**
      * Method to test the edge validitiy of a rubikCube
@@ -422,6 +460,54 @@ public class RubikCube {
         //check to make sure each windows sum is a factor of two
         return (sum % 2) == 0;
     }
+
+
+    /**
+     * method to get the specific edge value
+     * @param side1 side 1 of the cubie
+     * @param side2 side 2 of the cubie
+     * @return the value of that specific edge
+     */
+    private int edgeValue(int side1,int side2){
+        if(side1 == YELLOW || side2 == YELLOW){
+            if(side1 == RED || side2 == RED){
+                return 1;
+            }else if(side1 == GREEN || side2 == GREEN){
+                return 2;
+            }else if(side1 == BLUE || side2 == BLUE){
+                return 3;
+            }else if(side1 == ORANGE || side2 == ORANGE){
+                return 4;
+            }
+        }else if(side1 == RED || side2 == RED){
+            if(side1 == WHITE || side2 == WHITE){
+                return 5;
+            }else if(side1 == GREEN || side2 == GREEN){
+                return 6;
+            }else if(side1 == BLUE || side2 == BLUE){
+                return 7;
+            }
+        }else if(side1 == GREEN || side2 == GREEN){
+            if(side1 == WHITE || side2 == WHITE){
+                return 8;
+            }else if(side1 == ORANGE || side2 == ORANGE){
+                return 9;
+            }
+        }else if(side1 == BLUE || side2 == BLUE){
+            if(side1 == WHITE || side2 == WHITE){
+                return 10;
+            }else if(side1 == ORANGE || side2 == ORANGE){
+                return 11;
+            }
+        }else if(side1 == ORANGE || side2 == ORANGE){
+            if(side1 == WHITE || side2 == WHITE){
+                return 12;
+            }
+        }
+
+        return 0;
+    }
+
 
     /**
      * Method to get the edge parity value of the blue window position
@@ -477,61 +563,65 @@ public class RubikCube {
         return 0;
     }
 
+
     /**
      * Method to test the permutation validitiy of a rubikCube
      * @return true if valid
      */
     private boolean permutationTest(){
-        RubikCube testCube = new RubikCube(rubikCube);
         int sum = 0;
 
-        sum += cornerDistanceToGoal(this.getCubies(6), this.getCubies(11), this.getCubies(12));
-        sum += cornerDistanceToGoal(this.getCubies(0), this.getCubies(9), this.getCubies(51));
-        sum += cornerDistanceToGoal(this.getCubies(2), this.getCubies(17), this.getCubies(53));
-        sum += cornerDistanceToGoal(this.getCubies(8), this.getCubies(14), this.getCubies(15));
-        sum += cornerDistanceToGoal(this.getCubies(36), this.getCubies(29), this.getCubies(30));
-        sum += cornerDistanceToGoal(this.getCubies(38), this.getCubies(33), this.getCubies(32));
-        sum += cornerDistanceToGoal(this.getCubies(44), this.getCubies(47), this.getCubies(35));
-        sum += cornerDistanceToGoal(this.getCubies(42), this.getCubies(45), this.getCubies(47));
+        sum += cornerDistanceToGoal(6, 11, 12);
+        sum += cornerDistanceToGoal(0, 9, 51);
+        sum += cornerDistanceToGoal(2, 17, 53);
+        sum += cornerDistanceToGoal(8, 14, 15);
+        sum += cornerDistanceToGoal(36, 29, 30);
+        sum += cornerDistanceToGoal(38, 33, 32);
+        sum += cornerDistanceToGoal(44, 47, 35);
+        sum += cornerDistanceToGoal(42, 45, 27);
 
-
+        sum += edgeDistanceToGoal(13, 7);
+        sum += edgeDistanceToGoal(21, 20);
+        sum += edgeDistanceToGoal(23, 24);
+        sum += edgeDistanceToGoal(31, 37);
+        sum += edgeDistanceToGoal(1, 52);
+        sum += edgeDistanceToGoal(3, 10);
+        sum += edgeDistanceToGoal(5, 16);
+        sum += edgeDistanceToGoal(18, 26);
+        sum += edgeDistanceToGoal(28, 39);
+        sum += edgeDistanceToGoal(26, 50);
+        sum += edgeDistanceToGoal(34, 41);
+        sum += edgeDistanceToGoal(43, 46);
 
         return (sum % 2) == 0;
     }
 
-    /**
-     * Method to count the edge distance from goal state
-     * @return int of how far it is from goal state
-     */
-    private int edgeDistanceToGoal(int side1, int side2){
-        int edgeLocation = 0;
-
-        int goalLocation = edgeGoalFinder(side1, side2);
-
-        return (edgeLocation - goalLocation);
-    }
-
-    /**
-     * method to find the goal of the specific edge
-     * @param side1 side 1 of the cubie
-     * @param side2 side 2 of the cubie
-     * @return the location of its end goal
-     */
-    private int edgeGoalFinder(int side1, int side2){
-        return 0;
-    }
 
     /**
      * Method to count the edge distance from goal state
      * @return int of how far it is from goal state
      */
     private int cornerDistanceToGoal(int topSide, int side1, int side2){
-        int cornerLocation = validateSingleCorner(topSide, side1, side2);
+        int topColor = this.getCubies(topSide);
+        int side1Color = this.getCubies(side1);
+        int side2Color = this.getCubies(side2);
 
-        int goalLocation = cornerGoalFinder(topSide);
+        int goalLocation = cornerGoalFinder(cornerValue(topColor, side1Color, side2Color));
 
-        return (cornerLocation - goalLocation);
+        int cornerLocation = cornerLocation(topColor, side1Color, side2Color);
+
+        int distance=0;
+
+        if(goalLocation > cornerLocation)
+            distance = goalLocation - cornerLocation;
+        else if(goalLocation < cornerLocation)
+            distance = cornerLocation - goalLocation;
+        else if(goalLocation == cornerLocation)
+            distance = 0;
+
+        return distance;
     }
+
 
     /**
      * method to find the goal of the specific corer
@@ -540,26 +630,221 @@ public class RubikCube {
      */
     private int cornerGoalFinder(int topSide){
 
+        //based on the top side, know where in the goal states to return
         switch(topSide){
-            case 0:
-                return goalStates[9];
-            case 6:
-                return goalStates[0];
+            case 1:
+                return 0;
             case 2:
-                return goalStates[11];
+                return 2;
+            case 3:
+                return 9;
+            case 4:
+                return 11;
+            case 5:
+                return 6;
+            case 6:
+                return 8;
+            case 7:
+                return 17;
             case 8:
-                return goalStates[2];
-            case 36:
-                return goalStates[6];
-            case 38:
-                return goalStates[8];
-            case 44:
-                return goalStates[22];
-            case 42:
-                return goalStates[17];
+                return 22;
         }
 
         return 0;
+    }
+
+    /**
+     * Method that finds the location of that specific corner cube based on color
+     * @param topSide topside color
+     * @param side1 side1 color
+     * @param side2 side2 color
+     * @return location of that cube in array of cubies
+     */
+    private int cornerLocation(int topSide, int side1, int side2){
+        if(this.getCubies(6) == topSide || this.getCubies(6) == side1 || this.getCubies(6) == side2){
+            if(this.getCubies(11) == side1 || this.getCubies(11) == side2 || this.getCubies(11) == topSide){
+                if(this.getCubies(12) == side1 || this.getCubies(12) == side2 || this.getCubies(12) == topSide)
+                    return 0;
+            }
+        }
+        if(this.getCubies(0) == topSide || this.getCubies(0) == side1 || this.getCubies(0) == side2){
+            if(this.getCubies(9) == side1 || this.getCubies(9) == side2 || this.getCubies(9) == topSide){
+                if(this.getCubies(51) == side1 || this.getCubies(51) == side2 || this.getCubies(51) == topSide)
+                    return 9;
+            }
+        }
+        if(this.getCubies(2) == topSide || this.getCubies(2) == side1 || this.getCubies(2) == side2){
+            if(this.getCubies(17) == side1 || this.getCubies(17) == side2 || this.getCubies(17) == topSide){
+                if(this.getCubies(53) == side1 || this.getCubies(53) == side2 || this.getCubies(53) == topSide)
+                    return 11;
+            }
+        }
+        if(this.getCubies(8) == topSide || this.getCubies(8) == side1 || this.getCubies(8) == side2){
+            if(this.getCubies(14) == side1 || this.getCubies(14) == side2 || this.getCubies(14) == topSide){
+                if(this.getCubies(15) == side1 || this.getCubies(15) == side2 || this.getCubies(15) == topSide)
+                    return 2;
+            }
+        }
+        if(this.getCubies(36) == topSide || this.getCubies(36) == side1 || this.getCubies(36) == side2){
+            if(this.getCubies(29) == side1 || this.getCubies(29) == side2 || this.getCubies(29) == topSide){
+                if(this.getCubies(30) == side1 || this.getCubies(30) == side2 || this.getCubies(30) == topSide)
+                    return 6;
+            }
+        }
+        if(this.getCubies(38) == topSide || this.getCubies(38) == side1 || this.getCubies(38) == side2){
+            if(this.getCubies(33) == side1 || this.getCubies(33) == side2 || this.getCubies(33) == topSide){
+                if(this.getCubies(32) == side1 || this.getCubies(32) == side2 || this.getCubies(32) == topSide)
+                    return 8;
+            }
+        }
+        if(this.getCubies(44) == topSide || this.getCubies(42) == side1 || this.getCubies(42) == side2){
+            if(this.getCubies(47) == side1 || this.getCubies(47) == side2 || this.getCubies(47) == topSide){
+                if(this.getCubies(35) == side1 || this.getCubies(35) == side2 || this.getCubies(35) == topSide)
+                    return 22;
+            }
+        }
+        if(this.getCubies(42) == topSide || this.getCubies(42) == side1 || this.getCubies(42) == side2){
+            if(this.getCubies(45) == side1 || this.getCubies(45) == side2  || this.getCubies(45) == topSide){
+                if(this.getCubies(27) == side1 || this.getCubies(27) == side2 || this.getCubies(27) == topSide)
+                    return 17;
+            }
+        }
+
+        return 100;
+    }
+
+
+    /**
+     * Method to count the edge distance from goal state
+     * @return int of how far it is from goal state
+     */
+    private int edgeDistanceToGoal(int side1, int side2){
+        int side1Color = this.getCubies(side1);
+        int side2Color = this.getCubies(side2);
+
+        int goalLocation = edgeGoalFinder(edgeValue(side1Color, side2Color));
+
+        int edgeLocation = edgeLocation(side1Color, side2Color);
+
+        int distance=0;
+
+        if(goalLocation > edgeLocation)
+            distance = goalLocation - edgeLocation;
+        else if(goalLocation < edgeLocation)
+            distance = edgeLocation - goalLocation;
+        else if(goalLocation == edgeLocation)
+            distance = 0;
+
+        return distance;
+    }
+
+
+    /**
+     * method to find the goal of the specific edge
+     * @param side1 side 1 of the edge
+     * @return the location of its end goal
+     */
+    private int edgeGoalFinder(int side1){
+        //based on the top side, know where in the goal states to return
+        switch(side1){
+            case 1:
+                return 1;
+            case 2:
+                return 3;
+            case 3:
+                return 5;
+            case 4:
+                return 7;
+            case 5:
+                return 10;
+            case 6:
+                return 12;
+            case 7:
+                return 14;
+            case 8:
+                return 16;
+            case 9:
+                return 18;
+            case 10:
+                return 20;
+            case 11:
+                return 21;
+            case 12:
+                return 24;
+        }
+
+        return 0;
+    }
+
+    /**
+     * Method that finds the location of that specific edge cube based on color
+     * @param side1 side1 color
+     * @param side2 side2 color
+     * @return location of that cube in array of cubies
+     */
+    private int edgeLocation(int side1, int side2){
+        if(this.getCubies(13) == side1 || this.getCubies(13) == side2){
+            if(this.getCubies(7) == side1 || this.getCubies(7) == side2){
+                return 1;
+            }
+        }
+        if(this.getCubies(21) == side1 || this.getCubies(21) == side2){
+            if(this.getCubies(20) == side1 || this.getCubies(20) == side2){
+                return 3;
+            }
+        }
+        if(this.getCubies(23) == side1 || this.getCubies(23) == side2){
+            if(this.getCubies(24) == side1 || this.getCubies(24) == side2){
+                return 5;
+            }
+        }
+        if(this.getCubies(31) == side1 || this.getCubies(31) == side2){
+            if(this.getCubies(37) == side1 || this.getCubies(37) == side2){
+                return 7;
+            }
+        }
+        if(this.getCubies(1) == side1 || this.getCubies(1) == side2){
+            if(this.getCubies(52) == side1 || this.getCubies(52) == side2){
+                return 10;
+            }
+        }
+        if(this.getCubies(3) == side1 || this.getCubies(3) == side2){
+            if(this.getCubies(10) == side1 || this.getCubies(10) == side2){
+                return 12;
+            }
+        }
+        if(this.getCubies(5) == side1 || this.getCubies(5) == side2){
+            if(this.getCubies(16) == side1 || this.getCubies(16) == side2){
+                return 14;
+            }
+        }
+        if(this.getCubies(18) == side1 || this.getCubies(18) == side2){
+            if(this.getCubies(48) == side1 || this.getCubies(48) == side2){
+                return 15;
+            }
+        }
+        if(this.getCubies(28) == side1 || this.getCubies(28) == side2){
+            if(this.getCubies(39) == side1 || this.getCubies(39) == side2){
+                return 18;
+            }
+        }
+        if(this.getCubies(26) == side1 || this.getCubies(26) == side2){
+            if(this.getCubies(50) == side1 || this.getCubies(50) == side2){
+                return 20;
+            }
+        }
+        if(this.getCubies(34) == side1 || this.getCubies(34) == side2){
+            if(this.getCubies(41) == side1 || this.getCubies(41) == side2){
+                return 21;
+            }
+        }
+        if(this.getCubies(43) == side1 || this.getCubies(43) == side2){
+            if(this.getCubies(46) == side1 || this.getCubies(46) == side2){
+                return 24;
+            }
+        }
+
+        return 100;
     }
 
     /**
@@ -582,6 +867,7 @@ public class RubikCube {
             case GREEN:
                 return "G";
         }
+
         return " ";
     }
 
