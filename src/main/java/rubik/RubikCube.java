@@ -333,14 +333,14 @@ public class RubikCube {
         //corner paradity to check if corners are % 3 away
         sum=0;
 
-        sum += cornerSingleParity(this.getCubies(6), this.getCubies(11), this.getCubies(12));
+        sum += cornerSingleParity(this.getCubies(6), this.getCubies(12), this.getCubies(11));
         sum += cornerSingleParity(this.getCubies(0), this.getCubies(9), this.getCubies(51));
-        sum += cornerSingleParity(this.getCubies(2), this.getCubies(17), this.getCubies(53));
-        sum += cornerSingleParity(this.getCubies(8), this.getCubies(14), this.getCubies(15));
+        sum += cornerSingleParity(this.getCubies(2), this.getCubies(53), this.getCubies(17));
+        sum += cornerSingleParity(this.getCubies(8), this.getCubies(15), this.getCubies(14));
         sum += cornerSingleParity(this.getCubies(36), this.getCubies(29), this.getCubies(30));
-        sum += cornerSingleParity(this.getCubies(38), this.getCubies(33), this.getCubies(32));
-        sum += cornerSingleParity(this.getCubies(44), this.getCubies(47), this.getCubies(35));
-        sum += cornerSingleParity(this.getCubies(42), this.getCubies(45), this.getCubies(47));
+        sum += cornerSingleParity(this.getCubies(38), this.getCubies(32), this.getCubies(33));
+        sum += cornerSingleParity(this.getCubies(44), this.getCubies(35), this.getCubies(47));
+        sum += cornerSingleParity(this.getCubies(42), this.getCubies(45), this.getCubies(27));
 
         //if its greather than 100 there was an error
         return sum <= 100 && (sum % 3) == 0;
@@ -569,31 +569,31 @@ public class RubikCube {
      * @return true if valid
      */
     private boolean permutationTest(){
-        int sum = 0;
+        int cornerSum=0, edgeSum=0;
 
-        sum += cornerDistanceToGoal(6, 11, 12);
-        sum += cornerDistanceToGoal(0, 9, 51);
-        sum += cornerDistanceToGoal(2, 17, 53);
-        sum += cornerDistanceToGoal(8, 14, 15);
-        sum += cornerDistanceToGoal(36, 29, 30);
-        sum += cornerDistanceToGoal(38, 33, 32);
-        sum += cornerDistanceToGoal(44, 47, 35);
-        sum += cornerDistanceToGoal(42, 45, 27);
+        cornerSum += cornerDistanceToGoal(6, 11, 12);
+        cornerSum += cornerDistanceToGoal(0, 9, 51);
+        cornerSum += cornerDistanceToGoal(2, 17, 53);
+        cornerSum += cornerDistanceToGoal(8, 14, 15);
+        cornerSum += cornerDistanceToGoal(36, 29, 30);
+        cornerSum += cornerDistanceToGoal(38, 33, 32);
+        cornerSum += cornerDistanceToGoal(44, 47, 35);
+        cornerSum += cornerDistanceToGoal(42, 45, 27);
 
-        sum += edgeDistanceToGoal(13, 7);
-        sum += edgeDistanceToGoal(21, 20);
-        sum += edgeDistanceToGoal(23, 24);
-        sum += edgeDistanceToGoal(31, 37);
-        sum += edgeDistanceToGoal(1, 52);
-        sum += edgeDistanceToGoal(3, 10);
-        sum += edgeDistanceToGoal(5, 16);
-        sum += edgeDistanceToGoal(18, 26);
-        sum += edgeDistanceToGoal(28, 39);
-        sum += edgeDistanceToGoal(26, 50);
-        sum += edgeDistanceToGoal(34, 41);
-        sum += edgeDistanceToGoal(43, 46);
+        edgeSum += edgeDistanceToGoal(13, 7);
+        edgeSum += edgeDistanceToGoal(21, 20);
+        edgeSum += edgeDistanceToGoal(23, 24);
+        edgeSum += edgeDistanceToGoal(31, 37);
+        edgeSum += edgeDistanceToGoal(1, 52);
+        edgeSum += edgeDistanceToGoal(3, 10);
+        edgeSum += edgeDistanceToGoal(5, 16);
+        edgeSum += edgeDistanceToGoal(18, 48);
+        edgeSum += edgeDistanceToGoal(28, 39);
+        edgeSum += edgeDistanceToGoal(26, 50);
+        edgeSum += edgeDistanceToGoal(34, 41);
+        edgeSum += edgeDistanceToGoal(43, 46);
 
-        return (sum % 2) == 0;
+        return ((edgeSum + cornerSum) % 2) == 0;
     }
 
 
@@ -762,7 +762,7 @@ public class RubikCube {
             case 7:
                 return 14;
             case 8:
-                return 16;
+                return 15;
             case 9:
                 return 18;
             case 10:
