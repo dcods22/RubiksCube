@@ -1,5 +1,7 @@
 import org.junit.*;
 import rubik.Solvable;
+
+import java.io.File;
 import java.io.FileNotFoundException;
 
 public class ValidTest {
@@ -9,62 +11,37 @@ public class ValidTest {
 
     @Test
     public void validTest1() throws FileNotFoundException {
-        try{
-            String filePath = path + valid + "valid1.txt";
-            Solvable s1 = new Solvable(filePath);
-            Assert.assertTrue(s1.isValid());
-        }catch(Exception e){
-            System.out.println("Failed valid test 1");
-            Assert.fail();
-        }
+        String filePath = path + valid + "valid1.txt";
+        Solvable s1 = new Solvable(filePath);
+        Assert.assertTrue(s1.isValid());
     }
 
     @Test
     public void validTest2() throws FileNotFoundException {
-        try{
-            String filePath = path + valid + "valid2.txt";
-            Solvable s1 = new Solvable(filePath);
-            Assert.assertTrue(s1.isValid());
-        }catch(Exception e){
-            System.out.println("Failed valid test 1");
-            Assert.fail();
-        }
+        String filePath = path + valid + "valid2.txt";
+        Solvable s1 = new Solvable(filePath);
+        Assert.assertTrue(s1.isValid());
     }
 
     @Test
     public void validTest3() throws FileNotFoundException {
-        try{
-            String filePath = path + valid + "valid3.txt";
-            Solvable s1 = new Solvable(filePath);
-            Assert.assertTrue(s1.isValid());
-        }catch(Exception e){
-            System.out.println("Failed valid test 1");
-            Assert.fail();
-        }
+        String filePath = path + valid + "valid3.txt";
+        Solvable s1 = new Solvable(filePath);
+        Assert.assertTrue(s1.isValid());
     }
 
     @Test
     public void validTest4() throws FileNotFoundException {
-        try{
-            String filePath = path + valid + "valid4.txt";
-            Solvable s1 = new Solvable(filePath);
-            Assert.assertTrue(s1.isValid());
-        }catch(Exception e){
-            System.out.println("Failed valid test 1");
-            Assert.fail();
-        }
+        String filePath = path + valid + "valid4.txt";
+        Solvable s1 = new Solvable(filePath);
+        Assert.assertTrue(s1.isValid());
     }
 
     @Test
     public void validTest5() throws FileNotFoundException {
-        try{
-            String filePath = path + valid + "valid5.txt";
-            Solvable s1 = new Solvable(filePath);
-            Assert.assertTrue(s1.isValid());
-        }catch(Exception e){
-            System.out.println("Failed valid test 1");
-            Assert.fail();
-        }
+        String filePath = path + valid + "valid5.txt";
+        Solvable s1 = new Solvable(filePath);
+        Assert.assertTrue(s1.isValid());
     }
 
 }

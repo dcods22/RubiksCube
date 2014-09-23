@@ -25,7 +25,45 @@ public class RubikCube {
     private static final int ORANGE = 4;
     private static final int WHITE = 5;
 
-    private int[] goalStates = new int[28];
+    //theoretical goalstate array to keep all cubes in order
+//    private int[] goalStates = new int[28];
+//    //yellow sides
+//    goalStates[0] = 1;      //yellow red green corner cube
+//    goalStates[1] = 1;      //yellow red edge cube
+//    goalStates[2] = 2;      //yellow red blue corner cube
+//    goalStates[3] = 2;      //yellow green edge cube
+//    goalStates[4] = 1;      //yellow middle cube
+//    goalStates[5] = 3;      //yellow blue edge cube
+//    goalStates[6] = 5;      //yellow green orange corner cube
+//    goalStates[7] = 4;      //yellow orange edge cube
+//    goalStates[8] = 6;      //yellow blue orange corner cube
+//
+//    //red sides
+//    goalStates[9] = 3;      //red green white corner cube
+//    goalStates[10] = 5;     //red white edge cube
+//    goalStates[11] = 4;     //red white blue corner cube
+//    goalStates[12] = 6;     //red green edge cube
+//    goalStates[13] = 2;     //red middle cube
+//    goalStates[14] = 7;     //red blue edge cube
+//
+//    //green side
+//    goalStates[15] = 8;     //green white edge cube
+//    goalStates[16] = 3;     //green middle cube
+//    goalStates[17] = 7;     //green white orange corner cube
+//    goalStates[18] = 9;     //green orange edge cube
+//
+//    //blue side
+//    goalStates[19] = 4;     //blue middle cube
+//    goalStates[20] = 10;     //blue white edge cube
+//    goalStates[21] = 11;     //blue orange edge cube
+//    goalStates[22] = 8;     //blue orange white corner cube
+//
+//    //orange side
+//    goalStates[23] = 5;     //orange middle cube
+//    goalStates[24] = 12;    //orange white edge cube
+//
+//    //white side
+//    goalStates[25] = 6;    //white middle cube
 
 
     /**
@@ -35,7 +73,6 @@ public class RubikCube {
      */
     public RubikCube(String file) throws FileNotFoundException {
         rubikCube = new byte[54];
-        initializeGoalStates();
 
         try{
             serialize(file);
@@ -52,57 +89,6 @@ public class RubikCube {
     public RubikCube(byte [] cube){
         rubikCube = cube;
     }
-
-
-    /**
-     * method to initialize the goal states
-     */
-    private void initializeGoalStates(){
-        //order goes front, top, left, right, bottom, back
-        //always starting in top left corner
-        //each corner has its own unique value 1-8
-        //each middle has its own value 1-6
-        //each edge has its own value 1-12
-
-        //yellow sides
-        goalStates[0] = 1;      //yellow red green corner cube
-        goalStates[1] = 1;      //yellow red edge cube
-        goalStates[2] = 2;      //yellow red blue corner cube
-        goalStates[3] = 2;      //yellow green edge cube
-        goalStates[4] = 1;      //yellow middle cube
-        goalStates[5] = 3;      //yellow blue edge cube
-        goalStates[6] = 5;      //yellow green orange corner cube
-        goalStates[7] = 4;      //yellow orange edge cube
-        goalStates[8] = 6;      //yellow blue orange corner cube
-
-        //red sides
-        goalStates[9] = 3;      //red green white corner cube
-        goalStates[10] = 5;     //red white edge cube
-        goalStates[11] = 4;     //red white blue corner cube
-        goalStates[12] = 6;     //red green edge cube
-        goalStates[13] = 2;     //red middle cube
-        goalStates[14] = 7;     //red blue edge cube
-
-        //green side
-        goalStates[15] = 8;     //green white edge cube
-        goalStates[16] = 3;     //green middle cube
-        goalStates[17] = 7;     //green white orange corner cube
-        goalStates[18] = 9;     //green orange edge cube
-
-        //blue side
-        goalStates[19] = 4;     //blue middle cube
-        goalStates[20] = 10;     //blue white edge cube
-        goalStates[21] = 11;     //blue orange edge cube
-        goalStates[22] = 8;     //blue orange white corner cube
-
-        //orange side
-        goalStates[23] = 5;     //orange middle cube
-        goalStates[24] = 12;    //orange white edge cube
-
-        //white side
-        goalStates[25] = 6;    //white middle cube
-    }
-
 
     /**
      * method to serialize the cube
