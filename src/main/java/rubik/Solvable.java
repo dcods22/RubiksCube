@@ -31,7 +31,7 @@ public class Solvable {
         try{
             Solvable solve = new Solvable(args[0]);
 
-            System.out.println(solve.isValid());
+            rubikCube.heuristicTables();
         }catch(Exception e){
             e.printStackTrace();
         }

@@ -1,9 +1,12 @@
 package rubik;
 
+import org.junit.internal.runners.statements.RunBefores;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.BitSet;
 
 /**
  * Created with IntelliJ IDEA.
@@ -124,7 +127,7 @@ public class RubikCube {
                 }
 
             }
-        } catch (IOException e) {
+        }catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -165,6 +168,7 @@ public class RubikCube {
         return rubikString;
     }
 
+    /************************ Validation ********************************/
 
     /**
      * Method to test the validitiy of a cube
@@ -173,13 +177,13 @@ public class RubikCube {
     public boolean validate(){
         //return to make sure the  cube is valid based on counting, middles, and korfs algorithm
         if(!count()){
-            System.out.println("Failed Count Test");
+            //System.out.println("Failed Count Test");
             return false;
         }else if(!middles()){
-            System.out.println("Failed Middles Test");
+            //System.out.println("Failed Middles Test");
             return false;
         }else if(!korf()){
-            System.out.println("Failed Korf Test");
+            //System.out.println("Failed Korf Test");
             return false;
         }
 
@@ -279,14 +283,14 @@ public class RubikCube {
     private boolean korf(){
         //return cornerTest() && edgeTest() && permutationTest();
         if(!cornerTest()){
-            System.out.println("Failed Corner Test");
+            //System.out.println("Failed Corner Test");
             return false;
         }else if(!edgeTest()){
-            System.out.println("Failed Edge Test");
+            //System.out.println("Failed Edge Test");
             return false;
         }
         else if(!permutationTest()){
-            System.out.println("Failed Permutation Test");
+            //System.out.println("Failed Permutation Test");
             return false;
         }
 
@@ -856,6 +860,190 @@ public class RubikCube {
 
         return " ";
     }
+
+    /************************ Heuristic Tables ********************************/
+
+    /**
+     * function to make a goal state cube
+     */
+    public byte[] goalState(){
+        byte[] goal = new byte[54];
+
+        String line;
+        int pos = 0;
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("/Users/Dan/Documents/Marist/Semester 7/AI/RubiksCube/src/main/java/rubik/goalstate.txt"));
+
+            //turn file into a serialized version in a byte array
+            while((line = reader.readLine()) != null){
+                line = line.trim();
+                for(int i=0; i < line.length(); i++){
+                    String cube = line.substring(i, i+1);
+
+                    if (cube.equals("R")) {
+                        goal[pos++] = RED;
+                    } else if (cube.equals("G")) {
+                        goal[pos++] = GREEN;
+                    } else if (cube.equals("Y")) {
+                        goal[pos++] = YELLOW;
+                    } else if (cube.equals("B")) {
+                        goal[pos++] = BLUE;
+                    } else if (cube.equals("O")) {
+                        goal[pos++] = ORANGE;
+                    } else if (cube.equals("W")) {
+                        goal[pos++] = WHITE;
+                    }
+                }
+
+            }
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return goal;
+    }
+
+    /**
+     * Function to make the heuristic tables
+     */
+    public void heuristicTables(){
+        //create three goal state cubes
+        RubikCube cube1 = new RubikCube(goalState());
+        RubikCube cube2 = new RubikCube(goalState());
+        RubikCube cube3 = new RubikCube(goalState());
+
+        //create the three tables
+        firstEdgeTable(cube1);
+        secondEdgeTable(cube2);
+        cornerTable(cube3);
+    }
+
+    /**
+     * Function to make the first set of edge heuristic tables
+     * @param cube copy of a goalstate cube
+     */
+    public void firstEdgeTable(RubikCube cube){
+        //pick 6 edges
+        //make every possible move for each branch
+        //continue to do so until your node has been repeated
+        //save how deep each move is
+        //use breadth first search
+        //do all 18 possible moves
+
+        //edge 7 & 13
+        //edge 5 & 16
+        //edge 1 & 52
+        //edge 3 & 10
+        //edge 20 & 21
+        //edge 23 & 24
+
+
+    }
+
+    /**
+     * Function to make the second set of edge heuristic tables
+     * @param cube copy of a goalstate cube
+     */
+    public void secondEdgeTable(RubikCube cube){
+        //pick 6 edges
+        //make every possible move for each branch
+        //continue to do so until your node has been repeated
+        //save how deep each move is
+        //use breadth first search
+        //do all 18 possible moves
+
+        //declerations before search
+        byte table[] = new byte[30240];
+        int depth, loc;
+
+        //TODO write the search
+        //bredth first search
+        depth = 0;
+
+        loc = getSecondEdgeLoc(cube);
+
+        table[loc] = (byte) depth;
+
+        //after search ends make the table
+        writeFile(table, "SecondEdge");
+    }
+
+    /**
+     * Function to get the location of it at the table
+     * @param cube copy of the current rubiks cube
+     * @return location at the table the depth should be stored
+     */
+    public int getSecondEdgeLoc(RubikCube cube){
+        //edge 41 & 34
+        //edge 31 & 37
+        //edge 43 & 46
+        //edge 39 & 28
+        //edge 18 & 48
+        //edge 26 & 50
+        int edgeValue, edgeOrientation, finalValue;
+        int row[] = new int[5];
+
+        edgeValue = singleEdgeParity(41, 34);
+        //TODO get edge orientation
+        edgeOrientation = 0;
+        finalValue = 3 * edgeValue + edgeOrientation + 1;
+        row[0] = finalValue;
+
+        edgeValue = singleEdgeParity(31, 37);
+        edgeOrientation = 0;
+        finalValue = 3 * edgeValue + edgeOrientation + 1;
+        row[1] = finalValue;
+
+        edgeValue = singleEdgeParity(43, 46);
+        edgeOrientation = 0;
+        finalValue = 3 * edgeValue + edgeOrientation + 1;
+        row[2] = finalValue;
+
+        edgeValue = singleEdgeParity(39, 28);
+        edgeOrientation = 0;
+        finalValue = 3 * edgeValue + edgeOrientation + 1;
+        row[3] = finalValue;
+
+        edgeValue = singleEdgeParity(18, 48);
+        edgeOrientation = 0;
+        finalValue = 3 * edgeValue + edgeOrientation + 1;
+        row[4] = finalValue;
+
+        edgeValue = singleEdgeParity(26, 50);
+        edgeOrientation = 0;
+        finalValue = 3 * edgeValue + edgeOrientation + 1;
+        row[5] = finalValue;
+
+        //TODO write the hash for the edges
+        return hashEdgeRow(row);
+    }
+
+    /**
+     * function to hash the edge cubes for the huristic tables
+     * @param row the copy of the specific edges
+     */
+    public int hashEdgeRow(int[] row){
+
+        return 0;
+    }
+
+    /**
+     * Function to make the corner heuristic tables
+     * @param cube copy of a goalstate cube
+     */
+    public void cornerTable(RubikCube cube){
+
+    }
+
+    /**
+     * function to write the table to a file
+     */
+    public void writeFile(byte[] table, String fileName){
+
+    }
+
+    /************************ Helper Functions ********************************/
 
     /**
      * Overwrite of the toString method
