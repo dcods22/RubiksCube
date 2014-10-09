@@ -923,7 +923,7 @@ public class RubikCube {
      * Function to make the first set of edge heuristic tables
      * @param cube copy of a goalstate cube
      */
-    public void firstEdgeTable(RubikCube cube){
+    private void firstEdgeTable(RubikCube cube){
         //pick 6 edges
         //make every possible move for each branch
         //continue to do so until your node has been repeated
@@ -945,7 +945,7 @@ public class RubikCube {
      * Function to make the second set of edge heuristic tables
      * @param cube copy of a goalstate cube
      */
-    public void secondEdgeTable(RubikCube cube){
+    private void secondEdgeTable(RubikCube cube){
         //pick 6 edges
         //make every possible move for each branch
         //continue to do so until your node has been repeated
@@ -974,72 +974,170 @@ public class RubikCube {
      * @param cube copy of the current rubiks cube
      * @return location at the table the depth should be stored
      */
-    public int getSecondEdgeLoc(RubikCube cube){
-        //edge 41 & 34
-        //edge 31 & 37
-        //edge 43 & 46
-        //edge 39 & 28
-        //edge 18 & 48
-        //edge 26 & 50
-        int edgeValue, edgeOrientation, finalValue;
-        int row[] = new int[5];
+    private int getSecondEdgeLoc(RubikCube cube){
 
-        edgeValue = singleEdgeParity(41, 34);
-        //TODO get edge orientation
-        edgeOrientation = 0;
-        finalValue = 3 * edgeValue + edgeOrientation + 1;
-        row[0] = finalValue;
+        //do search now
+        int[] row = makeFirstEdgeRow(cube);
 
-        edgeValue = singleEdgeParity(31, 37);
-        edgeOrientation = 0;
-        finalValue = 3 * edgeValue + edgeOrientation + 1;
-        row[1] = finalValue;
-
-        edgeValue = singleEdgeParity(43, 46);
-        edgeOrientation = 0;
-        finalValue = 3 * edgeValue + edgeOrientation + 1;
-        row[2] = finalValue;
-
-        edgeValue = singleEdgeParity(39, 28);
-        edgeOrientation = 0;
-        finalValue = 3 * edgeValue + edgeOrientation + 1;
-        row[3] = finalValue;
-
-        edgeValue = singleEdgeParity(18, 48);
-        edgeOrientation = 0;
-        finalValue = 3 * edgeValue + edgeOrientation + 1;
-        row[4] = finalValue;
-
-        edgeValue = singleEdgeParity(26, 50);
-        edgeOrientation = 0;
-        finalValue = 3 * edgeValue + edgeOrientation + 1;
-        row[5] = finalValue;
-
-        //TODO write the hash for the edges
+        //function that gets the location of the depth in the table
         return hashEdgeRow(row);
     }
 
     /**
-     * function to hash the edge cubes for the huristic tables
-     * @param row the copy of the specific edges
+     * function to make a row off of a specific instance of a cube
+     * @param cube a copy of the cube
+     * @return the row of the specific edge values
      */
-    public int hashEdgeRow(int[] row){
+    private int[] makeFirstEdgeRow(RubikCube cube){
+        //intitalize the variables
+        int edgeValue, edgeOrientation, finalValue;
+        int row[] = new int[5];
 
-        return 0;
+        //TODO get edge orientation
+        edgeValue = edgeValueForRow(cube, RED, YELLOW);
+        edgeOrientation = 0;
+        finalValue = 3 * edgeValue + edgeOrientation + 1;
+        row[0] = finalValue;
+
+        edgeValue = edgeValueForRow(cube, RED, BLUE);
+        edgeOrientation = 0;
+        finalValue = 3 * edgeValue + edgeOrientation + 1;
+        row[1] = finalValue;
+
+        edgeValue = edgeValueForRow(cube, RED, WHITE);
+        edgeOrientation = 0;
+        finalValue = 3 * edgeValue + edgeOrientation + 1;
+        row[2] = finalValue;
+
+        edgeValue = edgeValueForRow(cube, RED, GREEN);
+        edgeOrientation = 0;
+        finalValue = 3 * edgeValue + edgeOrientation + 1;
+        row[3] = finalValue;
+
+        edgeValue = edgeValueForRow(cube, YELLOW, GREEN);
+        edgeOrientation = 0;
+        finalValue = 3 * edgeValue + edgeOrientation + 1;
+        row[4] = finalValue;
+
+        edgeValue = edgeValueForRow(cube, YELLOW, BLUE);
+        edgeOrientation = 0;
+        finalValue = 3 * edgeValue + edgeOrientation + 1;
+        row[5] = finalValue;
+
+        return row;
+    }
+
+    /**
+     * function to get the edge value for the row
+     * @param cube copy of the cube
+     * @param color1 the colors were looking for
+     * @param color2 the colors were looking for
+     * @return the value of where that cube is
+     */
+    private int edgeValueForRow(RubikCube cube, int color1, int color2){
+        int edgeVal = edgeValue(color1, color2);
+
+        if(edgeValue(cube.getCubies(7), cube.getCubies(13)) == edgeVal){
+            return 0;
+        }else if(edgeValue(cube.getCubies(5), cube.getCubies(16)) == edgeVal){
+            return 1;
+        }else if(edgeValue(cube.getCubies(1), cube.getCubies(52)) == edgeVal){
+            return 2;
+        }else if(edgeValue(cube.getCubies(3), cube.getCubies(10)) == edgeVal){
+            return 3;
+        }else if(edgeValue(cube.getCubies(20), cube.getCubies(23)) == edgeVal){
+            return 4;
+        }else if(edgeValue(cube.getCubies(23), cube.getCubies(24)) == edgeVal){
+            return 5;
+        }else if(edgeValue(cube.getCubies(18), cube.getCubies(48)) == edgeVal){
+            return 6;
+        }else if(edgeValue(cube.getCubies(26), cube.getCubies(50)) == edgeVal){
+            return 7;
+        }else if(edgeValue(cube.getCubies(31), cube.getCubies(37)) == edgeVal){
+            return 8;
+        }else if(edgeValue(cube.getCubies(28), cube.getCubies(39)) == edgeVal){
+            return 9;
+        }else if(edgeValue(cube.getCubies(41), cube.getCubies(34)) == edgeVal){
+            return 10;
+        }else if(edgeValue(cube.getCubies(43), cube.getCubies(46)) == edgeVal){
+            return 11;
+        }
+
+        return 100;
+    }
+
+    /**
+     * function to hash the edge cubes for the heuristic tables
+     * @param row the copy of the specific edges in an integer array
+     */
+    private int hashEdgeRow(int[] row){
+        int val = (row[0] - 1) * factorial(5);
+        int sum = val;
+
+        decreaseArray(row, 1);
+        val = (row[1] - 1) * factorial(4);
+        sum += val;
+
+        decreaseArray(row, 2);
+        val = (row[2] - 1) * factorial(3);
+        sum += val;
+
+        decreaseArray(row, 3);
+        val = (row[3] - 1) * factorial(2);
+        sum += val;
+
+        decreaseArray(row, 4);
+        val = (row[4] - 1) * factorial(1);
+        sum += val;
+
+        decreaseArray(row, 5);
+        //always is 0
+        val = (row[5] - 1) * 0;
+        sum += val;
+
+        return sum;
+    }
+
+    /**
+     * function to decrease every value in array
+     * @param row the reference to the array
+     * @param index location to start at
+     */
+    private void decreaseArray(int[] row, int index){
+        for(int i=index; i < row.length; i++){
+            int val = row[i];
+            val--;
+            row[i] = val;
+        }
+    }
+
+    /**
+     * function to get the factorial of a number
+     * @param num the number to get the factorial of
+     * @return the factorial of that number
+     */
+    private int factorial(int num){
+        int fact = 0;
+
+        for(int i=num; i >= 1; i--){
+            fact *= i;
+        }
+
+        return fact;
     }
 
     /**
      * Function to make the corner heuristic tables
      * @param cube copy of a goalstate cube
      */
-    public void cornerTable(RubikCube cube){
+    private void cornerTable(RubikCube cube){
 
     }
 
     /**
      * function to write the table to a file
      */
-    public void writeFile(byte[] table, String fileName){
+    private void writeFile(byte[] table, String fileName){
 
     }
 

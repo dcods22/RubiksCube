@@ -8,7 +8,7 @@
     <file path="/Solvable.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1412708776126" ignored="false" />
     <file path="/fragment.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1411780275972" ignored="false" />
     <file path="/InvalidCube.txt" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1410734463575" ignored="false" />
-    <file path="/RubikCube.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1412820149045" ignored="false" />
+    <file path="/RubikCube.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1412861556616" ignored="false" />
     <file path="/ValidTest.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1411437572176" ignored="false" />
     <file path="/Dummy.txt" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1411488583812" ignored="false" />
     <file path="/InvalidTest.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1411437683386" ignored="false" />
@@ -96,7 +96,7 @@
       <file leaf-file-name="RubikCube.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/rubik/RubikCube.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1009" column="124" selection-start="33766" selection-end="33766" vertical-scroll-proportion="0.31476322">
+            <state line="994" column="0" selection-start="33247" selection-end="33247" vertical-scroll-proportion="0.19331396">
               <folding />
             </state>
           </provider>
@@ -158,7 +158,7 @@
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
     <option name="width" value="1440" />
-    <option name="height" value="877" />
+    <option name="height" value="873" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -536,7 +536,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="877" extended-state="0" />
+    <frame x="0" y="23" width="1440" height="873" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -709,7 +709,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/rubik/RubikCube.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1009" column="124" selection-start="33766" selection-end="33766" vertical-scroll-proportion="0.31476322">
+        <state line="994" column="0" selection-start="33247" selection-end="33247" vertical-scroll-proportion="0.19331396">
           <folding />
         </state>
       </provider>
