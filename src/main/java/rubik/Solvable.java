@@ -13,14 +13,11 @@ import java.io.IOException;
  */
 public class Solvable {
 
-    //Global for the cube
-    protected static RubikCube rubikCube;
-
     /**
      * constructor to create a solvable class
      */
     public Solvable(String file) throws FileNotFoundException {
-        rubikCube = new RubikCube(file);
+
     }
 
     /**
@@ -29,30 +26,16 @@ public class Solvable {
      */
     public static void main(String args[]){
         try{
-            Solvable solve = new Solvable(args[0]);
+            RubikCube rubikCube = new RubikCube(args[0]);
 
             rubikCube.heuristicTables();
+//            System.out.println(rubikCube);
+//            rubikCube.rotate(1);
+//            System.out.println(rubikCube);
+
         }catch(Exception e){
             e.printStackTrace();
         }
     }
-
-    /**
-     * Method to test the validitiy of a cube
-     * @return true if valid
-     */
-    public boolean isValid(){
-        return rubikCube.validate();
-    }
-
-    /**
-     * Overwrite of the toString method
-     * @return string printout of the current cube
-     */
-    public String toString(){
-        return rubikCube.toString();
-    }
-
-
 
 }

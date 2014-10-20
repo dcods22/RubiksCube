@@ -18,18 +18,18 @@ import java.util.LinkedList;
  * Time: 2:04 PM
  * To change this template use File | Settings | File Templates.
  */
-public class RubikCube {
+public class RubikCube implements Cloneable {
 
     //array reference to the serialized cube
-    private static byte[] rubikCube;
+    protected byte[] rubikCube;
 
     //static ints for colors
-    private static final int RED = 0;
-    private static final int GREEN = 1;
+    private static final int RED    = 0;
+    private static final int GREEN  = 1;
     private static final int YELLOW = 2;
-    private static final int BLUE= 3;
+    private static final int BLUE   = 3;
     private static final int ORANGE = 4;
-    private static final int WHITE = 5;
+    private static final int WHITE  = 5;
 
     //theoretical goalstate array to keep all cubes in order
 //    private int[] goalStates = new int[28];
@@ -94,6 +94,22 @@ public class RubikCube {
      */
     public RubikCube(byte [] cube){
         rubikCube = cube;
+    }
+
+    /**
+     * copy consturctor
+     * @param cube Rubikcube to copy
+     */
+    public RubikCube(RubikCube cube){
+        this.rubikCube = cube.rubikCube;
+    }
+
+    /**
+     * Funciton to clone an object
+     */
+    @Override
+    public RubikCube clone() throws CloneNotSupportedException {
+        return (RubikCube) super.clone();
     }
 
     /**
@@ -326,14 +342,14 @@ public class RubikCube {
         //corner paradity to check if corners are % 3 away
         sum=0;
 
-        sum += cornerSingleParity(this.getCubies(6), this.getCubies(12), this.getCubies(11));
-        sum += cornerSingleParity(this.getCubies(0), this.getCubies(9), this.getCubies(51));
-        sum += cornerSingleParity(this.getCubies(2), this.getCubies(53), this.getCubies(17));
-        sum += cornerSingleParity(this.getCubies(8), this.getCubies(15), this.getCubies(14));
-        sum += cornerSingleParity(this.getCubies(36), this.getCubies(29), this.getCubies(30));
-        sum += cornerSingleParity(this.getCubies(38), this.getCubies(32), this.getCubies(33));
-        sum += cornerSingleParity(this.getCubies(44), this.getCubies(35), this.getCubies(47));
-        sum += cornerSingleParity(this.getCubies(42), this.getCubies(45), this.getCubies(27));
+        sum += cornerOrientation(this.getCubies(6), this.getCubies(12), this.getCubies(11));
+        sum += cornerOrientation(this.getCubies(0), this.getCubies(9), this.getCubies(51));
+        sum += cornerOrientation(this.getCubies(2), this.getCubies(53), this.getCubies(17));
+        sum += cornerOrientation(this.getCubies(8), this.getCubies(15), this.getCubies(14));
+        sum += cornerOrientation(this.getCubies(36), this.getCubies(29), this.getCubies(30));
+        sum += cornerOrientation(this.getCubies(38), this.getCubies(32), this.getCubies(33));
+        sum += cornerOrientation(this.getCubies(44), this.getCubies(35), this.getCubies(47));
+        sum += cornerOrientation(this.getCubies(42), this.getCubies(45), this.getCubies(27));
 
         //if its greather than 100 there was an error
         return sum <= 100 && (sum % 3) == 0;
@@ -402,7 +418,7 @@ public class RubikCube {
      * @param side2 second side of the corner cubie
      * @return the paradity integer
      */
-    private int cornerSingleParity(int sideTop, int side1, int side2){
+    private int cornerOrientation(int sideTop, int side1, int side2){
 
         //check to see the direction of the cubie, which figures out what value to assign to the parity
         if(sideTop == RED || sideTop == ORANGE){
@@ -427,28 +443,28 @@ public class RubikCube {
         int sum=0;
 
         //blue window 1
-        sum += singleEdgeParity(this.getCubies(1),this.getCubies(52));
-        sum += singleEdgeParity(this.getCubies(7),this.getCubies(13));
+        sum += edgeOrientation(this.getCubies(1),this.getCubies(52));
+        sum += edgeOrientation(this.getCubies(7),this.getCubies(13));
 
         //blue window 2
-        sum += singleEdgeParity(this.getCubies(23),this.getCubies(24));
-        sum += singleEdgeParity(this.getCubies(21),this.getCubies(20));
+        sum += edgeOrientation(this.getCubies(23),this.getCubies(24));
+        sum += edgeOrientation(this.getCubies(21),this.getCubies(20));
 
         //blue window 3
-        sum += singleEdgeParity(this.getCubies(37),this.getCubies(31));
-        sum += singleEdgeParity(this.getCubies(43),this.getCubies(46));
+        sum += edgeOrientation(this.getCubies(37),this.getCubies(31));
+        sum += edgeOrientation(this.getCubies(43),this.getCubies(46));
 
         //blue window 4
-        sum += singleEdgeParity(this.getCubies(50),this.getCubies(26));
-        sum += singleEdgeParity(this.getCubies(48),this.getCubies(18));
+        sum += edgeOrientation(this.getCubies(50),this.getCubies(26));
+        sum += edgeOrientation(this.getCubies(48),this.getCubies(18));
 
         //blue window 5
-        sum += singleEdgeParity(this.getCubies(16),this.getCubies(5));
-        sum += singleEdgeParity(this.getCubies(34),this.getCubies(41));
+        sum += edgeOrientation(this.getCubies(16),this.getCubies(5));
+        sum += edgeOrientation(this.getCubies(34),this.getCubies(41));
 
         //blue window 6
-        sum += singleEdgeParity(this.getCubies(10),this.getCubies(3));
-        sum += singleEdgeParity(this.getCubies(28),this.getCubies(39));
+        sum += edgeOrientation(this.getCubies(10),this.getCubies(3));
+        sum += edgeOrientation(this.getCubies(28),this.getCubies(39));
 
         //check to make sure each windows sum is a factor of two
         return (sum % 2) == 0;
@@ -508,7 +524,7 @@ public class RubikCube {
      * @param sideCubie side cubie
      * @return
      */
-    private int singleEdgeParity(int topCubie, int sideCubie){
+    private int edgeOrientation(int topCubie, int sideCubie){
         //RED TOP
         if(topCubie==RED && sideCubie==YELLOW)
             return 1;
@@ -910,16 +926,16 @@ public class RubikCube {
     /**
      * Function to make the heuristic tables
      */
-    public void heuristicTables(){
+    public void heuristicTables() throws CloneNotSupportedException {
         //create three goal state cubes
         RubikCube cube1 = new RubikCube(goalState());
         RubikCube cube2 = new RubikCube(goalState());
         RubikCube cube3 = new RubikCube(goalState());
 
         //create the three tables
-        firstEdgeTable(cube1);
+        //firstEdgeTable(cube1);
         secondEdgeTable(cube2);
-        cornerTable(cube3);
+        //cornerTable(cube3);
     }
 
     /**
@@ -927,13 +943,6 @@ public class RubikCube {
      * @param cube copy of a goalstate cube
      */
     private void firstEdgeTable(RubikCube cube){
-        //pick 6 edges
-        //make every possible move for each branch
-        //continue to do so until your node has been repeated
-        //save how deep each move is
-        //use breadth first search
-        //do all 18 possible moves
-
 
     }
 
@@ -941,7 +950,7 @@ public class RubikCube {
      * Function to make the second set of edge heuristic tables
      * @param cube copy of a goalstate cube
      */
-    private void secondEdgeTable(RubikCube cube){
+    private void secondEdgeTable(RubikCube cube) throws CloneNotSupportedException {
         //pick 6 edges
         //make every possible move for each branch
         //continue to do so until your node has been repeated
@@ -951,126 +960,174 @@ public class RubikCube {
 
         //declerations before search
         byte table[] = new byte[21288960];
-        int depth, loc;
+        int depth = 0, loc;
 
         //use queue add new objects to end bredth first search
         LinkedList<RubikCube> searchQueue = new LinkedList();
+        LinkedList<Integer> depthQueue = new LinkedList();
 
         RubikCube currCube;
         RubikCube parentCube;
         searchQueue.add(cube);
-        depth = 0;
+        depthQueue.add(depth);
+        int i=0;
 
         //operate search
         while(searchQueue.size() > 0){
             //get the current cube and add it to the final array
             parentCube = searchQueue.remove();
-
-            //TODO figure out depth
+            depth = depthQueue.remove();
             loc = getSecondEdgeLoc(parentCube);
             table[loc] = (byte) depth;
 
             //turn cube every possible way and add them to the queue
 
-            //side 1
-            currCube = parentCube;
-            currCube.rotateBack(1);
-            if(edgeExists(currCube, table, searchQueue))
+            //side 1 Back Face
+            currCube = parentCube.clone();
+            currCube.rotateBack(1, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
 
-            currCube = parentCube;
-            currCube.rotateBack(2);
-            if(edgeExists(currCube, table, searchQueue))
+
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateBack(2, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
 
-            currCube = parentCube;
+            currCube = new RubikCube(parentCube);
             currCube.rotateBack(3);
-            if(edgeExists(currCube, table, searchQueue))
+            if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
 
 
-            //side 2
-            currCube = parentCube;
-            currCube.rotateDown(1);
-            if(edgeExists(currCube, table, searchQueue))
+            //side 2 Down Face
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateBottom(1);
+            if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
 
-            currCube = parentCube;
-            currCube.rotateDown(2);
-            if(edgeExists(currCube, table, searchQueue))
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateBottom(2, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
 
-            currCube = parentCube;
-            currCube.rotateDown(3);
-            if(edgeExists(currCube, table, searchQueue))
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateBottom(3);
+            if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
 
 
-            //side 3
-            currCube = parentCube;
-            currCube.rotateFront(1);
-            if(edgeExists(currCube, table, searchQueue))
+            //side 3 Front Face
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateFront(1, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
 
-            currCube = parentCube;
-            currCube.rotateFront(2);
-            if(edgeExists(currCube, table, searchQueue))
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateFront(2, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
 
-            currCube = parentCube;
-            currCube.rotateFront(3);
-            if(edgeExists(currCube, table, searchQueue))
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateFront(3, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
 
 
-            //side 4
-            currCube = parentCube;
-            currCube.rotateLeft(1);
-            if(edgeExists(currCube, table, searchQueue))
+            //side 4 Left Face
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateLeft(1, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
 
-            currCube = parentCube;
-            currCube.rotateLeft(2);
-            if(edgeExists(currCube, table, searchQueue))
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateLeft(2, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
 
-            currCube = parentCube;
-            currCube.rotateLeft(3);
-            if(edgeExists(currCube, table, searchQueue))
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateLeft(3, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
-
-
-            //side 5
-            currCube.rotateRight(1);
-            if(edgeExists(currCube, table, searchQueue))
-                searchQueue.add(currCube);
-            currCube.rotateRight(2);
-            if(edgeExists(currCube, table, searchQueue))
-                searchQueue.add(currCube);
-            currCube.rotateRight(3);
-            if(edgeExists(currCube, table, searchQueue))
-                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
 
 
-            //side 6
-            currCube = parentCube;
-            currCube.rotateTop(1);
-            if(edgeExists(currCube, table, searchQueue))
+            //side 5 Right Face
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateRight(1, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
 
-            currCube = parentCube;
-            currCube.rotateTop(2);
-            if(edgeExists(currCube, table, searchQueue))
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateRight(2, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
 
-            currCube = parentCube;
-            currCube.rotateTop(3);
-            if(edgeExists(currCube, table, searchQueue))
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateRight(3, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+
+            //side 6 Top Face
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateTop(1, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateTop(2, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateTop(3, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+            i++;
+            if(i % 100 == 0){
+                System.out.println(searchQueue.size());
+            }
         }
 
         //after search ends make the searchQueue
-        writeFile(table, "SecondEdge");
+        writeEdgeFile(table, "SecondEdge.txt");
     }
 
     /**
@@ -1083,7 +1140,7 @@ public class RubikCube {
         int loc = getSecondEdgeLoc(cube);
         byte t = table[loc];
 
-        if(t == 0 && table.length > 1){
+        if(t != 0 && loc != 0){
             return false;
         }
 
@@ -1118,35 +1175,35 @@ public class RubikCube {
     private int[] makeSecondEdgeRow(RubikCube cube){
         //initialize the variables
         int edgeValue, edgeOrientation, finalValue;
-        int row[] = new int[5];
+        int row[] = new int[6];
 
         edgeValue = edgeValueForRow(cube, RED, YELLOW);
-        edgeOrientation = singleEdgeParity(RED, YELLOW);
+        edgeOrientation = edgeOrientation(RED, YELLOW);
         finalValue = 3 * edgeValue + edgeOrientation + 1;
         row[0] = finalValue;
 
         edgeValue = edgeValueForRow(cube, RED, BLUE);
-        edgeOrientation = singleEdgeParity(RED, BLUE);
+        edgeOrientation = edgeOrientation(RED, BLUE);
         finalValue = 3 * edgeValue + edgeOrientation + 1;
         row[1] = finalValue;
 
         edgeValue = edgeValueForRow(cube, RED, WHITE);
-        edgeOrientation = singleEdgeParity(RED, WHITE);
+        edgeOrientation = edgeOrientation(RED, WHITE);
         finalValue = 3 * edgeValue + edgeOrientation + 1;
         row[2] = finalValue;
 
         edgeValue = edgeValueForRow(cube, RED, GREEN);
-        edgeOrientation = singleEdgeParity(RED, GREEN);
+        edgeOrientation = edgeOrientation(RED, GREEN);
         finalValue = 3 * edgeValue + edgeOrientation + 1;
         row[3] = finalValue;
 
         edgeValue = edgeValueForRow(cube, YELLOW, GREEN);
-        edgeOrientation = singleEdgeParity(YELLOW, GREEN);
+        edgeOrientation = edgeOrientation(YELLOW, GREEN);
         finalValue = 3 * edgeValue + edgeOrientation + 1;
         row[4] = finalValue;
 
         edgeValue = edgeValueForRow(cube, YELLOW, BLUE);
-        edgeOrientation = singleEdgeParity(YELLOW, BLUE);
+        edgeOrientation = edgeOrientation(YELLOW, BLUE);
         finalValue = 3 * edgeValue + edgeOrientation + 1;
         row[5] = finalValue;
 
@@ -1241,7 +1298,299 @@ public class RubikCube {
      * Function to make the corner heuristic tables
      * @param cube copy of a goalstate cube
      */
-    private void cornerTable(RubikCube cube){
+    private void cornerTable(RubikCube cube) throws CloneNotSupportedException {
+        byte table[] = new byte[88179840];
+        int depth = 0, loc;
+
+        //use queue add new objects to end bredth first search
+        LinkedList<RubikCube> searchQueue = new LinkedList();
+        LinkedList<Integer> depthQueue = new LinkedList();
+
+        RubikCube currCube;
+        RubikCube parentCube;
+        searchQueue.add(cube);
+        depthQueue.add(depth);
+        int i=0;
+
+        while(searchQueue.size() > 0){
+            //get the current cube and add it to the final array
+            parentCube = searchQueue.remove();
+            depth = depthQueue.remove();
+            loc = getCornerLoc(parentCube);
+            table[loc] = (byte) depth;
+
+            //turn cube every possible way and add them to the queue
+
+            //side 1 Back Face
+            currCube = parentCube.clone();
+            currCube.rotateBack(1, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateBack(2, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+            currCube = new RubikCube(parentCube);
+            currCube.rotateBack(3);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+
+            //side 2 Down Face
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateBottom(1);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateBottom(2, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateBottom(3);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+
+            //side 3 Front Face
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateFront(1, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateFront(2, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateFront(3, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+
+            //side 4 Left Face
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateLeft(1, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateLeft(2, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateLeft(3, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+
+            //side 5 Right Face
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateRight(1, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateRight(2, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateRight(3, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+
+            //side 6 Top Face
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateTop(1, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateTop(2, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+            currCube = new RubikCube(parentCube.rubikCube);
+            currCube.rotateTop(3, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+            i++;
+            if(i % 100 == 0){
+                System.out.println(searchQueue.size());
+            }
+        }
+
+        //after search ends make the searchQueue
+        writeCornerFile(table, "Corner.txt");
+    }
+
+    private int getCornerLoc(RubikCube cube){
+        //do search now
+        int[] row = makeCornerRow(cube);
+
+        //function that gets the location of the depth in the table
+        return hashCornerRow(row);
+    }
+
+    private int[] makeCornerRow(RubikCube cube){
+        int[] row = new int[7];
+        int cornerValue, cornerOrientation, finalValue;
+
+        cornerValue = cornerValueForRow(cube, RED, YELLOW, GREEN);
+        cornerOrientation = cornerOrientation(RED, YELLOW, GREEN);
+        finalValue = 3 * cornerValue + cornerOrientation + 1;
+        row[0] = finalValue;
+
+        cornerValue = cornerValueForRow(cube, RED, YELLOW, BLUE);
+        cornerOrientation = cornerOrientation(RED, YELLOW, BLUE);
+        finalValue = 3 * cornerValue + cornerOrientation + 1;
+        row[1] = finalValue;
+
+        cornerValue = cornerValueForRow(cube, RED, WHITE, GREEN);
+        cornerOrientation = cornerOrientation(RED, WHITE, GREEN);
+        finalValue = 3 * cornerValue + cornerOrientation + 1;
+        row[2] = finalValue;
+
+        cornerValue = cornerValueForRow(cube, RED, WHITE, BLUE);
+        cornerOrientation = cornerOrientation(RED, WHITE, BLUE);
+        finalValue = 3 * cornerValue + cornerOrientation + 1;
+        row[3] = finalValue;
+
+        cornerValue = cornerValueForRow(cube, ORANGE, YELLOW, GREEN);
+        cornerOrientation = cornerOrientation(ORANGE, YELLOW, GREEN);
+        finalValue = 3 * cornerValue + cornerOrientation + 1;
+        row[4] = finalValue;
+
+        cornerValue = cornerValueForRow(cube, ORANGE, YELLOW, BLUE);
+        cornerOrientation = cornerOrientation(ORANGE, YELLOW, BLUE);
+        finalValue = 3 * cornerValue + cornerOrientation + 1;
+        row[5] = finalValue;
+
+        cornerValue = cornerValueForRow(cube, ORANGE, WHITE, GREEN);
+        cornerOrientation = cornerOrientation(ORANGE, WHITE, GREEN);
+        finalValue = 3 * cornerValue + cornerOrientation + 1;
+        row[6] = finalValue;
+
+        return row;
+    }
+
+    private int cornerValueForRow(RubikCube cube, int side1, int side2, int side3){
+        int cornerVal = cornerValue(side1, side2, side3);
+
+        if(cornerValue(cube.getCubies(0), cube.getCubies(9), cube.getCubies(51)) == cornerVal){
+            return 0;
+        }else if(cornerValue(cube.getCubies(2), cube.getCubies(17), cube.getCubies(53)) == cornerVal){
+            return 1;
+        }else if(cornerValue(cube.getCubies(6), cube.getCubies(11), cube.getCubies(12)) == cornerVal){
+            return 2;
+        }else if(cornerValue(cube.getCubies(8), cube.getCubies(14), cube.getCubies(15)) == cornerVal){
+            return 3;
+        }else if(cornerValue(cube.getCubies(36), cube.getCubies(30), cube.getCubies(29)) == cornerVal){
+            return 4;
+        }else if(cornerValue(cube.getCubies(38), cube.getCubies(33), cube.getCubies(32)) == cornerVal){
+            return 5;
+        }else if(cornerValue(cube.getCubies(42), cube.getCubies(45), cube.getCubies(27)) == cornerVal){
+            return 6;
+        }else if(cornerValue(cube.getCubies(44), cube.getCubies(47), cube.getCubies(35)) == cornerVal){
+            return 7;
+        }
+
+        return 100;
+    }
+
+    private int hashCornerRow(int[] row){
+        int val = (row[0] - 1) * factorial(5);
+        int sum = val;
+
+        decreaseArray(row, 1);
+        val = (row[1] - 1) * factorial(4);
+        sum += val;
+
+        decreaseArray(row, 2);
+        val = (row[2] - 1) * factorial(3);
+        sum += val;
+
+        decreaseArray(row, 3);
+        val = (row[3] - 1) * factorial(2);
+        sum += val;
+
+        decreaseArray(row, 4);
+        val = (row[4] - 1) * factorial(1);
+        sum += val;
+
+        decreaseArray(row, 5);
+        val = (row[5] - 1) * factorial(1);
+        sum += val;
+
+        decreaseArray(row, 6);
+        //always is 0
+        val = (row[6] - 1) * 0;
+        sum += val;
+
+        return sum;
+    }
+
+    /**
+     * function to write the table to a file
+     * @param table byte array of the table
+     * @param fileName name of the file to be written
+     */
+    private void writeEdgeFile(byte[] table, String fileName){
+
+        File file = new File(fileName);
+        FileOutputStream fos = null;
+
+        try{
+            fos = new FileOutputStream(file);
+            fos.write(table);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
     }
 
@@ -1250,14 +1599,24 @@ public class RubikCube {
      * @param table byte array of the table
      * @param fileName name of the file to be written
      */
-    private void writeFile(byte[] table, String fileName){
+    private void writeCornerFile(byte[] table, String fileName){
+
+        byte[] finalTable = new byte[44089920];
+
+        for(int i=0; i < table.length; i+=2){
+            int byte1 = table[i];
+            int byte2 = table[i + 1];
+            int finalByte = byte1 + byte2;
+            int loc = i / 2;
+            finalTable[loc] = (byte) finalByte;
+        }
 
         File file = new File(fileName);
         FileOutputStream fos = null;
 
         try{
             fos = new FileOutputStream(file);
-            fos.write(table);
+            fos.write(finalTable);
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -1331,7 +1690,7 @@ public class RubikCube {
      * Method to rotate the right side of a this left
      * @param turns number of turns to make
      */
-    private void rotateRight(int turns){
+    public void rotateRight(int turns){
         for(int i=0; i < turns; i++){
             //values of the current cubes
             byte spot1 = this.getCubies(2);
@@ -1379,9 +1738,9 @@ public class RubikCube {
             byte spot7 = this.getCubies(15);
             byte spot8 = this.getCubies(16);
             byte spot9 = this.getCubies(17);
-            byte spot10 = this.getCubies(45);
-            byte spot11 = this.getCubies(46);
-            byte spot12 = this.getCubies(47);
+            byte spot10 = this.getCubies(51);
+            byte spot11 = this.getCubies(52);
+            byte spot12 = this.getCubies(53);
 
             //places to put those values
             this.setCube(12, spot1);
@@ -1390,9 +1749,9 @@ public class RubikCube {
             this.setCube(15, spot4);
             this.setCube(16, spot5);
             this.setCube(17, spot6);
-            this.setCube(45, spot7);
-            this.setCube(46, spot8);
-            this.setCube(47, spot9);
+            this.setCube(51, spot7);
+            this.setCube(52, spot8);
+            this.setCube(53, spot9);
             this.setCube(9, spot10);
             this.setCube(10, spot11);
             this.setCube(11, spot12);
@@ -1403,7 +1762,7 @@ public class RubikCube {
      * Method to rotate the down of a cube right
      * @param turns number of turns to make
      */
-    public void rotateDown(int turns){
+    public void rotateBottom(int turns){
         for(int i=0; i < turns; i++){
             //values of the current cubes
             byte spot1 = this.getCubies(27);
@@ -1415,9 +1774,9 @@ public class RubikCube {
             byte spot7 = this.getCubies(33);
             byte spot8 = this.getCubies(34);
             byte spot9 = this.getCubies(35);
-            byte spot10 = this.getCubies(51);
-            byte spot11 = this.getCubies(52);
-            byte spot12 = this.getCubies(53);
+            byte spot10 = this.getCubies(45);
+            byte spot11 = this.getCubies(46);
+            byte spot12 = this.getCubies(47);
 
             //places to put those values
             this.setCube(30, spot1);
@@ -1426,9 +1785,9 @@ public class RubikCube {
             this.setCube(33, spot4);
             this.setCube(34, spot5);
             this.setCube(35, spot6);
-            this.setCube(51, spot7);
-            this.setCube(52, spot8);
-            this.setCube(53, spot9);
+            this.setCube(45, spot7);
+            this.setCube(46, spot8);
+            this.setCube(47, spot9);
             this.setCube(27, spot10);
             this.setCube(28, spot11);
             this.setCube(29, spot12);
@@ -1504,6 +1863,228 @@ public class RubikCube {
             this.setCube(9, spot10);
             this.setCube(18, spot11);
             this.setCube(27, spot12);
+        }
+    }
+
+    /**
+     * Method to rotate the left side of a cube left
+     * @param turns number of turns to make
+     * @param cube the cube to rotate
+     */
+    public void rotateLeft(int turns, RubikCube cube){
+        for(int i=0; i < turns; i++){
+            //values of current cubes
+            byte spot1 = cube.getCubies(12);
+            byte spot2 = cube.getCubies(21);
+            byte spot3 = cube.getCubies(30);
+            byte spot4 = cube.getCubies(0);
+            byte spot5 = cube.getCubies(3);
+            byte spot6 = cube.getCubies(6);
+            byte spot7 = cube.getCubies(45);
+            byte spot8 = cube.getCubies(48);
+            byte spot9 = cube.getCubies(51);
+            byte spot10 = cube.getCubies(36);
+            byte spot11 = cube.getCubies(39);
+            byte spot12 = cube.getCubies(42);
+
+            //places to put those values
+            cube.setCube(0, spot1);
+            cube.setCube(3, spot2);
+            cube.setCube(6, spot3);
+            cube.setCube(45, spot4);
+            cube.setCube(48, spot5);
+            cube.setCube(51, spot6);
+            cube.setCube(36, spot7);
+            cube.setCube(39, spot8);
+            cube.setCube(42, spot9);
+            cube.setCube(12, spot10);
+            cube.setCube(21, spot11);
+            cube.setCube(30, spot12);
+        }
+    }
+
+    /**
+     * Method to rotate the right side of a cube left
+     * @param turns number of turns to make
+     * @param cube the cube to rotate
+     */
+    public void rotateRight(int turns, RubikCube cube){
+        for(int i=0; i < turns; i++){
+            //values of the current cubes
+            byte spot1 = cube.getCubies(2);
+            byte spot2 = cube.getCubies(5);
+            byte spot3 = cube.getCubies(8);
+            byte spot4 = cube.getCubies(47);
+            byte spot5 = cube.getCubies(50);
+            byte spot6 = cube.getCubies(53);
+            byte spot7 = cube.getCubies(14);
+            byte spot8 = cube.getCubies(23);
+            byte spot9 = cube.getCubies(32);
+            byte spot10 = cube.getCubies(38);
+            byte spot11 = cube.getCubies(41);
+            byte spot12 = cube.getCubies(44);
+
+            //places to put those values
+            cube.setCube(47, spot1);
+            cube.setCube(50, spot2);
+            cube.setCube(53, spot3);
+            cube.setCube(38, spot4);
+            cube.setCube(41, spot5);
+            cube.setCube(44, spot6);
+            cube.setCube(2, spot7);
+            cube.setCube(5, spot8);
+            cube.setCube(8, spot9);
+            cube.setCube(14, spot10);
+            cube.setCube(23, spot11);
+            cube.setCube(32, spot12);
+        }
+    }
+
+    /**
+     * Method to rotate the top of a cube right
+     * @param turns number of turns to make
+     * @param cube the cube to rotate
+     */
+    public void rotateTop(int turns, RubikCube cube){
+        for(int i=0; i < turns; i++){
+            //values of the current cubes
+            byte spot1 = cube.getCubies(9);
+            byte spot2 = cube.getCubies(10);
+            byte spot3 = cube.getCubies(11);
+            byte spot4 = cube.getCubies(12);
+            byte spot5 = cube.getCubies(13);
+            byte spot6 = cube.getCubies(14);
+            byte spot7 = cube.getCubies(15);
+            byte spot8 = cube.getCubies(16);
+            byte spot9 = cube.getCubies(17);
+            byte spot10 = cube.getCubies(51);
+            byte spot11 = cube.getCubies(52);
+            byte spot12 = cube.getCubies(53);
+
+            //places to put those values
+            cube.setCube(12, spot1);
+            cube.setCube(13, spot2);
+            cube.setCube(14, spot3);
+            cube.setCube(15, spot4);
+            cube.setCube(16, spot5);
+            cube.setCube(17, spot6);
+            cube.setCube(51, spot7);
+            cube.setCube(52, spot8);
+            cube.setCube(53, spot9);
+            cube.setCube(9, spot10);
+            cube.setCube(10, spot11);
+            cube.setCube(11, spot12);
+        }
+    }
+
+    /**
+     * Method to rotate the down of a cube right
+     * @param turns number of turns to make
+     * @param cube the cube to rotate
+     */
+    public void rotateBottom(int turns, RubikCube cube){
+        for(int i=0; i < turns; i++){
+            //values of the current cubes
+            byte spot1 = cube.getCubies(27);
+            byte spot2 = cube.getCubies(28);
+            byte spot3 = cube.getCubies(29);
+            byte spot4 = cube.getCubies(30);
+            byte spot5 = cube.getCubies(31);
+            byte spot6 = cube.getCubies(32);
+            byte spot7 = cube.getCubies(33);
+            byte spot8 = cube.getCubies(34);
+            byte spot9 = cube.getCubies(35);
+            byte spot10 = cube.getCubies(45);
+            byte spot11 = cube.getCubies(46);
+            byte spot12 = cube.getCubies(47);
+
+            //places to put those values
+            cube.setCube(30, spot1);
+            cube.setCube(31, spot2);
+            cube.setCube(32, spot3);
+            cube.setCube(33, spot4);
+            cube.setCube(34, spot5);
+            cube.setCube(35, spot6);
+            cube.setCube(45, spot7);
+            cube.setCube(46, spot8);
+            cube.setCube(47, spot9);
+            cube.setCube(27, spot10);
+            cube.setCube(28, spot11);
+            cube.setCube(29, spot12);
+        }
+    }
+
+    /**
+     * Method to rotate a cube front
+     * @param turns number of turns to make
+     * @param cube the cube to rotate
+     */
+    public void rotateFront(int turns, RubikCube cube){
+        for(int i=0; i < turns; i++){
+            //values of the current cubes
+            byte spot1 = cube.getCubies(6);
+            byte spot2 = cube.getCubies(7);
+            byte spot3 = cube.getCubies(8);
+            byte spot4 = cube.getCubies(11);
+            byte spot5 = cube.getCubies(20);
+            byte spot6 = cube.getCubies(29);
+            byte spot7 = cube.getCubies(36);
+            byte spot8 = cube.getCubies(37);
+            byte spot9 = cube.getCubies(38);
+            byte spot10 = cube.getCubies(15);
+            byte spot11 = cube.getCubies(24);
+            byte spot12 = cube.getCubies(33);
+
+            //places to put those values
+            cube.setCube(15, spot1);
+            cube.setCube(24, spot2);
+            cube.setCube(33, spot3);
+            cube.setCube(6, spot4);
+            cube.setCube(7, spot5);
+            cube.setCube(8, spot6);
+            cube.setCube(11, spot7);
+            cube.setCube(20, spot8);
+            cube.setCube(29, spot9);
+            cube.setCube(38, spot10);
+            cube.setCube(37, spot11);
+            cube.setCube(36, spot12);
+        }
+    }
+
+    /**
+     * Method to rotate a cube back
+     * @param turns number of turns to make
+     * @param cube the cube to rotate
+     */
+    public void rotateBack(int turns, RubikCube cube){
+        for(int i=0; i < turns; i++){
+            //values of the current cubes
+            byte spot1 = cube.getCubies(0);
+            byte spot2 = cube.getCubies(1);
+            byte spot3 = cube.getCubies(2);
+            byte spot4 = cube.getCubies(9);
+            byte spot5 = cube.getCubies(18);
+            byte spot6 = cube.getCubies(27);
+            byte spot7 = cube.getCubies(17);
+            byte spot8 = cube.getCubies(26);
+            byte spot9 = cube.getCubies(35);
+            byte spot10 = cube.getCubies(42);
+            byte spot11 = cube.getCubies(43);
+            byte spot12 = cube.getCubies(44);
+
+            //places to put those values
+            cube.setCube(17, spot1);
+            cube.setCube(26, spot2);
+            cube.setCube(35, spot3);
+            cube.setCube(0, spot4);
+            cube.setCube(1, spot5);
+            cube.setCube(2, spot6);
+            cube.setCube(44, spot7);
+            cube.setCube(43, spot8);
+            cube.setCube(42, spot9);
+            cube.setCube(9, spot10);
+            cube.setCube(18, spot11);
+            cube.setCube(27, spot12);
         }
     }
 
