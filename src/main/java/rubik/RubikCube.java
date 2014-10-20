@@ -1,12 +1,15 @@
 package rubik;
 
-import org.junit.internal.runners.statements.RunBefores;
+//import org.junit.*;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.BitSet;
+
+import java.util.LinkedList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -866,7 +869,7 @@ public class RubikCube {
     /**
      * function to make a goal state cube
      */
-    public byte[] goalState(){
+    private byte[] goalState(){
         byte[] goal = new byte[54];
 
         String line;
@@ -931,13 +934,6 @@ public class RubikCube {
         //use breadth first search
         //do all 18 possible moves
 
-        //edge 7 & 13
-        //edge 5 & 16
-        //edge 1 & 52
-        //edge 3 & 10
-        //edge 20 & 21
-        //edge 23 & 24
-
 
     }
 
@@ -954,19 +950,150 @@ public class RubikCube {
         //do all 18 possible moves
 
         //declerations before search
-        byte table[] = new byte[30240];
+        byte table[] = new byte[21288960];
         int depth, loc;
 
-        //TODO write the search
-        //bredth first search
+        //use queue add new objects to end bredth first search
+        LinkedList<RubikCube> searchQueue = new LinkedList();
+
+        RubikCube currCube;
+        RubikCube parentCube;
+        searchQueue.add(cube);
         depth = 0;
 
-        loc = getSecondEdgeLoc(cube);
+        //operate search
+        while(searchQueue.size() > 0){
+            //get the current cube and add it to the final array
+            parentCube = searchQueue.remove();
 
-        table[loc] = (byte) depth;
+            //TODO figure out depth
+            loc = getSecondEdgeLoc(parentCube);
+            table[loc] = (byte) depth;
 
-        //after search ends make the table
+            //turn cube every possible way and add them to the queue
+
+            //side 1
+            currCube = parentCube;
+            currCube.rotateBack(1);
+            if(edgeExists(currCube, table, searchQueue))
+                searchQueue.add(currCube);
+
+            currCube = parentCube;
+            currCube.rotateBack(2);
+            if(edgeExists(currCube, table, searchQueue))
+                searchQueue.add(currCube);
+
+            currCube = parentCube;
+            currCube.rotateBack(3);
+            if(edgeExists(currCube, table, searchQueue))
+                searchQueue.add(currCube);
+
+
+            //side 2
+            currCube = parentCube;
+            currCube.rotateDown(1);
+            if(edgeExists(currCube, table, searchQueue))
+                searchQueue.add(currCube);
+
+            currCube = parentCube;
+            currCube.rotateDown(2);
+            if(edgeExists(currCube, table, searchQueue))
+                searchQueue.add(currCube);
+
+            currCube = parentCube;
+            currCube.rotateDown(3);
+            if(edgeExists(currCube, table, searchQueue))
+                searchQueue.add(currCube);
+
+
+            //side 3
+            currCube = parentCube;
+            currCube.rotateFront(1);
+            if(edgeExists(currCube, table, searchQueue))
+                searchQueue.add(currCube);
+
+            currCube = parentCube;
+            currCube.rotateFront(2);
+            if(edgeExists(currCube, table, searchQueue))
+                searchQueue.add(currCube);
+
+            currCube = parentCube;
+            currCube.rotateFront(3);
+            if(edgeExists(currCube, table, searchQueue))
+                searchQueue.add(currCube);
+
+
+            //side 4
+            currCube = parentCube;
+            currCube.rotateLeft(1);
+            if(edgeExists(currCube, table, searchQueue))
+                searchQueue.add(currCube);
+
+            currCube = parentCube;
+            currCube.rotateLeft(2);
+            if(edgeExists(currCube, table, searchQueue))
+                searchQueue.add(currCube);
+
+            currCube = parentCube;
+            currCube.rotateLeft(3);
+            if(edgeExists(currCube, table, searchQueue))
+                searchQueue.add(currCube);
+
+
+            //side 5
+            currCube.rotateRight(1);
+            if(edgeExists(currCube, table, searchQueue))
+                searchQueue.add(currCube);
+            currCube.rotateRight(2);
+            if(edgeExists(currCube, table, searchQueue))
+                searchQueue.add(currCube);
+            currCube.rotateRight(3);
+            if(edgeExists(currCube, table, searchQueue))
+                searchQueue.add(currCube);
+
+
+            //side 6
+            currCube = parentCube;
+            currCube.rotateTop(1);
+            if(edgeExists(currCube, table, searchQueue))
+                searchQueue.add(currCube);
+
+            currCube = parentCube;
+            currCube.rotateTop(2);
+            if(edgeExists(currCube, table, searchQueue))
+                searchQueue.add(currCube);
+
+            currCube = parentCube;
+            currCube.rotateTop(3);
+            if(edgeExists(currCube, table, searchQueue))
+                searchQueue.add(currCube);
+        }
+
+        //after search ends make the searchQueue
         writeFile(table, "SecondEdge");
+    }
+
+    /**
+     * Function to check if an edge exists
+     * @param cube the cube your looking for
+     * @param table the table of current rubiks cubes
+     * @return true if the edge does not exist
+     */
+    private boolean edgeExists(RubikCube cube, byte[] table, LinkedList<RubikCube> list){
+        int loc = getSecondEdgeLoc(cube);
+        byte t = table[loc];
+
+        if(t == 0 && table.length > 1){
+            return false;
+        }
+
+        for(int i=0; i < list.size(); i++){
+            if(list.get(i) == cube){
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -977,7 +1104,7 @@ public class RubikCube {
     private int getSecondEdgeLoc(RubikCube cube){
 
         //do search now
-        int[] row = makeFirstEdgeRow(cube);
+        int[] row = makeSecondEdgeRow(cube);
 
         //function that gets the location of the depth in the table
         return hashEdgeRow(row);
@@ -988,39 +1115,38 @@ public class RubikCube {
      * @param cube a copy of the cube
      * @return the row of the specific edge values
      */
-    private int[] makeFirstEdgeRow(RubikCube cube){
-        //intitalize the variables
+    private int[] makeSecondEdgeRow(RubikCube cube){
+        //initialize the variables
         int edgeValue, edgeOrientation, finalValue;
         int row[] = new int[5];
 
-        //TODO get edge orientation
         edgeValue = edgeValueForRow(cube, RED, YELLOW);
-        edgeOrientation = 0;
+        edgeOrientation = singleEdgeParity(RED, YELLOW);
         finalValue = 3 * edgeValue + edgeOrientation + 1;
         row[0] = finalValue;
 
         edgeValue = edgeValueForRow(cube, RED, BLUE);
-        edgeOrientation = 0;
+        edgeOrientation = singleEdgeParity(RED, BLUE);
         finalValue = 3 * edgeValue + edgeOrientation + 1;
         row[1] = finalValue;
 
         edgeValue = edgeValueForRow(cube, RED, WHITE);
-        edgeOrientation = 0;
+        edgeOrientation = singleEdgeParity(RED, WHITE);
         finalValue = 3 * edgeValue + edgeOrientation + 1;
         row[2] = finalValue;
 
         edgeValue = edgeValueForRow(cube, RED, GREEN);
-        edgeOrientation = 0;
+        edgeOrientation = singleEdgeParity(RED, GREEN);
         finalValue = 3 * edgeValue + edgeOrientation + 1;
         row[3] = finalValue;
 
         edgeValue = edgeValueForRow(cube, YELLOW, GREEN);
-        edgeOrientation = 0;
+        edgeOrientation = singleEdgeParity(YELLOW, GREEN);
         finalValue = 3 * edgeValue + edgeOrientation + 1;
         row[4] = finalValue;
 
         edgeValue = edgeValueForRow(cube, YELLOW, BLUE);
-        edgeOrientation = 0;
+        edgeOrientation = singleEdgeParity(YELLOW, BLUE);
         finalValue = 3 * edgeValue + edgeOrientation + 1;
         row[5] = finalValue;
 
@@ -1112,21 +1238,6 @@ public class RubikCube {
     }
 
     /**
-     * function to get the factorial of a number
-     * @param num the number to get the factorial of
-     * @return the factorial of that number
-     */
-    private int factorial(int num){
-        int fact = 0;
-
-        for(int i=num; i >= 1; i--){
-            fact *= i;
-        }
-
-        return fact;
-    }
-
-    /**
      * Function to make the corner heuristic tables
      * @param cube copy of a goalstate cube
      */
@@ -1136,8 +1247,20 @@ public class RubikCube {
 
     /**
      * function to write the table to a file
+     * @param table byte array of the table
+     * @param fileName name of the file to be written
      */
     private void writeFile(byte[] table, String fileName){
+
+        File file = new File(fileName);
+        FileOutputStream fos = null;
+
+        try{
+            fos = new FileOutputStream(file);
+            fos.write(table);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
     }
 
@@ -1152,408 +1275,236 @@ public class RubikCube {
     }
 
     /**
-     * Method to rotate the left side of a cube left
-     * @param cube the cube in which to rotate
+     * function to get the factorial of a number
+     * @param num the number to get the factorial of
+     * @return the factorial of that number
      */
-    public void rotateLeftUp(RubikCube cube){
-        //values of current cubes
-        byte spot1 = cube.getCubies(12);
-        byte spot2 = cube.getCubies(21);
-        byte spot3 = cube.getCubies(30);
-        byte spot4 = cube.getCubies(0);
-        byte spot5 = cube.getCubies(3);
-        byte spot6 = cube.getCubies(6);
-        byte spot7 = cube.getCubies(45);
-        byte spot8 = cube.getCubies(48);
-        byte spot9 = cube.getCubies(51);
-        byte spot10 = cube.getCubies(36);
-        byte spot11 = cube.getCubies(39);
-        byte spot12 = cube.getCubies(42);
+    private int factorial(int num){
+        int fact = 0;
 
-        //places to put those values
-        cube.setCube(0, spot1);
-        cube.setCube(3, spot2);
-        cube.setCube(6, spot3);
-        cube.setCube(45, spot4);
-        cube.setCube(48, spot5);
-        cube.setCube(51, spot6);
-        cube.setCube(36, spot7);
-        cube.setCube(39, spot8);
-        cube.setCube(42, spot9);
-        cube.setCube(12, spot10);
-        cube.setCube(21, spot11);
-        cube.setCube(30, spot12);
+        for(int i=num; i >= 1; i--){
+            fact *= i;
+        }
+
+        return fact;
     }
 
-    /**
-     * Method to rotate the right side of a cube left
-     * @param cube the cube in which to rotate
-     */
-    public void rotateRightUp(RubikCube cube){
-        //values of the current cubes
-        byte spot1 = cube.getCubies(2);
-        byte spot2 = cube.getCubies(5);
-        byte spot3 = cube.getCubies(8);
-        byte spot4 = cube.getCubies(47);
-        byte spot5 = cube.getCubies(50);
-        byte spot6 = cube.getCubies(53);
-        byte spot7 = cube.getCubies(14);
-        byte spot8 = cube.getCubies(23);
-        byte spot9 = cube.getCubies(32);
-        byte spot10 = cube.getCubies(38);
-        byte spot11 = cube.getCubies(41);
-        byte spot12 = cube.getCubies(44);
-
-        //places to put those values
-        cube.setCube(47, spot1);
-        cube.setCube(50, spot2);
-        cube.setCube(53, spot3);
-        cube.setCube(38, spot4);
-        cube.setCube(41, spot5);
-        cube.setCube(44, spot6);
-        cube.setCube(2, spot7);
-        cube.setCube(5, spot8);
-        cube.setCube(8, spot9);
-        cube.setCube(14, spot10);
-        cube.setCube(23, spot11);
-        cube.setCube(32, spot12);
-    }
-
-    /**
-     * Method to rotate a cube Top
-     * @param cube the cube in which to rotate
-     */
-    public void rotateTopLeft(RubikCube cube){
-        //values of the current cubes
-        byte spot1 = cube.getCubies(12);
-        byte spot2 = cube.getCubies(13);
-        byte spot3 = cube.getCubies(14);
-        byte spot4 = cube.getCubies(9);
-        byte spot5 = cube.getCubies(10);
-        byte spot6 = cube.getCubies(11);
-        byte spot7 = cube.getCubies(15);
-        byte spot8 = cube.getCubies(16);
-        byte spot9 = cube.getCubies(17);
-        byte spot10 = cube.getCubies(45);
-        byte spot11 = cube.getCubies(46);
-        byte spot12 = cube.getCubies(47);
-
-        //values to place those cubes
-        cube.setCube(9, spot1);
-        cube.setCube(10, spot2);
-        cube.setCube(11, spot3);
-        cube.setCube(45, spot4);
-        cube.setCube(46, spot5);
-        cube.setCube(47, spot6);
-        cube.setCube(12, spot7);
-        cube.setCube(13, spot8);
-        cube.setCube(14, spot9);
-        cube.setCube(15, spot10);
-        cube.setCube(16, spot11);
-        cube.setCube(17, spot12);
-    }
-
-    /**
-     * Method to rotate a cube Down
-     * @param cube the cube in which to rotate
-     */
-    public void rotateDownLeft(RubikCube cube){
-        //values of the current cubes
-        byte spot1 = cube.getCubies(30);
-        byte spot2 = cube.getCubies(31);
-        byte spot3 = cube.getCubies(32);
-        byte spot4 = cube.getCubies(27);
-        byte spot5 = cube.getCubies(28);
-        byte spot6 = cube.getCubies(29);
-        byte spot7 = cube.getCubies(33);
-        byte spot8 = cube.getCubies(34);
-        byte spot9 = cube.getCubies(35);
-        byte spot10 = cube.getCubies(51);
-        byte spot11 = cube.getCubies(52);
-        byte spot12 = cube.getCubies(53);
-
-        //values to place those cubes
-        cube.setCube(27, spot1);
-        cube.setCube(28, spot2);
-        cube.setCube(29, spot3);
-        cube.setCube(51, spot4);
-        cube.setCube(52, spot5);
-        cube.setCube(53, spot6);
-        cube.setCube(30, spot7);
-        cube.setCube(31, spot8);
-        cube.setCube(32, spot9);
-        cube.setCube(33, spot10);
-        cube.setCube(34, spot11);
-        cube.setCube(35, spot12);
-    }
-
-    /**
-     * Method to rotate the front of a cube left
-     * @param cube the cube in which to rotate
-     */
-    public void rotateFrontLeft(RubikCube cube){
-        //values of the current cubes
-        byte spot1 = cube.getCubies(8);
-        byte spot2 = cube.getCubies(7);
-        byte spot3 = cube.getCubies(6);
-        byte spot4 = cube.getCubies(11);
-        byte spot5 = cube.getCubies(20);
-        byte spot6 = cube.getCubies(29);
-        byte spot7 = cube.getCubies(15);
-        byte spot8 = cube.getCubies(24);
-        byte spot9 = cube.getCubies(33);
-        byte spot10 = cube.getCubies(36);
-        byte spot11 = cube.getCubies(37);
-        byte spot12 = cube.getCubies(38);
-
-        //values to place those cubes
-        cube.setCube(11, spot1);
-        cube.setCube(20, spot2);
-        cube.setCube(29, spot3);
-        cube.setCube(36, spot4);
-        cube.setCube(37, spot5);
-        cube.setCube(38, spot6);
-        cube.setCube(6, spot7);
-        cube.setCube(7, spot8);
-        cube.setCube(8, spot9);
-        cube.setCube(33, spot10);
-        cube.setCube(24, spot11);
-        cube.setCube(15, spot12);
-    }
-
-    /**
-     * Method to rotate the back of a cube left
-     * @param cube the cube in which to rotate
-     */
-    public void rotateBackLeft(RubikCube cube){
-        //values of the current cubes
-        byte spot1 = cube.getCubies(0);
-        byte spot2 = cube.getCubies(1);
-        byte spot3 = cube.getCubies(2);
-        byte spot4 = cube.getCubies(9);
-        byte spot5 = cube.getCubies(18);
-        byte spot6 = cube.getCubies(27);
-        byte spot7 = cube.getCubies(42);
-        byte spot8 = cube.getCubies(43);
-        byte spot9 = cube.getCubies(44);
-        byte spot10 = cube.getCubies(17);
-        byte spot11 = cube.getCubies(26);
-        byte spot12 = cube.getCubies(35);
-
-        //values to place those cubes
-        cube.setCube(27, spot1);
-        cube.setCube(18, spot2);
-        cube.setCube(9, spot3);
-        cube.setCube(42, spot4);
-        cube.setCube(43, spot5);
-        cube.setCube(44, spot6);
-        cube.setCube(35, spot7);
-        cube.setCube(26, spot8);
-        cube.setCube(17, spot9);
-        cube.setCube(0, spot10);
-        cube.setCube(1, spot11);
-        cube.setCube(2, spot12);
-    }
+    /********************** Turning The Cube *******************************/
 
     /**
      * Method to rotate the left side of a cube left
-     * @param cube the cube in which to rotate
+     * @param turns number of turns to make
      */
-    public void rotateLeftDown(RubikCube cube){
-        //values of the current cubes
-        byte spot1 = cube.getCubies(0);
-        byte spot2 = cube.getCubies(3);
-        byte spot3 = cube.getCubies(6);
-        byte spot4 = cube.getCubies(12);
-        byte spot5 = cube.getCubies(21);
-        byte spot6 = cube.getCubies(30);
-        byte spot7 = cube.getCubies(36);
-        byte spot8 = cube.getCubies(39);
-        byte spot9 = cube.getCubies(42);
-        byte spot10 = cube.getCubies(45);
-        byte spot11 = cube.getCubies(48);
-        byte spot12 = cube.getCubies(51);
+    public void rotateLeft(int turns){
+        for(int i=0; i < turns; i++){
+            //values of current cubes
+            byte spot1 = this.getCubies(12);
+            byte spot2 = this.getCubies(21);
+            byte spot3 = this.getCubies(30);
+            byte spot4 = this.getCubies(0);
+            byte spot5 = this.getCubies(3);
+            byte spot6 = this.getCubies(6);
+            byte spot7 = this.getCubies(45);
+            byte spot8 = this.getCubies(48);
+            byte spot9 = this.getCubies(51);
+            byte spot10 = this.getCubies(36);
+            byte spot11 = this.getCubies(39);
+            byte spot12 = this.getCubies(42);
 
-        //values to place those cubes
-        cube.setCube(12, spot1);
-        cube.setCube(21, spot2);
-        cube.setCube(30, spot3);
-        cube.setCube(36, spot4);
-        cube.setCube(39, spot5);
-        cube.setCube(42, spot6);
-        cube.setCube(45, spot7);
-        cube.setCube(48, spot8);
-        cube.setCube(51, spot9);
-        cube.setCube(0, spot10);
-        cube.setCube(3, spot11);
-        cube.setCube(6, spot12);
+            //places to put those values
+            this.setCube(0, spot1);
+            this.setCube(3, spot2);
+            this.setCube(6, spot3);
+            this.setCube(45, spot4);
+            this.setCube(48, spot5);
+            this.setCube(51, spot6);
+            this.setCube(36, spot7);
+            this.setCube(39, spot8);
+            this.setCube(42, spot9);
+            this.setCube(12, spot10);
+            this.setCube(21, spot11);
+            this.setCube(30, spot12);
+        }
     }
 
     /**
-     * Method to rotate the right side of a cube Right
-     * @param cube the cube in which to rotate
+     * Method to rotate the right side of a this left
+     * @param turns number of turns to make
      */
-    public void rotateRightDown(RubikCube cube){
-        byte spot1 = cube.getCubies(47);
-        byte spot2 = cube.getCubies(50);
-        byte spot3 = cube.getCubies(53);
-        byte spot4 = cube.getCubies(38);
-        byte spot5 = cube.getCubies(41);
-        byte spot6 = cube.getCubies(44);
-        byte spot7 = cube.getCubies(2);
-        byte spot8 = cube.getCubies(5);
-        byte spot9 = cube.getCubies(8);
-        byte spot10 = cube.getCubies(14);
-        byte spot11 = cube.getCubies(23);
-        byte spot12 = cube.getCubies(31);
+    private void rotateRight(int turns){
+        for(int i=0; i < turns; i++){
+            //values of the current cubes
+            byte spot1 = this.getCubies(2);
+            byte spot2 = this.getCubies(5);
+            byte spot3 = this.getCubies(8);
+            byte spot4 = this.getCubies(47);
+            byte spot5 = this.getCubies(50);
+            byte spot6 = this.getCubies(53);
+            byte spot7 = this.getCubies(14);
+            byte spot8 = this.getCubies(23);
+            byte spot9 = this.getCubies(32);
+            byte spot10 = this.getCubies(38);
+            byte spot11 = this.getCubies(41);
+            byte spot12 = this.getCubies(44);
 
-        cube.setCube(2, spot1);
-        cube.setCube(5, spot2);
-        cube.setCube(8, spot3);
-        cube.setCube(47, spot4);
-        cube.setCube(50, spot5);
-        cube.setCube(53, spot6);
-        cube.setCube(14, spot7);
-        cube.setCube(23, spot8);
-        cube.setCube(32, spot9);
-        cube.setCube(38, spot10);
-        cube.setCube(41, spot11);
-        cube.setCube(44, spot12);
+            //places to put those values
+            this.setCube(47, spot1);
+            this.setCube(50, spot2);
+            this.setCube(53, spot3);
+            this.setCube(38, spot4);
+            this.setCube(41, spot5);
+            this.setCube(44, spot6);
+            this.setCube(2, spot7);
+            this.setCube(5, spot8);
+            this.setCube(8, spot9);
+            this.setCube(14, spot10);
+            this.setCube(23, spot11);
+            this.setCube(32, spot12);
+        }
     }
 
     /**
-     * Method to rotate the top of a cube right
-     * @param cube the cube in which to rotate
+     * Method to rotate the top of a this right
+     * @param turns number of turns to make
      */
-    public void rotateTopRight(RubikCube cube){
-        //values of the current cubes
-        byte spot1 = cube.getCubies(9);
-        byte spot2 = cube.getCubies(10);
-        byte spot3 = cube.getCubies(11);
-        byte spot4 = cube.getCubies(12);
-        byte spot5 = cube.getCubies(13);
-        byte spot6 = cube.getCubies(14);
-        byte spot7 = cube.getCubies(15);
-        byte spot8 = cube.getCubies(16);
-        byte spot9 = cube.getCubies(17);
-        byte spot10 = cube.getCubies(45);
-        byte spot11 = cube.getCubies(46);
-        byte spot12 = cube.getCubies(47);
+    public void rotateTop(int turns){
+        for(int i=0; i < turns; i++){
+            //values of the current cubes
+            byte spot1 = this.getCubies(9);
+            byte spot2 = this.getCubies(10);
+            byte spot3 = this.getCubies(11);
+            byte spot4 = this.getCubies(12);
+            byte spot5 = this.getCubies(13);
+            byte spot6 = this.getCubies(14);
+            byte spot7 = this.getCubies(15);
+            byte spot8 = this.getCubies(16);
+            byte spot9 = this.getCubies(17);
+            byte spot10 = this.getCubies(45);
+            byte spot11 = this.getCubies(46);
+            byte spot12 = this.getCubies(47);
 
-        //places to put those values
-        cube.setCube(12, spot1);
-        cube.setCube(13, spot2);
-        cube.setCube(14, spot3);
-        cube.setCube(15, spot4);
-        cube.setCube(16, spot5);
-        cube.setCube(17, spot6);
-        cube.setCube(45, spot7);
-        cube.setCube(46, spot8);
-        cube.setCube(47, spot9);
-        cube.setCube(9, spot10);
-        cube.setCube(10, spot11);
-        cube.setCube(11, spot12);
+            //places to put those values
+            this.setCube(12, spot1);
+            this.setCube(13, spot2);
+            this.setCube(14, spot3);
+            this.setCube(15, spot4);
+            this.setCube(16, spot5);
+            this.setCube(17, spot6);
+            this.setCube(45, spot7);
+            this.setCube(46, spot8);
+            this.setCube(47, spot9);
+            this.setCube(9, spot10);
+            this.setCube(10, spot11);
+            this.setCube(11, spot12);
+        }
     }
 
     /**
      * Method to rotate the down of a cube right
-     * @param cube the cube in which to rotate
+     * @param turns number of turns to make
      */
-    public void rotateDownRight(RubikCube cube){
-        //values of the current cubes
-        byte spot1 = cube.getCubies(27);
-        byte spot2 = cube.getCubies(28);
-        byte spot3 = cube.getCubies(29);
-        byte spot4 = cube.getCubies(30);
-        byte spot5 = cube.getCubies(31);
-        byte spot6 = cube.getCubies(32);
-        byte spot7 = cube.getCubies(33);
-        byte spot8 = cube.getCubies(34);
-        byte spot9 = cube.getCubies(35);
-        byte spot10 = cube.getCubies(51);
-        byte spot11 = cube.getCubies(52);
-        byte spot12 = cube.getCubies(53);
+    public void rotateDown(int turns){
+        for(int i=0; i < turns; i++){
+            //values of the current cubes
+            byte spot1 = this.getCubies(27);
+            byte spot2 = this.getCubies(28);
+            byte spot3 = this.getCubies(29);
+            byte spot4 = this.getCubies(30);
+            byte spot5 = this.getCubies(31);
+            byte spot6 = this.getCubies(32);
+            byte spot7 = this.getCubies(33);
+            byte spot8 = this.getCubies(34);
+            byte spot9 = this.getCubies(35);
+            byte spot10 = this.getCubies(51);
+            byte spot11 = this.getCubies(52);
+            byte spot12 = this.getCubies(53);
 
-        //places to put those values
-        cube.setCube(30, spot1);
-        cube.setCube(31, spot2);
-        cube.setCube(32, spot3);
-        cube.setCube(33, spot4);
-        cube.setCube(34, spot5);
-        cube.setCube(35, spot6);
-        cube.setCube(51, spot7);
-        cube.setCube(52, spot8);
-        cube.setCube(53, spot9);
-        cube.setCube(27, spot10);
-        cube.setCube(28, spot11);
-        cube.setCube(29, spot12);
+            //places to put those values
+            this.setCube(30, spot1);
+            this.setCube(31, spot2);
+            this.setCube(32, spot3);
+            this.setCube(33, spot4);
+            this.setCube(34, spot5);
+            this.setCube(35, spot6);
+            this.setCube(51, spot7);
+            this.setCube(52, spot8);
+            this.setCube(53, spot9);
+            this.setCube(27, spot10);
+            this.setCube(28, spot11);
+            this.setCube(29, spot12);
+        }
     }
 
     /**
      * Method to rotate a cube front
-     * @param cube the cube in which to rotate
+     * @param turns number of turns to make
      */
-    public void rotateFrontRight(RubikCube cube){
-        //values of the current cubes
-        byte spot1 = cube.getCubies(6);
-        byte spot2 = cube.getCubies(7);
-        byte spot3 = cube.getCubies(8);
-        byte spot4 = cube.getCubies(11);
-        byte spot5 = cube.getCubies(20);
-        byte spot6 = cube.getCubies(29);
-        byte spot7 = cube.getCubies(36);
-        byte spot8 = cube.getCubies(37);
-        byte spot9 = cube.getCubies(38);
-        byte spot10 = cube.getCubies(15);
-        byte spot11 = cube.getCubies(24);
-        byte spot12 = cube.getCubies(33);
+    public void rotateFront(int turns){
+        for(int i=0; i < turns; i++){
+            //values of the current cubes
+            byte spot1 = this.getCubies(6);
+            byte spot2 = this.getCubies(7);
+            byte spot3 = this.getCubies(8);
+            byte spot4 = this.getCubies(11);
+            byte spot5 = this.getCubies(20);
+            byte spot6 = this.getCubies(29);
+            byte spot7 = this.getCubies(36);
+            byte spot8 = this.getCubies(37);
+            byte spot9 = this.getCubies(38);
+            byte spot10 = this.getCubies(15);
+            byte spot11 = this.getCubies(24);
+            byte spot12 = this.getCubies(33);
 
-        //places to put those values
-        cube.setCube(15, spot1);
-        cube.setCube(24, spot2);
-        cube.setCube(33, spot3);
-        cube.setCube(6, spot4);
-        cube.setCube(7, spot5);
-        cube.setCube(8, spot6);
-        cube.setCube(11, spot7);
-        cube.setCube(20, spot8);
-        cube.setCube(29, spot9);
-        cube.setCube(38, spot10);
-        cube.setCube(37, spot11);
-        cube.setCube(36, spot12);
+            //places to put those values
+            this.setCube(15, spot1);
+            this.setCube(24, spot2);
+            this.setCube(33, spot3);
+            this.setCube(6, spot4);
+            this.setCube(7, spot5);
+            this.setCube(8, spot6);
+            this.setCube(11, spot7);
+            this.setCube(20, spot8);
+            this.setCube(29, spot9);
+            this.setCube(38, spot10);
+            this.setCube(37, spot11);
+            this.setCube(36, spot12);
+        }
     }
 
     /**
-     * Method to rotate a cube back
-     * @param cube the cube in which to rotate
+     * Method to rotate a this back
+     * @param turns number of turns to make
      */
-    public void rotateBackRight(RubikCube cube){
-        //values of the current cubes
-        byte spot1 = cube.getCubies(0);
-        byte spot2 = cube.getCubies(1);
-        byte spot3 = cube.getCubies(2);
-        byte spot4 = cube.getCubies(9);
-        byte spot5 = cube.getCubies(18);
-        byte spot6 = cube.getCubies(27);
-        byte spot7 = cube.getCubies(17);
-        byte spot8 = cube.getCubies(26);
-        byte spot9 = cube.getCubies(35);
-        byte spot10 = cube.getCubies(42);
-        byte spot11 = cube.getCubies(43);
-        byte spot12 = cube.getCubies(44);
+    public void rotateBack(int turns){
+        for(int i=0; i < turns; i++){
+            //values of the current cubes
+            byte spot1 = this.getCubies(0);
+            byte spot2 = this.getCubies(1);
+            byte spot3 = this.getCubies(2);
+            byte spot4 = this.getCubies(9);
+            byte spot5 = this.getCubies(18);
+            byte spot6 = this.getCubies(27);
+            byte spot7 = this.getCubies(17);
+            byte spot8 = this.getCubies(26);
+            byte spot9 = this.getCubies(35);
+            byte spot10 = this.getCubies(42);
+            byte spot11 = this.getCubies(43);
+            byte spot12 = this.getCubies(44);
 
-        //places to put those values
-        cube.setCube(17, spot1);
-        cube.setCube(26, spot2);
-        cube.setCube(35, spot3);
-        cube.setCube(0, spot4);
-        cube.setCube(1, spot5);
-        cube.setCube(2, spot6);
-        cube.setCube(44, spot7);
-        cube.setCube(43, spot8);
-        cube.setCube(42, spot9);
-        cube.setCube(9, spot10);
-        cube.setCube(18, spot11);
-        cube.setCube(27, spot12);
+            //places to put those values
+            this.setCube(17, spot1);
+            this.setCube(26, spot2);
+            this.setCube(35, spot3);
+            this.setCube(0, spot4);
+            this.setCube(1, spot5);
+            this.setCube(2, spot6);
+            this.setCube(44, spot7);
+            this.setCube(43, spot8);
+            this.setCube(42, spot9);
+            this.setCube(9, spot10);
+            this.setCube(18, spot11);
+            this.setCube(27, spot12);
+        }
     }
+
 }
