@@ -8,7 +8,7 @@
     <file path="/Solvable.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1413926044783" ignored="false" />
     <file path="/fragment.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1413835527693" ignored="false" />
     <file path="/InvalidCube.txt" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1410734463575" ignored="false" />
-    <file path="/RubikCube.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1413926568637" ignored="false" />
+    <file path="/RubikCube.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1413931627527" ignored="false" />
     <file path="/ValidTest.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1411437572176" ignored="false" />
     <file path="/Dummy.txt" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1411488583812" ignored="false" />
     <file path="/InvalidTest.java" changelist="21b6d0a1-9715-4ca2-87c4-7b3bf58beab9" time="1411437683386" ignored="false" />
@@ -75,22 +75,7 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
-      <breakpoint url="file://$PROJECT_DIR$/src/main/java/rubik/RubikCube.java" line="1182" class="rubik.RubikCube" package="rubik">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-    </line_breakpoints>
+    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -112,7 +97,7 @@
       <file leaf-file-name="RubikCube.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/rubik/RubikCube.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1600" column="9" selection-start="54310" selection-end="54310" vertical-scroll-proportion="1.4869109">
+            <state line="948" column="7" selection-start="32010" selection-end="32010" vertical-scroll-proportion="0.57246375">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -622,8 +607,8 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.0" sideWeight="0.7729084" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16212338" sideWeight="0.8154051" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18459496" sideWeight="0.49713057" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16212338" sideWeight="0.7875166" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2124834" sideWeight="0.49713057" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998565" sideWeight="0.6573705" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -781,7 +766,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/rubik/RubikCube.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1600" column="9" selection-start="54310" selection-end="54310" vertical-scroll-proportion="1.4869109">
+        <state line="948" column="7" selection-start="32010" selection-end="32010" vertical-scroll-proportion="0.57246375">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

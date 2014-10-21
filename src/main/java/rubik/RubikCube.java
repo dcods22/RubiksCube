@@ -933,13 +933,13 @@ public class RubikCube {
 
         System.out.println(new Date());
         System.out.println("Starting the first edge table");
-        //firstEdgeTable(cube1);
+        firstEdgeTable(cube1);
         System.out.println(new Date());
         System.out.println("Starting the second edge table");
         secondEdgeTable(cube2);
         System.out.println(new Date());
         System.out.println("Starting the corner table");
-        //cornerTable(cube3);
+        cornerTable(cube3);
         System.out.println(new Date());
     }
 
@@ -947,8 +947,235 @@ public class RubikCube {
      * Function to make the first set of edge heuristic tables
      * @param cube copy of a goalstate cube
      */
-    private void firstEdgeTable(RubikCube cube){
+    private void firstEdgeTable(RubikCube cube) throws CloneNotSupportedException {
+        //pick 6 edges
+        //make every possible move for each branch
+        //continue to do so until your node has been repeated
+        //save how deep each move is
+        //use breadth first search
+        //do all 18 possible moves
 
+        //declerations before search
+        byte table[] = new byte[42577920];
+        int depth = 0, loc;
+
+        //use queue add new objects to end bredth first search
+        LinkedList<RubikCube> searchQueue = new LinkedList();
+        LinkedList<Integer> depthQueue = new LinkedList();
+
+        RubikCube currCube;
+        RubikCube parentCube;
+        searchQueue.add(cube);
+        depthQueue.add(depth);
+
+        //operate search
+        while(searchQueue.size() > 0){
+            //get the current cube and add it to the final array
+            parentCube = searchQueue.remove();
+            depth = depthQueue.remove();
+            loc = getFirstEdgeLoc(parentCube);
+            table[loc] = (byte) depth;
+
+            //turn cube every possible way and add them to the queue
+
+            //side 1 Back Face
+            currCube = new RubikCube(parentCube);
+            currCube.rotateBack(1, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+
+            currCube = new RubikCube(parentCube);
+            currCube.rotateBack(2, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+            currCube = new RubikCube(parentCube);
+            currCube.rotateBack(3);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+
+            //side 2 Down Face
+            currCube = new RubikCube(parentCube);
+            currCube.rotateBottom(1);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+            currCube = new RubikCube(parentCube);
+            currCube.rotateBottom(2, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+            currCube = new RubikCube(parentCube);
+            currCube.rotateBottom(3);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+
+            //side 3 Front Face
+            currCube = new RubikCube(parentCube);
+            currCube.rotateFront(1, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+            currCube = new RubikCube(parentCube);
+            currCube.rotateFront(2, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+            currCube = new RubikCube(parentCube);
+            currCube.rotateFront(3, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+
+            //side 4 Left Face
+            currCube = new RubikCube(parentCube);
+            currCube.rotateLeft(1, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+            currCube = new RubikCube(parentCube);
+            currCube.rotateLeft(2, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+            currCube = new RubikCube(parentCube);
+            currCube.rotateLeft(3, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+
+            //side 5 Right Face
+            currCube = new RubikCube(parentCube);
+            currCube.rotateRight(1, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+            currCube = new RubikCube(parentCube);
+            currCube.rotateRight(2, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+            currCube = new RubikCube(parentCube);
+            currCube.rotateRight(3, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+
+            //side 6 Top Face
+            currCube = new RubikCube(parentCube);
+            currCube.rotateTop(1, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+            currCube = new RubikCube(parentCube);
+            currCube.rotateTop(2, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+
+            currCube = new RubikCube(parentCube);
+            currCube.rotateTop(3, currCube);
+            if(edgeExists(currCube, table, searchQueue)){
+                searchQueue.add(currCube);
+                depthQueue.add(depth + 1);
+            }
+        }
+
+        //after search ends make the searchQueue
+        writeEdgeFile(table, "SecondEdge.txt");
+    }
+
+    /**
+     * Function to get the location of it at the table
+     * @param cube copy of the current rubiks cube
+     * @return location at the table the depth should be stored
+     */
+    private int getFirstEdgeLoc(RubikCube cube){
+
+        //do search now
+        int[] row = makeFirstEdgeRow(cube);
+
+        //function that gets the location of the depth in the table
+        return hashEdgeRow(row);
+    }
+
+    /**
+     * function to make a row off of a specific instance of a cube
+     * @param cube a copy of the cube
+     * @return the row of the specific edge values
+     */
+    private int[] makeFirstEdgeRow(RubikCube cube){
+        //initialize the variables
+        int edgeLocationVal, edgeOrientation, finalValue;
+        int row[] = new int[6];
+
+        edgeLocationVal = edgeValueForRow(cube, ORANGE, YELLOW);
+        edgeOrientation = edgeOrientation(ORANGE, YELLOW);
+        finalValue = (3 * edgeLocationVal) + edgeOrientation;
+        row[0] = finalValue;
+
+        edgeLocationVal = edgeValueForRow(cube, ORANGE, BLUE);
+        edgeOrientation = edgeOrientation(ORANGE, BLUE);
+        finalValue = (3 * edgeLocationVal) + edgeOrientation;
+        row[1] = finalValue;
+
+        edgeLocationVal = edgeValueForRow(cube, ORANGE, WHITE);
+        edgeOrientation = edgeOrientation(ORANGE, WHITE);
+        finalValue = (3 * edgeLocationVal) + edgeOrientation;
+        row[2] = finalValue;
+
+        edgeLocationVal = edgeValueForRow(cube, ORANGE, GREEN);
+        edgeOrientation = edgeOrientation(ORANGE, GREEN);
+        finalValue = (3 * edgeLocationVal) + edgeOrientation;
+        row[3] = finalValue;
+
+        edgeLocationVal = edgeValueForRow(cube, WHITE, GREEN);
+        edgeOrientation = edgeOrientation(WHITE, GREEN);
+        finalValue = (3 * edgeLocationVal) + edgeOrientation;
+        row[4] = finalValue;
+
+        edgeLocationVal = edgeValueForRow(cube, WHITE, BLUE);
+        edgeOrientation = edgeOrientation(WHITE, BLUE);
+        finalValue = (3 * edgeLocationVal) + edgeOrientation;
+        row[5] = finalValue;
+
+        return row;
     }
 
     /**
@@ -975,7 +1202,6 @@ public class RubikCube {
         RubikCube parentCube;
         searchQueue.add(cube);
         depthQueue.add(depth);
-        int i=0;
 
         //operate search
         while(searchQueue.size() > 0){
@@ -1124,11 +1350,6 @@ public class RubikCube {
                 searchQueue.add(currCube);
                 depthQueue.add(depth + 1);
             }
-
-            i++;
-            if(i % 100 == 0){
-                System.out.println(searchQueue.size());
-            }
         }
 
         //after search ends make the searchQueue
@@ -1259,28 +1480,28 @@ public class RubikCube {
      * @param row the copy of the specific edges in an integer array
      */
     private int hashEdgeRow(int[] row){
-        int val = (row[0] - 1) * (factorial(5) * 2);
+        int val = (row[0]) * (factorial(5) * 2);
         int sum = val;
 
         decreaseArray(row, 1);
-        val = (row[1] - 1) * (factorial(4) * 2);
+        val = (row[1]) * (factorial(4) * 2);
         sum += val;
 
         decreaseArray(row, 2);
-        val = (row[2] - 1) * (factorial(3) * 2);
+        val = (row[2]) * (factorial(3) * 2);
         sum += val;
 
         decreaseArray(row, 3);
-        val = (row[3] - 1) * (factorial(2) * 2);
+        val = (row[3]) * (factorial(2) * 2);
         sum += val;
 
         decreaseArray(row, 4);
-        val = (row[4] - 1) * (factorial(1) * 2);
+        val = (row[4]) * (factorial(1) * 2);
         sum += val;
 
         decreaseArray(row, 5);
         //always is 0
-        val = (row[5] - 1) * 0;
+        val = (row[5]) * 0;
         sum += val;
 
         return sum;
@@ -1317,7 +1538,6 @@ public class RubikCube {
         RubikCube parentCube;
         searchQueue.add(cube);
         depthQueue.add(depth);
-        int i=0;
 
         while(searchQueue.size() > 0){
             //get the current cube and add it to the final array
@@ -1465,11 +1685,6 @@ public class RubikCube {
                 searchQueue.add(currCube);
                 depthQueue.add(depth + 1);
             }
-
-            i++;
-            if(i % 100 == 0){
-                System.out.println(searchQueue.size());
-            }
         }
 
         //after search ends make the searchQueue
@@ -1551,32 +1766,32 @@ public class RubikCube {
     }
 
     private int hashCornerRow(int[] row){
-        int val = (row[0] - 1) * (factorial(5) * 3);
+        int val = (row[0]) * (factorial(5) * 3);
         int sum = val;
 
         decreaseArray(row, 1);
-        val = (row[1] - 1) * (factorial(4) * 3);
+        val = (row[1]) * (factorial(4) * 3);
         sum += val;
 
         decreaseArray(row, 2);
-        val = (row[2] - 1) * (factorial(3) * 3);
+        val = (row[2]) * (factorial(3) * 3);
         sum += val;
 
         decreaseArray(row, 3);
-        val = (row[3] - 1) * (factorial(2) * 3);
+        val = (row[3]) * (factorial(2) * 3);
         sum += val;
 
         decreaseArray(row, 4);
-        val = (row[4] - 1) * (factorial(1) * 3);
+        val = (row[4]) * (factorial(1) * 3);
         sum += val;
 
         decreaseArray(row, 5);
-        val = (row[5] - 1) * (factorial(1) * 3);
+        val = (row[5]) * (factorial(1) * 3);
         sum += val;
 
         decreaseArray(row, 6);
         //always is 0
-        val = (row[6] - 1) * 0;
+        val = (row[6]) * 0;
         sum += val;
 
         return sum;
