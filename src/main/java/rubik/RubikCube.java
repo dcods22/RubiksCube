@@ -2,6 +2,8 @@ package rubik;
 
 //import org.junit.*;
 
+import sun.nio.ByteBuffered;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.BufferedReader;
@@ -9,16 +11,18 @@ import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import java.nio.ByteBuffer;
+import java.util.Date;
 import java.util.LinkedList;
 
-/**
+/**                                
  * Created with IntelliJ IDEA.
  * User: Dan
  * Date: 9/16/14
  * Time: 2:04 PM
  * To change this template use File | Settings | File Templates.
  */
-public class RubikCube implements Cloneable {
+public class RubikCube {
 
     //array reference to the serialized cube
     protected byte[] rubikCube;
@@ -101,15 +105,9 @@ public class RubikCube implements Cloneable {
      * @param cube Rubikcube to copy
      */
     public RubikCube(RubikCube cube){
-        this.rubikCube = cube.rubikCube;
-    }
-
-    /**
-     * Funciton to clone an object
-     */
-    @Override
-    public RubikCube clone() throws CloneNotSupportedException {
-        return (RubikCube) super.clone();
+        byte[] b = new byte[54];
+        System.arraycopy(cube.rubikCube, 0, b, 0, cube.rubikCube.length);
+        this.rubikCube = b;
     }
 
     /**
@@ -430,7 +428,7 @@ public class RubikCube implements Cloneable {
         }
 
         //no cases where hit so there was an error return 100
-        return 100;
+        return 0;
     }
 
 
@@ -477,7 +475,7 @@ public class RubikCube implements Cloneable {
      * @param side2 side 2 of the cubie
      * @return the value of that specific edge
      */
-    private int edgeValue(int side1,int side2){
+    private int edgeLocationVal(int side1,int side2){
         if(side1 == YELLOW || side2 == YELLOW){
             if(side1 == RED || side2 == RED){
                 return 1;
@@ -719,7 +717,7 @@ public class RubikCube implements Cloneable {
             }
         }
 
-        return 100;
+        return 0;
     }
 
 
@@ -731,7 +729,7 @@ public class RubikCube implements Cloneable {
         int side1Color = this.getCubies(side1);
         int side2Color = this.getCubies(side2);
 
-        int goalLocation = edgeGoalFinder(edgeValue(side1Color, side2Color));
+        int goalLocation = edgeGoalFinder(edgeLocationVal(side1Color, side2Color));
 
         int edgeLocation = edgeLocation(side1Color, side2Color);
 
@@ -853,7 +851,7 @@ public class RubikCube implements Cloneable {
             }
         }
 
-        return 100;
+        return 0;
     }
 
     /**
@@ -932,10 +930,17 @@ public class RubikCube implements Cloneable {
         RubikCube cube2 = new RubikCube(goalState());
         RubikCube cube3 = new RubikCube(goalState());
 
-        //create the three tables
+
+        System.out.println(new Date());
+        System.out.println("Starting the first edge table");
         //firstEdgeTable(cube1);
+        System.out.println(new Date());
+        System.out.println("Starting the second edge table");
         secondEdgeTable(cube2);
+        System.out.println(new Date());
+        System.out.println("Starting the corner table");
         //cornerTable(cube3);
+        System.out.println(new Date());
     }
 
     /**
@@ -959,7 +964,7 @@ public class RubikCube implements Cloneable {
         //do all 18 possible moves
 
         //declerations before search
-        byte table[] = new byte[21288960];
+        byte table[] = new byte[42577920];
         int depth = 0, loc;
 
         //use queue add new objects to end bredth first search
@@ -983,7 +988,7 @@ public class RubikCube implements Cloneable {
             //turn cube every possible way and add them to the queue
 
             //side 1 Back Face
-            currCube = parentCube.clone();
+            currCube = new RubikCube(parentCube);
             currCube.rotateBack(1, currCube);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
@@ -991,7 +996,7 @@ public class RubikCube implements Cloneable {
             }
 
 
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateBack(2, currCube);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
@@ -1007,21 +1012,21 @@ public class RubikCube implements Cloneable {
 
 
             //side 2 Down Face
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateBottom(1);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
                 depthQueue.add(depth + 1);
             }
 
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateBottom(2, currCube);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
                 depthQueue.add(depth + 1);
             }
 
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateBottom(3);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
@@ -1030,21 +1035,21 @@ public class RubikCube implements Cloneable {
 
 
             //side 3 Front Face
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateFront(1, currCube);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
                 depthQueue.add(depth + 1);
             }
 
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateFront(2, currCube);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
                 depthQueue.add(depth + 1);
             }
 
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateFront(3, currCube);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
@@ -1053,21 +1058,21 @@ public class RubikCube implements Cloneable {
 
 
             //side 4 Left Face
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateLeft(1, currCube);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
                 depthQueue.add(depth + 1);
             }
 
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateLeft(2, currCube);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
                 depthQueue.add(depth + 1);
             }
 
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateLeft(3, currCube);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
@@ -1076,21 +1081,21 @@ public class RubikCube implements Cloneable {
 
 
             //side 5 Right Face
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateRight(1, currCube);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
                 depthQueue.add(depth + 1);
             }
 
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateRight(2, currCube);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
                 depthQueue.add(depth + 1);
             }
 
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateRight(3, currCube);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
@@ -1099,21 +1104,21 @@ public class RubikCube implements Cloneable {
 
 
             //side 6 Top Face
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateTop(1, currCube);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
                 depthQueue.add(depth + 1);
             }
 
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateTop(2, currCube);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
                 depthQueue.add(depth + 1);
             }
 
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateTop(3, currCube);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
@@ -1174,37 +1179,37 @@ public class RubikCube implements Cloneable {
      */
     private int[] makeSecondEdgeRow(RubikCube cube){
         //initialize the variables
-        int edgeValue, edgeOrientation, finalValue;
+        int edgeLocationVal, edgeOrientation, finalValue;
         int row[] = new int[6];
 
-        edgeValue = edgeValueForRow(cube, RED, YELLOW);
+        edgeLocationVal = edgeValueForRow(cube, RED, YELLOW);
         edgeOrientation = edgeOrientation(RED, YELLOW);
-        finalValue = 3 * edgeValue + edgeOrientation + 1;
+        finalValue = (3 * edgeLocationVal) + edgeOrientation;
         row[0] = finalValue;
 
-        edgeValue = edgeValueForRow(cube, RED, BLUE);
+        edgeLocationVal = edgeValueForRow(cube, RED, BLUE);
         edgeOrientation = edgeOrientation(RED, BLUE);
-        finalValue = 3 * edgeValue + edgeOrientation + 1;
+        finalValue = (3 * edgeLocationVal) + edgeOrientation;
         row[1] = finalValue;
 
-        edgeValue = edgeValueForRow(cube, RED, WHITE);
+        edgeLocationVal = edgeValueForRow(cube, RED, WHITE);
         edgeOrientation = edgeOrientation(RED, WHITE);
-        finalValue = 3 * edgeValue + edgeOrientation + 1;
+        finalValue = (3 * edgeLocationVal) + edgeOrientation;
         row[2] = finalValue;
 
-        edgeValue = edgeValueForRow(cube, RED, GREEN);
+        edgeLocationVal = edgeValueForRow(cube, RED, GREEN);
         edgeOrientation = edgeOrientation(RED, GREEN);
-        finalValue = 3 * edgeValue + edgeOrientation + 1;
+        finalValue = (3 * edgeLocationVal) + edgeOrientation;
         row[3] = finalValue;
 
-        edgeValue = edgeValueForRow(cube, YELLOW, GREEN);
+        edgeLocationVal = edgeValueForRow(cube, YELLOW, GREEN);
         edgeOrientation = edgeOrientation(YELLOW, GREEN);
-        finalValue = 3 * edgeValue + edgeOrientation + 1;
+        finalValue = (3 * edgeLocationVal) + edgeOrientation;
         row[4] = finalValue;
 
-        edgeValue = edgeValueForRow(cube, YELLOW, BLUE);
+        edgeLocationVal = edgeValueForRow(cube, YELLOW, BLUE);
         edgeOrientation = edgeOrientation(YELLOW, BLUE);
-        finalValue = 3 * edgeValue + edgeOrientation + 1;
+        finalValue = (3 * edgeLocationVal) + edgeOrientation;
         row[5] = finalValue;
 
         return row;
@@ -1218,35 +1223,35 @@ public class RubikCube implements Cloneable {
      * @return the value of where that cube is
      */
     private int edgeValueForRow(RubikCube cube, int color1, int color2){
-        int edgeVal = edgeValue(color1, color2);
+        int edgeVal = edgeLocationVal(color1, color2);
 
-        if(edgeValue(cube.getCubies(7), cube.getCubies(13)) == edgeVal){
+        if(edgeLocationVal(cube.getCubies(7), cube.getCubies(13)) == edgeVal){
             return 0;
-        }else if(edgeValue(cube.getCubies(5), cube.getCubies(16)) == edgeVal){
+        }else if(edgeLocationVal(cube.getCubies(5), cube.getCubies(16)) == edgeVal){
             return 1;
-        }else if(edgeValue(cube.getCubies(1), cube.getCubies(52)) == edgeVal){
+        }else if(edgeLocationVal(cube.getCubies(1), cube.getCubies(52)) == edgeVal){
             return 2;
-        }else if(edgeValue(cube.getCubies(3), cube.getCubies(10)) == edgeVal){
+        }else if(edgeLocationVal(cube.getCubies(3), cube.getCubies(10)) == edgeVal){
             return 3;
-        }else if(edgeValue(cube.getCubies(20), cube.getCubies(23)) == edgeVal){
+        }else if(edgeLocationVal(cube.getCubies(20), cube.getCubies(23)) == edgeVal){
             return 4;
-        }else if(edgeValue(cube.getCubies(23), cube.getCubies(24)) == edgeVal){
+        }else if(edgeLocationVal(cube.getCubies(23), cube.getCubies(24)) == edgeVal){
             return 5;
-        }else if(edgeValue(cube.getCubies(18), cube.getCubies(48)) == edgeVal){
+        }else if(edgeLocationVal(cube.getCubies(18), cube.getCubies(48)) == edgeVal){
             return 6;
-        }else if(edgeValue(cube.getCubies(26), cube.getCubies(50)) == edgeVal){
+        }else if(edgeLocationVal(cube.getCubies(26), cube.getCubies(50)) == edgeVal){
             return 7;
-        }else if(edgeValue(cube.getCubies(31), cube.getCubies(37)) == edgeVal){
+        }else if(edgeLocationVal(cube.getCubies(31), cube.getCubies(37)) == edgeVal){
             return 8;
-        }else if(edgeValue(cube.getCubies(28), cube.getCubies(39)) == edgeVal){
+        }else if(edgeLocationVal(cube.getCubies(28), cube.getCubies(39)) == edgeVal){
             return 9;
-        }else if(edgeValue(cube.getCubies(41), cube.getCubies(34)) == edgeVal){
+        }else if(edgeLocationVal(cube.getCubies(41), cube.getCubies(34)) == edgeVal){
             return 10;
-        }else if(edgeValue(cube.getCubies(43), cube.getCubies(46)) == edgeVal){
+        }else if(edgeLocationVal(cube.getCubies(43), cube.getCubies(46)) == edgeVal){
             return 11;
         }
 
-        return 100;
+        return 0;
     }
 
     /**
@@ -1254,23 +1259,23 @@ public class RubikCube implements Cloneable {
      * @param row the copy of the specific edges in an integer array
      */
     private int hashEdgeRow(int[] row){
-        int val = (row[0] - 1) * factorial(5);
+        int val = (row[0] - 1) * (factorial(5) * 2);
         int sum = val;
 
         decreaseArray(row, 1);
-        val = (row[1] - 1) * factorial(4);
+        val = (row[1] - 1) * (factorial(4) * 2);
         sum += val;
 
         decreaseArray(row, 2);
-        val = (row[2] - 1) * factorial(3);
+        val = (row[2] - 1) * (factorial(3) * 2);
         sum += val;
 
         decreaseArray(row, 3);
-        val = (row[3] - 1) * factorial(2);
+        val = (row[3] - 1) * (factorial(2) * 2);
         sum += val;
 
         decreaseArray(row, 4);
-        val = (row[4] - 1) * factorial(1);
+        val = (row[4] - 1) * (factorial(1) * 2);
         sum += val;
 
         decreaseArray(row, 5);
@@ -1289,8 +1294,10 @@ public class RubikCube implements Cloneable {
     private void decreaseArray(int[] row, int index){
         for(int i=index; i < row.length; i++){
             int val = row[i];
-            val--;
-            row[i] = val;
+            if(val > 0){
+                val--;
+                row[i] = val;
+            }
         }
     }
 
@@ -1322,7 +1329,7 @@ public class RubikCube implements Cloneable {
             //turn cube every possible way and add them to the queue
 
             //side 1 Back Face
-            currCube = parentCube.clone();
+            currCube = new RubikCube(parentCube);
             currCube.rotateBack(1, currCube);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
@@ -1330,7 +1337,7 @@ public class RubikCube implements Cloneable {
             }
 
 
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateBack(2, currCube);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
@@ -1346,21 +1353,21 @@ public class RubikCube implements Cloneable {
 
 
             //side 2 Down Face
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateBottom(1);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
                 depthQueue.add(depth + 1);
             }
 
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateBottom(2, currCube);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
                 depthQueue.add(depth + 1);
             }
 
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateBottom(3);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
@@ -1369,21 +1376,21 @@ public class RubikCube implements Cloneable {
 
 
             //side 3 Front Face
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateFront(1, currCube);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
                 depthQueue.add(depth + 1);
             }
 
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateFront(2, currCube);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
                 depthQueue.add(depth + 1);
             }
 
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateFront(3, currCube);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
@@ -1392,21 +1399,21 @@ public class RubikCube implements Cloneable {
 
 
             //side 4 Left Face
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateLeft(1, currCube);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
                 depthQueue.add(depth + 1);
             }
 
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateLeft(2, currCube);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
                 depthQueue.add(depth + 1);
             }
 
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateLeft(3, currCube);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
@@ -1415,21 +1422,21 @@ public class RubikCube implements Cloneable {
 
 
             //side 5 Right Face
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateRight(1, currCube);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
                 depthQueue.add(depth + 1);
             }
 
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateRight(2, currCube);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
                 depthQueue.add(depth + 1);
             }
 
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateRight(3, currCube);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
@@ -1438,21 +1445,21 @@ public class RubikCube implements Cloneable {
 
 
             //side 6 Top Face
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateTop(1, currCube);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
                 depthQueue.add(depth + 1);
             }
 
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateTop(2, currCube);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
                 depthQueue.add(depth + 1);
             }
 
-            currCube = new RubikCube(parentCube.rubikCube);
+            currCube = new RubikCube(parentCube);
             currCube.rotateTop(3, currCube);
             if(edgeExists(currCube, table, searchQueue)){
                 searchQueue.add(currCube);
@@ -1483,22 +1490,22 @@ public class RubikCube implements Cloneable {
 
         cornerValue = cornerValueForRow(cube, RED, YELLOW, GREEN);
         cornerOrientation = cornerOrientation(RED, YELLOW, GREEN);
-        finalValue = 3 * cornerValue + cornerOrientation + 1;
+        finalValue = 3 * cornerValue + cornerOrientation;
         row[0] = finalValue;
 
         cornerValue = cornerValueForRow(cube, RED, YELLOW, BLUE);
         cornerOrientation = cornerOrientation(RED, YELLOW, BLUE);
-        finalValue = 3 * cornerValue + cornerOrientation + 1;
+        finalValue = 3 * cornerValue + cornerOrientation;
         row[1] = finalValue;
 
         cornerValue = cornerValueForRow(cube, RED, WHITE, GREEN);
         cornerOrientation = cornerOrientation(RED, WHITE, GREEN);
-        finalValue = 3 * cornerValue + cornerOrientation + 1;
+        finalValue = 3 * cornerValue + cornerOrientation;
         row[2] = finalValue;
 
         cornerValue = cornerValueForRow(cube, RED, WHITE, BLUE);
         cornerOrientation = cornerOrientation(RED, WHITE, BLUE);
-        finalValue = 3 * cornerValue + cornerOrientation + 1;
+        finalValue = 3 * cornerValue + cornerOrientation;
         row[3] = finalValue;
 
         cornerValue = cornerValueForRow(cube, ORANGE, YELLOW, GREEN);
@@ -1540,31 +1547,31 @@ public class RubikCube implements Cloneable {
             return 7;
         }
 
-        return 100;
+        return 0;
     }
 
     private int hashCornerRow(int[] row){
-        int val = (row[0] - 1) * factorial(5);
+        int val = (row[0] - 1) * (factorial(5) * 3);
         int sum = val;
 
         decreaseArray(row, 1);
-        val = (row[1] - 1) * factorial(4);
+        val = (row[1] - 1) * (factorial(4) * 3);
         sum += val;
 
         decreaseArray(row, 2);
-        val = (row[2] - 1) * factorial(3);
+        val = (row[2] - 1) * (factorial(3) * 3);
         sum += val;
 
         decreaseArray(row, 3);
-        val = (row[3] - 1) * factorial(2);
+        val = (row[3] - 1) * (factorial(2) * 3);
         sum += val;
 
         decreaseArray(row, 4);
-        val = (row[4] - 1) * factorial(1);
+        val = (row[4] - 1) * (factorial(1) * 3);
         sum += val;
 
         decreaseArray(row, 5);
-        val = (row[5] - 1) * factorial(1);
+        val = (row[5] - 1) * (factorial(1) * 3);
         sum += val;
 
         decreaseArray(row, 6);
@@ -1582,12 +1589,23 @@ public class RubikCube implements Cloneable {
      */
     private void writeEdgeFile(byte[] table, String fileName){
 
+        byte[] finalTable = new byte[44089920];
+
+        for(int i=0; i < table.length; i+=2){
+            int byte1 = table[i];
+            int byte2 = table[i + 1];
+            String byteStr = Integer.toBinaryString(byte1) + Integer.toBinaryString(byte2);
+            int finalByte = Byte.parseByte(byteStr);
+            int loc = i / 2;
+            finalTable[loc] = (byte) finalByte;
+        }
+
         File file = new File(fileName);
         FileOutputStream fos = null;
 
         try{
             fos = new FileOutputStream(file);
-            fos.write(table);
+            fos.write(finalTable);
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -1601,18 +1619,19 @@ public class RubikCube implements Cloneable {
      */
     private void writeCornerFile(byte[] table, String fileName){
 
-        byte[] finalTable = new byte[44089920];
+        byte[] finalTable = new byte[21288960];
 
         for(int i=0; i < table.length; i+=2){
             int byte1 = table[i];
             int byte2 = table[i + 1];
-            int finalByte = byte1 + byte2;
+            String byteStr = Integer.toBinaryString(byte1) + Integer.toBinaryString(byte2);
+            int finalByte = Byte.parseByte(byteStr);
             int loc = i / 2;
             finalTable[loc] = (byte) finalByte;
         }
 
         File file = new File(fileName);
-        FileOutputStream fos = null;
+        FileOutputStream fos;
 
         try{
             fos = new FileOutputStream(file);
@@ -1639,9 +1658,9 @@ public class RubikCube implements Cloneable {
      * @return the factorial of that number
      */
     private int factorial(int num){
-        int fact = 0;
+        int fact = 1;
 
-        for(int i=num; i >= 1; i--){
+        for(int i=num; i > 1; i--){
             fact *= i;
         }
 
